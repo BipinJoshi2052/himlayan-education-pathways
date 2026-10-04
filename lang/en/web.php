@@ -17,6 +17,7 @@ return [
         'gallery' => 'Gallery',
         'contact' => 'Contact',
         'enroll_now' => 'Enroll Now',
+        'language' => 'Language',
     ],
 
     'footer' => [

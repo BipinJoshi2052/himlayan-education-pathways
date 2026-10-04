@@ -156,6 +156,23 @@
                     <li><a href="{{ route('web.blog.index') }}">{{ __('web.nav.blog') }}</a></li>
 <li><a href="{{ route('web.gallery.index') }}">{{ __('web.nav.gallery') }}</a></li>
                     <li><a href="{{ route('web.contact') }}">{{ __('web.nav.contact') }}</a></li>
+                    @php $mobileLocales = \App\Common\Services\LocaleOptions::forWeb(); @endphp
+                    @if (count($mobileLocales) > 1)
+                        <li><a href="#">{{ __('web.nav.language') }}: {{ strtoupper(app()->getLocale()) }}</a>
+                            <ul class="sub-menu">
+                                @foreach ($mobileLocales as $localeCode => $localeLabel)
+                                    <li>
+                                        <a href="{{ route('web.locale.switch', $localeCode) }}" class="{{ app()->getLocale() === $localeCode ? 'active' : '' }}">
+                                            @if ($flag = \App\Common\Services\LocaleOptions::flagCode($localeCode))
+                                                <span class="fi fi-{{ $flag }} me-1"></span>
+                                            @endif
+                                            {{ $localeLabel }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

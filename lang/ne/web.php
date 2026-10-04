@@ -17,6 +17,7 @@ return [
         'gallery' => 'ग्यालरी',
         'contact' => 'सम्पर्क',
         'enroll_now' => 'अहिले भर्ना हुनुहोस्',
+        'language' => 'भाषा',
     ],
 
     'footer' => [

@@ -18,6 +18,7 @@ return [
         'gallery' => 'Galerie',
         'contact' => 'Kontakt',
         'enroll_now' => 'Jetzt anmelden',
+        'language' => 'Sprache',
     ],
 
     'footer' => [
