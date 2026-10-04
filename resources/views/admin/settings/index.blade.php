@@ -12,6 +12,7 @@
         'languages' => 'Languages',
         'loader' => 'Loader',
         'widgets' => 'Widgets',
+        'password' => 'Change Password',
     ];
 @endphp
 
@@ -55,6 +56,9 @@
         </div>
         <div class="tab-pane fade {{ $activeTab === 'widgets' ? 'show active' : '' }}" id="widgets-pane" role="tabpanel">
             @include('admin.settings.widgets')
+        </div>
+        <div class="tab-pane fade {{ $activeTab === 'password' ? 'show active' : '' }}" id="password-pane" role="tabpanel">
+            @include('admin.settings.password')
         </div>
     </div>
 @endsection

@@ -20,6 +20,7 @@ final readonly class SaveNoticeAction
             'message' => $data->message,
             'link_url' => $data->linkUrl,
             'link_text' => $data->linkText,
+            'display_mode' => $data->displayMode,
             'is_active' => $data->isActive,
             'starts_at' => $data->startsAt,
             'ends_at' => $data->endsAt,

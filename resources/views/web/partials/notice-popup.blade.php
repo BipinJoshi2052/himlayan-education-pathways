@@ -5,7 +5,7 @@
     notice (even just re-saving it) makes it show again for everyone,
     including visitors who already dismissed the old version.
 --}}
-<div class="modal fade" id="notice-popup" tabindex="-1" aria-hidden="true" data-notice-key="notice-dismissed-{{ $notice->id }}-{{ $notice->updated_at?->timestamp }}">
+<div class="modal fade" id="notice-popup" tabindex="-1" aria-hidden="true" data-notice-key="notice-dismissed-{{ $notice->id }}-{{ $notice->updated_at?->timestamp }}" data-display-mode="{{ $notice->display_mode }}">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <button type="button" class="btn-close position-absolute top-0 end-0 m-3" style="z-index: 1;" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -40,21 +40,25 @@
             if (!el || !window.bootstrap) return;
 
             var key = el.dataset.noticeKey;
-            var dismissed = false;
+            var mode = el.dataset.displayMode || 'once_forever';
+
+            var storage = mode === 'once_per_session' ? window.sessionStorage : (mode === 'once_forever' ? window.localStorage : null);
+            var alreadySeen = false;
             try {
-                dismissed = localStorage.getItem(key) === '1';
+                alreadySeen = storage ? storage.getItem(key) === '1' : false;
             } catch (e) {
-                // Private browsing / storage blocked — just show it every time.
+                // Storage blocked (private mode, etc.) — show it rather than hide it.
             }
 
-            if (dismissed) return;
+            if (alreadySeen) return;
 
             var modal = new bootstrap.Modal(el);
             modal.show();
 
+            if (!storage) return;
             el.addEventListener('hidden.bs.modal', function () {
                 try {
-                    localStorage.setItem(key, '1');
+                    storage.setItem(key, '1');
                 } catch (e) {
                     // Nothing to do if storage isn't available.
                 }

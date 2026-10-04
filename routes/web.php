@@ -68,6 +68,8 @@ Route::prefix('admin')->group(function () {
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::post('/settings/password', [SettingController::class, 'updatePassword'])->name('settings.password.update');
+
     // Shared by every module's rich-text editor (Posts, Services, Sections,
     // Notices, ...) — gated by being an authenticated admin, not a specific
     // module permission, since the form itself already enforces that.

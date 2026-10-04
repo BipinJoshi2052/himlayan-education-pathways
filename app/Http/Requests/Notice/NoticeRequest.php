@@ -24,6 +24,7 @@ final class NoticeRequest extends FormRequest
             'message.*' => ['nullable', 'string', 'max:2000'],
             'link_url' => ['nullable', 'string', 'max:2048'],
             'link_text' => ['nullable', 'string', 'max:100'],
+            'display_mode' => ['required', 'in:every_visit,once_per_session,once_forever'],
             'is_active' => ['sometimes', 'boolean'],
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],

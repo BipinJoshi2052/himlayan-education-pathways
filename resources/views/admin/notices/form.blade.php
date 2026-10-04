@@ -100,6 +100,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="form-label d-block">How often to show the popup</label>
+                            @foreach ([
+                                'every_visit' => 'Every time a visitor loads a page',
+                                'once_per_session' => 'Once per visit (until they close the browser)',
+                                'once_forever' => 'Once per visitor (until the notice is edited)',
+                            ] as $modeValue => $modeLabel)
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="display_mode_{{ $modeValue }}" name="display_mode" value="{{ $modeValue }}"
+                                           @checked(old('display_mode', $notice->display_mode ?? 'once_forever') === $modeValue)>
+                                    <label class="form-check-label" for="display_mode_{{ $modeValue }}">{{ $modeLabel }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Starts at (optional)</label>
                             <input type="datetime-local" class="form-control" name="starts_at"
                                    value="{{ old('starts_at', $notice->starts_at?->format('Y-m-d\TH:i')) }}">

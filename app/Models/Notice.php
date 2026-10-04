@@ -21,7 +21,7 @@ use Spatie\Translatable\HasTranslations;
  * Section is page-layout content, a Notice is a time-boxed, dismissible
  * announcement with its own active-window logic — see docs/admin-ui.md.
  */
-#[Fillable(['title', 'message', 'link_url', 'link_text', 'is_active', 'starts_at', 'ends_at', 'sort_order'])]
+#[Fillable(['title', 'message', 'link_url', 'link_text', 'display_mode', 'is_active', 'starts_at', 'ends_at', 'sort_order'])]
 class Notice extends Model implements HasMedia
 {
     use HandlesTrash, HasTranslations, HasUuidPrimaryKey, InteractsWithMedia;

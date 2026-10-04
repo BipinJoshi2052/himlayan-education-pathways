@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -103,6 +104,17 @@ final class SettingController extends Controller
         return redirect()->route('admin.settings.index', ['tab' => $group])->with('status', 'Settings saved.');
     }
 
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', 'different:current_password', Password::defaults()],
+        ]);
+
+        $request->user()->update(['password' => $validated['password']]);
+
+        return redirect()->route('admin.settings.index', ['tab' => 'password'])->with('status', 'Password changed.');
+    }
     public function flushSeoCache(): RedirectResponse
     {
         $this->flushSeoCacheKeys();
