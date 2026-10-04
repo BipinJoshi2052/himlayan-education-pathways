@@ -139,6 +139,13 @@ final class AdminNavigationService
                 activePattern: 'admin.notices.*',
             ),
             new NavItem(
+                label: 'Page Visits',
+                route: 'admin.visits.index',
+                icon: self::INQUIRIES_ICON,
+                permission: 'manage-visits',
+                activePattern: 'admin.visits.*',
+            ),
+            new NavItem(
                 label: 'Users',
                 route: 'admin.users.index',
                 icon: self::USERS_ICON,

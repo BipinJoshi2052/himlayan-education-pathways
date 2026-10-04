@@ -29,6 +29,7 @@ class AdminUserSeeder extends Seeder
             'manage-settings',
             'manage-notices',
             'manage-users',
+            'manage-visits',
         ];
 
         foreach ($permissions as $permission) {

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\PageVisitController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReorderController;
@@ -27,7 +28,7 @@ use App\Http\Controllers\Web\Seo\RobotsController;
 use App\Http\Controllers\Web\Seo\SitemapController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(\App\Http\Middleware\SetLocale::class)->name('web.')->group(function () {
+Route::middleware([\App\Http\Middleware\SetLocale::class, \App\Http\Middleware\TrackPageVisit::class])->name('web.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/about', [AboutController::class, 'index'])->name('about');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
@@ -81,6 +82,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('permission:manage-roles')->group(function () {
         Route::resource('roles', RoleController::class)->except('show');
     });
+
+    Route::middleware('permission:manage-visits')->get('/visits', [PageVisitController::class, 'index'])->name('visits.index');
 
     Route::middleware('permission:manage-users')->group(function () {
         Route::resource('users', UserController::class)->except('show');
