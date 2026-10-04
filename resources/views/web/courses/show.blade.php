@@ -48,7 +48,7 @@
                                 <li><i class="fa fa-calendar"></i> {{ __('web.courses.duration') }} <b>{{ $service->duration }}</b></li>
                             @endif
                             @if ($service->fee !== null)
-                                <li><i class="fa fa-tag"></i> {{ __('web.courses.fee') }} <b>{{ (int) round((float) $service->fee) }}</b></li>
+                                <li><i class="fa fa-tag"></i> {{ __('web.courses.fee') }} <b>Rs {{ (int) round((float) $service->fee) }}</b></li>
                             @endif
                         </ul>
                     </div>
