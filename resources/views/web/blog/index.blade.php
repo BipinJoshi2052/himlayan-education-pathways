@@ -5,10 +5,10 @@
         <div class="container">
             <div class="col-lg-10 offset-lg-1 text-center">
                 <div class="section-top-title wow fadeInRight">
-                    <h1>German Language Learning Blog</h1>
+                    <h1>{{ __('web.blog.title') }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li> / Blog</li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li> / {{ __('web.nav.blog') }}</li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                                 <span>{{ $post->published_at?->format('M d, Y') ?? $post->created_at->format('M d, Y') }}</span>
                                 <h2><a href="{{ route('web.blog.show', $post->slug) }}">{{ $post->title }}</a></h2>
                                 <p>{{ $post->summary }}</p>
-                                <a class="btn_one" href="{{ route('web.blog.show', $post->slug) }}">Read More <i class="ti-arrow-top-right"></i></a>
+                                <a class="btn_one" href="{{ route('web.blog.show', $post->slug) }}">{{ __('web.home.read_more') }} <i class="ti-arrow-top-right"></i></a>
                             </div>
                         </div>
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
-                        <p>No posts published yet.</p>
+                        <p>{{ __('web.blog.no_posts') }}</p>
                     </div>
                 @endforelse
             </div>
@@ -44,7 +44,7 @@
             @if ($posts->hasMorePages())
                 <div id="posts-infinite-sentinel" class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading more posts...</span>
+                        <span class="visually-hidden">{{ __('web.blog.loading_more') }}</span>
                     </div>
                 </div>
             @endif

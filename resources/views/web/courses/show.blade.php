@@ -7,8 +7,8 @@
                 <div class="section-top-title wow fadeInRight">
                     <h1>{{ $service->title }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li><a href="{{ route('web.courses.index') }}"> / Courses</a></li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li><a href="{{ route('web.courses.index') }}"> / {{ __('web.nav.courses') }}</a></li>
                         <li> / {{ $service->title }}</li>
                     </ul>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="col-lg-8 col-sm-8 col-xs-12">
                     <div class="single_event_single">
                         @if ($service->getFirstMediaUrl('cover_image'))
-                            <img alt="{{ $service->title }}" class="img-fluid" src="{{ $service->getFirstMediaUrl('cover_image') }}" />
+                            <img alt="{{ $service->title }}" class="img-fluid mb-4 course-detail-image" src="{{ $service->getFirstMediaUrl('cover_image') }}" />
                         @endif
                         <div class="single_event_text_single">
                             <h4>{{ $service->title }}</h4>
@@ -42,23 +42,23 @@
 
                 <div class="col-lg-4 col-sm-4 col-xs-12">
                     <div class="course_features">
-                        <h3>Course Features</h3>
+                        <h3>{{ __('web.courses.features') }}</h3>
                         <ul>
                             @if ($service->duration)
-                                <li><i class="fa fa-calendar"></i> Duration <b>{{ $service->duration }}</b></li>
+                                <li><i class="fa fa-calendar"></i> {{ __('web.courses.duration') }} <b>{{ $service->duration }}</b></li>
                             @endif
                             @if ($service->fee !== null)
-                                <li><i class="fa fa-tag"></i> Fee <b>{{ number_format((float) $service->fee, 2) }}</b></li>
+                                <li><i class="fa fa-tag"></i> {{ __('web.courses.fee') }} <b>{{ (int) round((float) $service->fee) }}</b></li>
                             @endif
                         </ul>
                     </div>
                     <div class="event_info_register">
-                        <a class="btn_one" href="{{ route('web.contact') }}">Enroll Now</a>
+                        <a class="btn_one" href="{{ route('web.contact') }}">{{ __('web.nav.enroll_now') }}</a>
                     </div>
 
                     @if ($relatedServices->isNotEmpty())
                         <div class="related_course">
-                            <h3>Other Courses</h3>
+                            <h3>{{ __('web.courses.other_courses') }}</h3>
                             @foreach ($relatedServices as $related)
                                 <div class="single_rc">
                                     <h4><a href="{{ route('web.courses.show', $related->slug) }}">{{ $related->title }}</a></h4>

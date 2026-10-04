@@ -6,7 +6,7 @@
 @endphp
 
 <div class="share-buttons">
-    <span class="share-buttons-label">Share:</span>
+    <span class="share-buttons-label">{{ __('web.share.label') }}</span>
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ $encodedUrl }}" target="_blank" rel="noopener"
        class="share-btn share-btn-facebook" aria-label="Share on Facebook">
         <i class="fa-brands fa-facebook-f"></i>

@@ -5,10 +5,10 @@
         <div class="container">
             <div class="col-lg-10 offset-lg-1 text-center">
                 <div class="section-top-title wow fadeInRight">
-                    <h1>Gallery</h1>
+                    <h1>{{ __('web.gallery.title') }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li> / Gallery</li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li> / {{ __('web.nav.gallery') }}</li>
                     </ul>
                 </div>
             </div>
@@ -29,18 +29,18 @@
                                 @endif
                             </a>
                             <div class="content_box">
-                                <span>{{ $gallery->getMedia('photos')->count() }} photos</span>
+                                <span>{{ __('web.gallery.photos_count', ['count' => $gallery->getMedia('photos')->count()]) }}</span>
                                 <h2><a href="{{ route('web.gallery.show', $gallery->slug) }}">{{ $gallery->title }}</a></h2>
                                 @if ($gallery->description)
                                     <div class="gallery-summary">{!! $gallery->description !!}</div>
                                 @endif
-                                <a class="btn_one" href="{{ route('web.gallery.show', $gallery->slug) }}">View photos <i class="ti-arrow-top-right"></i></a>
+                                <a class="btn_one" href="{{ route('web.gallery.show', $gallery->slug) }}">{{ __('web.gallery.view_photos') }} <i class="ti-arrow-top-right"></i></a>
                             </div>
                         </div>
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
-                        <p>No galleries yet.</p>
+                        <p>{{ __('web.gallery.no_galleries') }}</p>
                     </div>
                 @endforelse
             </div>

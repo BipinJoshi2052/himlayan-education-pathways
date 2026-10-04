@@ -5,10 +5,10 @@
         <div class="container">
             <div class="col-lg-10 offset-lg-1 text-center">
                 <div class="section-top-title wow fadeInRight">
-                    <h1>Frequently Asked Questions</h1>
+                    <h1>{{ __('web.faq.title') }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li> / FAQ</li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li> / {{ __('web.nav.faq') }}</li>
                     </ul>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-center">FAQs coming soon.</p>
+                        <p class="text-center">{{ __('web.faq.coming_soon') }}</p>
                     @endif
                 </div>
             </div>

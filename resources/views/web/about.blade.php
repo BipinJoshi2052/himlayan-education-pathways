@@ -13,10 +13,10 @@
         <div class="container">
             <div class="col-lg-10 offset-lg-1 text-center">
                 <div class="section-top-title wow fadeInRight">
-                    <h1>About Us</h1>
+                    <h1>{{ __('web.about.title') }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li> / About</li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li> / {{ __('web.nav.about') }}</li>
                     </ul>
                 </div>
             </div>

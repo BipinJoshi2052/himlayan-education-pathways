@@ -73,8 +73,8 @@
 
                         <div class="form-group">
                             <label class="form-label">Fee</label>
-                            <input type="number" step="0.01" min="0" class="form-control" name="fee"
-                                   value="{{ old('fee', $service->fee) }}">
+                            <input type="number" step="1" min="0" class="form-control" name="fee"
+                                   value="{{ old('fee', $service->fee !== null ? (int) round((float) $service->fee) : null) }}">
                         </div>
 
                         <div class="form-group">

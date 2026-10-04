@@ -82,6 +82,13 @@ final class AdminNavigationService
         </svg>
         SVG;
 
+    private const WEBSITE_ICON = <<<'SVG'
+        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-20">
+            <path opacity="0.4" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Z" fill="currentColor"/>
+            <path d="M2 12h20M12 2c2.5 2.6 3.8 6 3.8 10s-1.3 7.4-3.8 10c-2.5-2.6-3.8-6-3.8-10S9.5 4.6 12 2Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        SVG;
+
     /**
      * The full admin sidebar menu, unfiltered. Add new items here as admin
      * modules are built — each one is only rendered if `visibleTo()` allows it.
@@ -158,6 +165,13 @@ final class AdminNavigationService
                 icon: self::SHIELD_ICON,
                 permission: 'manage-roles',
                 activePattern: 'admin.roles.*',
+            ),
+            new NavItem(
+                label: 'Website',
+                route: 'admin.website.index',
+                icon: self::WEBSITE_ICON,
+                permission: 'manage-settings',
+                activePattern: 'admin.website.*',
             ),
             new NavItem(
                 label: 'Settings',

@@ -65,7 +65,7 @@
                             </td>
                             <td>{{ $service->title }}</td>
                             <td>{{ $service->duration ?: '—' }}</td>
-                            <td>{{ $service->fee !== null ? number_format((float) $service->fee, 2) : '—' }}</td>
+                            <td>{{ $service->fee !== null ? (int) round((float) $service->fee) : '—' }}</td>
                             <td>
                                 @if ($service->is_featured)
                                     <span class="badge bg-warning-subtle text-warning">Featured</span>

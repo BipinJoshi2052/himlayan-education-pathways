@@ -97,19 +97,19 @@
                 <div class="col-60 d-flex">
                     <nav id="main-menu">
                         <ul>
-                            <li><a href="{{ route('web.home') }}">Home</a></li>
-                            <li><a href="{{ route('web.about') }}">About</a></li>
-                            <li class="menu-item-has-children"><a href="{{ route('web.courses.index') }}">Courses</a>
+                            <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                            <li><a href="{{ route('web.about') }}">{{ __('web.nav.about') }}</a></li>
+                            <li class="menu-item-has-children"><a href="{{ route('web.courses.index') }}">{{ __('web.nav.courses') }}</a>
                                 <ul>
                                     @foreach ($navServices as $navService)
                                         <li><a href="{{ route('web.courses.show', $navService->slug) }}">{{ $navService->title }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a href="{{ route('web.faq') }}">FAQ</a></li>
-                            <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
-<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
-                            <li><a href="{{ route('web.contact') }}">Contact</a></li>
+                            <li><a href="{{ route('web.faq') }}">{{ __('web.nav.faq') }}</a></li>
+                            <li><a href="{{ route('web.blog.index') }}">{{ __('web.nav.blog') }}</a></li>
+<li><a href="{{ route('web.gallery.index') }}">{{ __('web.nav.gallery') }}</a></li>
+                            <li><a href="{{ route('web.contact') }}">{{ __('web.nav.contact') }}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -139,23 +139,23 @@
                             </ul>
                         </div>
                     @endif
-                    <a href="{{ route('web.contact') }}" class="btn_one">Enroll Now</a>
+                    <a href="{{ route('web.contact') }}" class="btn_one">{{ __('web.nav.enroll_now') }}</a>
                 </div>
 
                 <ul class="mobile_menu">
-                    <li><a href="{{ route('web.home') }}">Home</a></li>
-                    <li><a href="{{ route('web.about') }}">About</a></li>
-                    <li><a href="#">Courses</a>
+                    <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                    <li><a href="{{ route('web.about') }}">{{ __('web.nav.about') }}</a></li>
+                    <li><a href="#">{{ __('web.nav.courses') }}</a>
                         <ul class="sub-menu">
                             @foreach ($navServices as $navService)
                                 <li><a href="{{ route('web.courses.show', $navService->slug) }}">{{ $navService->title }}</a></li>
                             @endforeach
                         </ul>
                     </li>
-                    <li><a href="{{ route('web.faq') }}">FAQ</a></li>
-                    <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
-<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
-                    <li><a href="{{ route('web.contact') }}">Contact</a></li>
+                    <li><a href="{{ route('web.faq') }}">{{ __('web.nav.faq') }}</a></li>
+                    <li><a href="{{ route('web.blog.index') }}">{{ __('web.nav.blog') }}</a></li>
+<li><a href="{{ route('web.gallery.index') }}">{{ __('web.nav.gallery') }}</a></li>
+                    <li><a href="{{ route('web.contact') }}">{{ __('web.nav.contact') }}</a></li>
                 </ul>
             </div>
         </div>
@@ -175,7 +175,7 @@
                         @else
                             <a href="{{ route('web.home') }}" class="navbar-brand-text">{{ $siteName }}</a>
                         @endif
-                        <p>{{ \App\Models\Setting::get('site_tagline', 'Structured German language classes from A1 to B2 in Chabahil, Kathmandu.') }}</p>
+                        <p>{{ \App\Models\Setting::get('site_tagline', __('web.footer.tagline')) }}</p>
                         <div class="social_profile">
                             <ul>
                                 @if (\App\Models\Setting::get('social_facebook_url'))
@@ -193,20 +193,20 @@
                 </div>
                 <div class="col-lg-2 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>Quick Links</h4>
+                        <h4>{{ __('web.footer.quick_links') }}</h4>
                         <ul>
-                            <li><a href="{{ route('web.about') }}">About Us</a></li>
-                            <li><a href="{{ route('web.courses.index') }}">German Courses</a></li>
-                            <li><a href="{{ route('web.faq') }}">FAQ</a></li>
-                            <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
-<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
-                            <li><a href="{{ route('web.contact') }}">Contact Us</a></li>
+                            <li><a href="{{ route('web.about') }}">{{ __('web.footer.about_us') }}</a></li>
+                            <li><a href="{{ route('web.courses.index') }}">{{ __('web.footer.german_courses_link') }}</a></li>
+                            <li><a href="{{ route('web.faq') }}">{{ __('web.footer.faq') }}</a></li>
+                            <li><a href="{{ route('web.blog.index') }}">{{ __('web.footer.blog') }}</a></li>
+<li><a href="{{ route('web.gallery.index') }}">{{ __('web.footer.gallery') }}</a></li>
+                            <li><a href="{{ route('web.contact') }}">{{ __('web.footer.contact_us') }}</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>German Courses</h4>
+                        <h4>{{ __('web.footer.german_courses_heading') }}</h4>
                         <ul>
                             @foreach ($navServices as $navService)
                                 <li><a href="{{ route('web.courses.show', $navService->slug) }}">{{ $navService->title }}</a></li>
@@ -216,7 +216,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>Contact Info</h4>
+                        <h4>{{ __('web.footer.contact_info') }}</h4>
                         <div class="sf_contact">
                             <span class="ti-map"></span>
                             <p>
@@ -246,7 +246,7 @@
 
     <div class="foot_copy">
         <div class="footer_copyright">
-            <p>&copy; {{ date('Y') }} {{ $siteName }}. All Rights Reserved.</p>
+            <p>&copy; {{ date('Y') }} {{ $siteName }}. {{ __('web.footer.copyright') }}</p>
         </div>
     </div>
 

@@ -87,6 +87,21 @@
     max-height: 60px;
 }
 
+/* Phones/tablets: the template gives the logo column a fixed 20% width
+   (style.css .col-20) and hides the 60% menu column, so the logo was
+   squeezed into ~75px on a phone. Give the logo column the room the hidden
+   menu freed up and let the logo be a little larger. Desktop unchanged. */
+@media only screen and (max-width: 991px) {
+    .site-navigation .row > .col-20:first-child {
+        width: 70%;
+    }
+
+    .navbar-brand-logo img {
+        max-height: 60px;
+        max-width: 100%;
+    }
+}
+
 /* .social_profile ul li a:hover sets color:#fff (icon turns white), and the
    template only paints a matching background via per-brand classes
    (.f_facebook:hover, .f_twitter:hover, ...) that our anchors never have —
@@ -170,6 +185,14 @@
 
 .our-team .sth_det2 {
     flex-grow: 1;
+}
+
+/* Leadership photos: the template sets only width, so each card's photo
+   took its uploaded image's own height. A fixed portrait box with cover
+   cropping keeps every card's photo the same size. */
+.our-team .team-content img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
 }
 
 /* Blog list card images had no height at all — width:100% only — so every
@@ -364,7 +387,8 @@
    unusually tall upload (or the full-size original, if a sized conversion
    wasn't generated) could blow out the page's height and force a second
    scrollbar. */
-.blog-page img.img-fluid.mb-4 {
+.blog-page img.img-fluid.mb-4,
+.course-detail-image {
     width: 100%;
     max-height: 450px;
     object-fit: cover;
@@ -442,6 +466,92 @@
     height: auto;
     min-height: 500px;
     padding-bottom: 110px;
+}
+
+/* Hero design: "full-width image overlay" (Website → Hero admin setting).
+   The slide's own image fills the whole banner, with the title,
+   description and CTAs sitting on top of it instead of beside it. The
+   classic side-by-side design (above) is unaffected. */
+.home_bg.hero-layout-full {
+    padding-bottom: 40px;
+    min-height: 0;
+}
+
+.hero-full {
+    position: relative;
+    min-height: 480px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center center;
+}
+
+.hero-full-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 14, 45, 0.78) 0%, rgba(10, 14, 45, 0.45) 55%, rgba(10, 14, 45, 0.1) 100%);
+}
+
+/* Full width: the banner breaks out of the page's .container gutters so the
+   image spans the whole width of the screen. */
+.home_bg.hero-layout-full .container {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hero-full {
+    border-radius: 0;
+    min-height: 560px;
+}
+
+.hero-full-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    padding: 70px 80px;
+    color: #fff;
+}
+
+.hero-full-content h1,
+.hero-full-content p {
+    color: #fff;
+}
+
+.hero-full-content h1 {
+    padding-top: 0;
+    margin-bottom: 20px;
+    font-size: 48px;
+    line-height: 1.2;
+}
+
+.hero-full-content p {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+/* Breathing room between the text block and the buttons. */
+.hero-full-content .home_sb {
+    margin-top: 36px;
+}
+
+@media only screen and (max-width: 767px) {
+    .hero-full {
+        min-height: 380px;
+        border-radius: 0;
+    }
+
+    .hero-full-content {
+        padding: 30px 24px;
+        max-width: 100%;
+    }
+
+    .hero-full-content h1 {
+        font-size: 32px;
+        line-height: 1.3;
+    }
 }
 
 /* Mobile: the stats cards are their own section below the hero instead of

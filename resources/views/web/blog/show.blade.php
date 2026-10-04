@@ -7,8 +7,8 @@
                 <div class="section-top-title wow fadeInRight">
                     <h1>{{ $post->title }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li><a href="{{ route('web.blog.index') }}"> / Blog</a></li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li><a href="{{ route('web.blog.index') }}"> / {{ __('web.nav.blog') }}</a></li>
                         <li> / {{ $post->title }}</li>
                     </ul>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="col-lg-4 col-sm-4 col-xs-12">
                     @if ($recentPosts->isNotEmpty())
                         <div class="sidebar-post mb-4">
-                            <div class="sidebar_title"><h4>Popular Posts</h4></div>
+                            <div class="sidebar_title"><h4>{{ __('web.blog.popular_posts') }}</h4></div>
                             <ul class="list-unstyled">
                                 @foreach ($recentPosts as $recent)
                                     <li class="mb-2"><a href="{{ route('web.blog.show', $recent->slug) }}">{{ $recent->title }}</a></li>

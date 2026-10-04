@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WebsiteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AboutController;
 use App\Http\Controllers\Web\BlogController;
@@ -128,6 +129,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::post('settings/flush-seo-cache', [SettingController::class, 'flushSeoCache'])->name('settings.flush-seo-cache');
+
+        Route::get('website', [WebsiteController::class, 'index'])->name('website.index');
+        Route::post('website', [WebsiteController::class, 'update'])->name('website.update');
     });
 
     Route::middleware('permission:manage-inquiries')->group(function () {

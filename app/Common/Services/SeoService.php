@@ -27,10 +27,12 @@ final class SeoService
             'keywords' => self::entityAttr($entity, 'meta_keywords')
                 ?? Setting::getTranslatable('seo_meta_keywords'),
 
-            'og_image' => self::firstMediaUrl($entity, 'featured_image')
-                ?? self::firstMediaUrl($entity, 'cover_image')
-                ?? Setting::get('seo_default_og_image')
-                ?? Setting::get('site_logo'),
+            'og_image' => self::absoluteUrl(
+                self::firstMediaUrl($entity, 'featured_image')
+                    ?? self::firstMediaUrl($entity, 'cover_image')
+                    ?? Setting::get('seo_default_og_image')
+                    ?? Setting::get('site_logo')
+            ),
 
             'twitter_handle' => Setting::get('social_twitter_handle'),
         ];
@@ -63,5 +65,23 @@ final class SeoService
         $url = $entity->getFirstMediaUrl($collection);
 
         return filled($url) ? $url : null;
+    }
+
+    /**
+     * og:image (and twitter:image) must be an absolute URL — Facebook and
+     * most other scrapers ignore a relative one. Setting::get() for an
+     * uploaded file returns a root-relative path (Storage::url()), e.g.
+     * "/storage/settings/logo.png", so that needs the domain prepended;
+     * Spatie's getFirstMediaUrl() is already absolute and passes through.
+     */
+    private static function absoluteUrl(?string $path): ?string
+    {
+        if (blank($path)) {
+            return null;
+        }
+
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://')
+            ? $path
+            : url($path);
     }
 }

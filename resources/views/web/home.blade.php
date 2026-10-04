@@ -18,32 +18,49 @@
         // Hero is a Repeater: each item is one slide (own title/content/
         // image). One item renders as the plain hero below; 2+ wraps the
         // same markup in an owl-carousel — see docs/public-website.md.
+        // Which of those two slide designs to use is an admin choice
+        // (Website → Hero), independent of the slide content itself.
         $heroSlides = $hero?->items ?? collect();
+        $heroLayout = \App\Models\Setting::get('hero_layout', 'classic');
     @endphp
 
     @if ($hero && $heroSlides->isNotEmpty())
         <!-- START HOME -->
-        <section class="home_bg hb_height {{ \App\Common\Services\SectionSettings::backgroundClass($hero) }} @if ($heroSlides->count() > 1) hero-carousel-wrap @endif" style="background-image: url({{ asset('web-assets/img/bg/home-bg.jpg') }}); background-size:cover; background-position: center center;">
+        <section class="home_bg hb_height {{ \App\Common\Services\SectionSettings::backgroundClass($hero) }} @if ($heroLayout === 'full_image') hero-layout-full @endif @if ($heroSlides->count() > 1) hero-carousel-wrap @endif" style="background-image: url({{ asset('web-assets/img/bg/home-bg.jpg') }}); background-size:cover; background-position: center center;">
             <div class="container">
                 <div class="{{ $heroSlides->count() > 1 ? 'hero-carousel owl-carousel' : '' }}">
                     @foreach ($heroSlides as $slide)
-                        <div class="row align-items-center">
-                            <div class="col-lg-7 col-sm-12 col-xs-12">
-                                <div class="hero-text ht_top">
+                        @if ($heroLayout === 'full_image')
+                            <div class="hero-full" style="background-image: url('{{ $slide->getFirstMediaUrl('image') ?: asset('web-assets/img/bg/home-bg.jpg') }}');">
+                                <div class="hero-full-overlay"></div>
+                                <div class="hero-full-content">
                                     <h1>{{ $slide->title }}</h1>
                                     {!! $slide->description !!}
-                                </div>
-                                <div class="home_sb">
-                                    <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>
-                                    <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-sm-12 col-xs-12">
-                                <div class="hero-text-img">
-                                    <img src="{{ $slide->getFirstMediaUrl('image') ?: asset('web-assets/img/home-img2.png') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
+                                    <div class="home_sb">
+                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>
+                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="row align-items-center">
+                                <div class="col-lg-7 col-sm-12 col-xs-12">
+                                    <div class="hero-text ht_top">
+                                        <h1>{{ $slide->title }}</h1>
+                                        {!! $slide->description !!}
+                                    </div>
+                                    <div class="home_sb">
+                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>
+                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 col-xs-12">
+                                    <div class="hero-text-img">
+                                        <img src="{{ $slide->getFirstMediaUrl('image') ?: asset('web-assets/img/home-img2.png') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -173,12 +190,12 @@
                 <div class="row">
                     <div class="col-lg-8 col-sm-6 col-xs-12">
                         <div class="section-title">
-                            <h2>German Language Courses in Kathmandu</h2>
+                            <h2>{{ __('web.home.courses_heading') }}</h2>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6 col-xs-12">
                         <div class="cour_btn">
-                            <a href="{{ route('web.courses.index') }}" class="btn_one">View all Courses <i class="ti-arrow-top-right"></i></a>
+                            <a href="{{ route('web.courses.index') }}" class="btn_one">{{ __('web.home.view_all_courses') }} <i class="ti-arrow-top-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -199,7 +216,7 @@
                                     @if ($service->duration)
                                         <p><span class="ti-alarm-clock"></span> {{ $service->duration }}</p>
                                     @endif
-                                    <a class="btn_one" href="{{ route('web.courses.show', $service->slug) }}">View Course <i class="ti-arrow-top-right"></i></a>
+                                    <a class="btn_one" href="{{ route('web.courses.show', $service->slug) }}">{{ __('web.home.view_course') }} <i class="ti-arrow-top-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -278,12 +295,12 @@
         <section class="testi_area section-padding">
             <div class="container">
                 <div class="section-title">
-                    <h2>What Our Students Say</h2>
+                    <h2>{{ __('web.home.students_say') }}</h2>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12">
                         <div class="ab_img">
-                            <img src="{{ $testimonials->getFirstMediaUrl('image') ?: asset('web-assets/img/review.png') }}" class="img-fluid" alt="Student testimonials">
+                            <img src="{{ $testimonials->getFirstMediaUrl('image') ?: asset('web-assets/img/review.png') }}" class="img-fluid" alt="{{ __('web.home.testimonial_alt') }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12">
@@ -313,8 +330,8 @@
         <section id="blog" class="blog_area section-padding">
             <div class="container">
                 <div class="section-title text-center">
-                    <h2>Latest Blog &amp; News</h2>
-                    <p>German learning tips, exam preparation guides and resources for students learning German in Nepal.</p>
+                    <h2>{{ __('web.home.blog_heading') }}</h2>
+                    <p>{{ __('web.home.blog_subtitle') }}</p>
                 </div>
                 <div class="row g-4">
                     @foreach ($posts as $post)
@@ -328,7 +345,7 @@
                                 <div class="content_box">
                                     <span>{{ $post->published_at?->format('M d, Y') ?? $post->created_at->format('M d, Y') }}</span>
                                     <h2><a href="{{ route('web.blog.show', $post->slug) }}">{{ $post->title }}</a></h2>
-                                    <a class="btn_one" href="{{ route('web.blog.show', $post->slug) }}">Read More <i class="ti-arrow-top-right"></i></a>
+                                    <a class="btn_one" href="{{ route('web.blog.show', $post->slug) }}">{{ __('web.home.read_more') }} <i class="ti-arrow-top-right"></i></a>
                                 </div>
                             </div>
                         </div>

@@ -5,10 +5,10 @@
         <div class="container">
             <div class="col-lg-10 offset-lg-1 text-center">
                 <div class="section-top-title wow fadeInRight">
-                    <h1>German Language Courses</h1>
+                    <h1>{{ __('web.courses.title') }}</h1>
                     <ul>
-                        <li><a href="{{ route('web.home') }}">Home</a></li>
-                        <li> / Courses</li>
+                        <li><a href="{{ route('web.home') }}">{{ __('web.nav.home') }}</a></li>
+                        <li> / {{ __('web.nav.courses') }}</li>
                     </ul>
                 </div>
             </div>
@@ -34,13 +34,13 @@
                                 @if ($service->duration)
                                     <p><span class="ti-alarm-clock"></span> {{ $service->duration }}</p>
                                 @endif
-                                <a class="btn_one" href="{{ route('web.courses.show', $service->slug) }}">View Course <i class="ti-arrow-top-right"></i></a>
+                                <a class="btn_one" href="{{ route('web.courses.show', $service->slug) }}">{{ __('web.home.view_course') }} <i class="ti-arrow-top-right"></i></a>
                             </div>
                         </div>
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
-                        <p>Courses coming soon.</p>
+                        <p>{{ __('web.courses.coming_soon') }}</p>
                     </div>
                 @endforelse
             </div>
