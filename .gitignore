@@ -31,3 +31,4 @@ Thumbs.db
 /.claude
 /storage/app/public/*
 !/storage/app/public/.gitignore
+/website-template
