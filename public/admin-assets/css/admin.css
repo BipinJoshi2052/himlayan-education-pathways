@@ -1,0 +1,58 @@
+/* Project-owned admin overrides — kept separate from the vendored Hope UI
+   files in admin/assets/ so an upgrade of those never clobbers this. */
+
+/* Hope UI's .btn-primary hover/active states reference --bs-primary-hover-bg
+   / --bs-primary-active-bg, which the shipped CSS never defines — they're
+   only ever meant to be set by the full customizer panel (plugins/setting.js),
+   which this project doesn't include (see docs/admin-ui.md). Without a value,
+   those custom properties are invalid, so the browser falls back to a
+   transparent background on hover/active — the button appears to "disappear".
+   Deriving them from --bs-primary here fixes it for any primary color. */
+:root {
+    --bs-primary-hover-bg: color-mix(in srgb, var(--bs-primary) 85%, black);
+    --bs-primary-hover-border: color-mix(in srgb, var(--bs-primary) 80%, black);
+    --bs-primary-active-bg: color-mix(in srgb, var(--bs-primary) 75%, black);
+    --bs-primary-active-border: color-mix(in srgb, var(--bs-primary) 70%, black);
+}
+
+.password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.9rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    color: #8a92a6;
+    cursor: pointer;
+}
+
+.password-toggle-icon:hover {
+    color: var(--bs-primary);
+}
+
+.avatar-initial {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bs-primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+/* Quill has no built-in icon for a table button (that's not a real Quill
+   format, just our own insert-a-table action — see rich-text.js) — label
+   it with text the same way Quill's own header dropdown shows "H2"/"H3". */
+.ql-snow .ql-table {
+    width: auto !important;
+    padding: 3px 6px !important;
+}
+
+.ql-snow .ql-table:before {
+    content: 'Table';
+    font-size: 12px;
+    font-family: var(--bs-font-sans-serif);
+}

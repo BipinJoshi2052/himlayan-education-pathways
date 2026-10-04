@@ -1,0 +1,119 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Admin;
+
+use App\Common\Services\LocaleOptions;
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
+
+final class SettingController extends Controller
+{
+    /**
+     * Keys each group is allowed to write. A request can only ever set
+     * keys listed here — not an arbitrary key an attacker might slip in.
+     *
+     * @var array<string, array<int, string>>
+     */
+    private const GROUP_KEYS = [
+        'general' => ['site_name', 'site_tagline', 'site_address', 'site_logo', 'contact_email', 'contact_phone', 'admin_notification_email', 'map_latitude', 'map_longitude'],
+        'seo' => ['seo_meta_title', 'seo_meta_description', 'seo_meta_keywords', 'seo_default_og_image', 'google_site_verification', 'google_analytics_id'],
+        'social' => ['social_facebook_url', 'social_instagram_url', 'social_linkedin_url', 'social_youtube_url', 'social_tiktok_url', 'social_twitter_handle', 'twitter_card_type'],
+        'smtp' => ['mail_host', 'mail_port', 'mail_username', 'mail_password', 'mail_encryption', 'mail_from_address', 'mail_from_name'],
+        'appearance' => ['primary_color', 'secondary_color'],
+        'languages' => ['locales_web', 'locales_admin'],
+        'loader' => ['loader_mode', 'loader_image'],
+        'widgets' => ['whatsapp_enabled', 'whatsapp_phone'],
+    ];
+
+    private const TRANSLATABLE_KEYS = ['seo_meta_title', 'seo_meta_description', 'seo_meta_keywords'];
+
+    private const FILE_KEYS = ['seo_default_og_image', 'site_logo', 'loader_image'];
+
+    private const BOOLEAN_KEYS = ['whatsapp_enabled'];
+
+    public function index(): View
+    {
+        return view('admin.settings.index', [
+            'locales' => array_keys(LocaleOptions::forAdmin()),
+            'allLocales' => config('app.available_locales'),
+        ]);
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        $group = $request->input('group');
+
+        if (! array_key_exists($group, self::GROUP_KEYS)) {
+            abort(422, 'Unknown settings group.');
+        }
+
+        foreach (self::GROUP_KEYS[$group] as $key) {
+            // An unchecked checkbox submits no key at all, so this has to be
+            // handled before the generic `! $request->has($key)` skip below
+            // — otherwise turning a toggle OFF would never actually save.
+            if (in_array($key, self::BOOLEAN_KEYS, true)) {
+                Setting::set($key, $request->boolean($key), $group);
+
+                continue;
+            }
+
+            if (in_array($key, self::FILE_KEYS, true)) {
+                if ($request->hasFile($key)) {
+                    $path = $request->file($key)->store('settings', 'public');
+                    Setting::set($key, Storage::url($path), $group);
+                }
+
+                continue;
+            }
+
+            // Leaving the password field blank on an edit keeps the existing
+            // one — re-saving the form shouldn't wipe a working credential —
+            // and it's encrypted at rest; this table has no other protection
+            // for it (see docs/settings.md).
+            if ($key === 'mail_password') {
+                if ($request->filled($key)) {
+                    Setting::set($key, Crypt::encryptString($request->input($key)), $group);
+                }
+
+                continue;
+            }
+
+            if (! $request->has($key)) {
+                continue;
+            }
+
+            $value = in_array($key, self::TRANSLATABLE_KEYS, true)
+                ? $request->input($key, [])
+                : $request->input($key);
+
+            Setting::set($key, $value, $group);
+        }
+
+        Cache::forget('app_settings');
+        $this->flushSeoCacheKeys();
+
+        return redirect()->route('admin.settings.index', ['tab' => $group])->with('status', 'Settings saved.');
+    }
+
+    public function flushSeoCache(): RedirectResponse
+    {
+        $this->flushSeoCacheKeys();
+
+        return redirect()->route('admin.settings.index', ['tab' => 'seo'])->with('status', 'SEO cache flushed.');
+    }
+
+    private function flushSeoCacheKeys(): void
+    {
+        Cache::forget('seo_sitemap_xml');
+        Cache::forget('llms_txt_cache');
+        Cache::forget('llms_txt_full_cache');
+    }
+}

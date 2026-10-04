@@ -1,0 +1,480 @@
+/* Project-owned overrides on top of the Eduleb template — kept separate so
+   a future template asset refresh doesn't clobber these. */
+
+.navbar-brand-text {
+    font-family: var(--bs-font-sans-serif, 'Jost', sans-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1b1b1b;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.footer .navbar-brand-text {
+    color: #fff;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.site-navigation .navbar-brand-text:hover {
+    color: inherit;
+}
+
+/* The template's own .single_course cards never contained a per-card CTA
+   button — "View Course" only ever appeared as the section-level "View all
+   Courses" link. It styles its <p> children as `display: inline` (meant
+   for two short "12 Course | 2 Hrs 32 Min" labels sitting side by side) and
+   .btn_one has no explicit display at all, so it falls back to the <a>
+   default of `inline`. Putting our real summary text + a real button inside
+   that card broke under both of those assumptions — text and button ran
+   together instead of stacking. Scoped fix, not a template-wide override. */
+.single_course .single-course-body {
+    display: block;
+    padding: 0 20px 25px;
+}
+
+.single_course .single-course-body p {
+    display: block;
+    margin: 0 0 10px;
+}
+
+.single_course .single-course-body .btn_one {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 24px;
+    font-size: 14px;
+}
+
+.locale-switcher-toggle {
+    background: transparent;
+    border: 1px solid #19140035;
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #1b1b1b;
+}
+
+.locale-switcher-toggle:hover {
+    border-color: var(--site-primary, #525fe1);
+    color: var(--site-primary, #525fe1);
+}
+
+.locale-switcher .fi,
+.dropdown-item .fi {
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+/* .site-logo has a hardcoded width:150px in the template, sized for its own
+   short wordmark image — a real uploaded logo was being squeezed into that
+   box. Let the column size itself from the image instead. */
+.site-logo {
+    width: auto;
+}
+
+.navbar-brand-logo {
+    display: inline-block;
+}
+
+.navbar-brand-logo img {
+    max-height: 64px;
+    width: auto;
+}
+
+.footer .navbar-brand-logo img {
+    max-height: 60px;
+}
+
+/* .social_profile ul li a:hover sets color:#fff (icon turns white), and the
+   template only paints a matching background via per-brand classes
+   (.f_facebook:hover, .f_twitter:hover, ...) that our anchors never have —
+   so on hover the icon goes white-on-white and visually disappears.
+   One uniform brand-colored hover works for every platform, including ones
+   the template never defined (tiktok, youtube, ...). */
+.social_profile ul li a:hover {
+    background: var(--site-primary, #525fe1);
+    color: #fff;
+}
+
+/* Enroll Now (.btn_one) and the locale switcher sit side by side in the
+   navbar but came from unrelated style rules with very different padding
+   and font-size, so they visibly didn't match heights. */
+.site-navigation .locale-switcher-toggle {
+    padding: 13px 18px;
+    font-size: 14px;
+}
+
+.site-navigation .btn_one {
+    padding: 13px 24px;
+    font-size: 14px;
+}
+
+/* .count_area (home stats) has its own padding-bottom:80px, and the next
+   section (.section-padding) adds another 80px padding-top on top of that —
+   160px of dead white space between the hero/stats and "Start Your German
+   Learning Journey". Trim the redundant half. */
+.count_area {
+    padding: 0;
+    margin-bottom: -60px;
+    position: relative;
+    z-index: 2;
+}
+
+/* "View all Courses" sits in its own column next to the section heading,
+   but .cour_btn has a hardcoded margin-top:70px (tuned for the original
+   template's longer heading+paragraph combo) which our single-line heading
+   doesn't need — it left the button floating well below the heading
+   instead of inline with it. */
+.home_course > .container > .row:first-child {
+    align-items: center;
+}
+
+.home_course .cour_btn {
+    margin-top: 0;
+}
+
+@media only screen and (max-width: 480px) {
+    .home_course .cour_btn {
+        margin-top: 0;
+    }
+}
+
+/* Equal-height cards: no matter how much text a card holds, every card in
+   a row should match its tallest sibling. Bootstrap's .row is already flex
+   with equal-height columns by default — these cards just never filled
+   that column height themselves. */
+.single_tp,
+.single_course,
+.single_blog,
+.our-team,
+.single_address {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.single_course .single-course-body,
+.single_blog .content_box {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.single_course .single-course-body .btn_one,
+.single_blog .content_box .btn_one {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+.our-team .sth_det2 {
+    flex-grow: 1;
+}
+
+/* Blog list card images had no height at all — width:100% only — so every
+   card's height varied with whatever aspect ratio was uploaded. */
+.single_blog img {
+    height: 220px;
+    object-fit: cover;
+}
+
+.single_blog .content_box p {
+    margin-bottom: 15px;
+}
+
+/* .btn_one has no explicit `display` at all (defaults to inline for an
+   <a>), and two of them sitting side by side with an inline margin-left
+   hack could visually overlap once they wrap to a second line on narrower
+   viewports. Flex with a real gap removes that ambiguity regardless of
+   width, and .btn_two (an empty stub in the template, style.css:228) is
+   now the actual outline/ghost variant for the secondary hero CTA. */
+.home_sb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.btn_two {
+    background: transparent;
+    border: 1px solid #fff;
+}
+
+.btn_two:hover {
+    background: var(--site-secondary, #f26b65);
+    border-color: var(--site-secondary, #f26b65);
+}
+
+/* Hero carousel: only present when 2+ hero slides exist. owl-carousel's
+   dots default to small gray circles that are hard to see against the
+   hero's dark background image. */
+.hero-carousel .owl-dots {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.hero-carousel .owl-dot span {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.hero-carousel .owl-dot.active span {
+    background: #fff;
+}
+
+.hero-carousel-wrap {
+    position: relative;
+}
+
+/* style.css:64 sets a global `a:hover { color: #fff }`, which turned the
+   contact-card phone/email/location links white on hover. Scoped override
+   so these stay on-brand; the more specific selector wins over it. */
+.single_address p a {
+    color: var(--site-primary, #525fe1);
+}
+
+.single_address p a:hover {
+    color: var(--site-secondary, #f26b65);
+}
+
+.map-with-directions {
+    position: relative;
+}
+
+.map-directions-btn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 10;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 880px) {
+    /* .map iframe drops its margin-left:30px offset below this width
+       (template rule) — match that here so the button stays inside the
+       iframe's actual edges instead of the wrapper's. */
+    .map-directions-btn {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+.share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.share-buttons-label {
+    font-weight: 600;
+    color: #1a2d62;
+    margin-right: 4px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    color: #1a2d62;
+    border: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+    color: #fff;
+}
+
+.share-btn-facebook:hover { background: #3B5998; }
+.share-btn-twitter:hover { background: #000; }
+.share-btn-whatsapp:hover { background: #25d366; }
+.share-btn-linkedin:hover { background: #0e76a8; }
+.share-btn-copy:hover { background: var(--site-primary, #525fe1); }
+
+/* Bottom-left, not bottom-right: the template's scroll-to-top button
+   (.topcontrol, style.css) is fixed bottom-right and the two overlapped. */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 56px;
+    height: 56px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    transition: transform 0.2s;
+}
+
+.whatsapp-float:hover {
+    color: #fff;
+    transform: scale(1.08);
+}
+
+/* Breadcrumb/page-title band (.section-top) is sized for a hero-style
+   banner with a background image — 150px top + 90px bottom padding reads
+   as oversized on inner pages that are just "Page Title / breadcrumb". */
+.section-top {
+    padding-top: 70px;
+    padding-bottom: 40px;
+}
+
+.section-top-title h1 {
+    font-size: 36px;
+}
+
+/* Course detail: when a service has no fee, .course_features only renders
+   one <li>. Its floated <b> badge (float:right) isn't reliably cleared by
+   the browser in that shorter case, letting .event_info_register (Enroll
+   Now) bleed up into it. Explicit clearfix + spacing fixes it regardless
+   of how many feature rows exist. */
+.course_features ul::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.event_info_register {
+    clear: both;
+    margin-top: 20px;
+}
+
+/* .overview (course description) only ever had padding-top — it was meant
+   to sit inside the template's .tab-content wrapper (which supplies side +
+   bottom padding), but this simplified non-tabbed layout skips that
+   wrapper, so real content touched the box's edges directly. */
+.course-details-content .overview {
+    padding: 25px 30px 30px;
+}
+
+/* Blog detail hero image: img-fluid only caps width, not height, so an
+   unusually tall upload (or the full-size original, if a sized conversion
+   wasn't generated) could blow out the page's height and force a second
+   scrollbar. */
+.blog-page img.img-fluid.mb-4 {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* .section-title p has no margin-bottom at all, and the template zeroes
+   .btn_one's margin-top below 960px — so a CTA button placed right after a
+   paragraph (career-cta on the About page) sits flush against it with no
+   gap. Scoped to where a button actually follows the paragraph. */
+.section-title p {
+    margin-bottom: 25px;
+}
+
+.section-title .btn_one {
+    margin-top: 10px;
+}
+
+.preloader-logo {
+    max-width: 120px;
+    max-height: 120px;
+    animation: preloader-logo-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes preloader-logo-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.88); opacity: 0.6; }
+}
+
+/* Hero slide image: the template positions .hero-text-img absolutely at the
+   bottom with no size limit, so a large upload spilled over the text and
+   the next section. Keep it in normal flow inside a fixed-size frame. */
+.home_bg .hero-text-img {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 420px;
+}
+
+.home_bg .hero-text-img img {
+    max-height: 420px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 480px) {
+    .home_bg .hero-text-img {
+        height: 260px;
+    }
+    .home_bg .hero-text-img img {
+        max-height: 260px;
+    }
+}
+
+/* Section background choices from Section options (config/sections.php). */
+.sec-bg-soft {
+    background-color: #f4f6fb !important;
+    background-image: none !important;
+}
+
+.sec-bg-brand {
+    background-color: color-mix(in srgb, var(--site-primary, #525fe1) 12%, #ffffff) !important;
+    background-image: none !important;
+}
+
+/* The template fixes the hero at 850px (650px on tablet, 800px on phones).
+   Let it follow its content instead: the title, text, buttons and the
+   template's 150px top padding don't fit inside 500px, and a cap made the
+   text run into the next section. */
+.home_bg {
+    height: auto;
+    min-height: 500px;
+    padding-bottom: 110px;
+}
+
+/* Mobile: the stats cards are their own section below the hero instead of
+   straddling its bottom edge, and the hero image gets room below the
+   buttons instead of touching them. Desktop keeps the overlap. */
+@media only screen and (max-width: 767px) {
+    .home_bg {
+        padding-bottom: 40px;
+    }
+
+    .home_bg .hero-text-img {
+        margin-top: 28px;
+        height: 260px;
+    }
+
+    .count_area {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 40px 0;
+        background: #ffffff;
+        z-index: auto;
+    }
+
+    .count_area .single-counter {
+        margin-bottom: 20px;
+    }
+}
+
+/* Journey / approach / mission cards: the template gives them only a very
+   faint shadow, so on phones (where the cards nearly fill the width) their
+   edges disappeared into the light background. A hairline border and a
+   clearer shadow keep the card edges visible at every width. */
+.single_tp {
+    border: 1px solid #e3e6f0;
+    box-shadow: 0 8px 24px rgba(23, 23, 36, 0.08);
+}
