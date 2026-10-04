@@ -56,14 +56,11 @@
                     document.addEventListener('DOMContentLoaded', function () {
                         if (window.jQuery) {
                             jQuery('.hero-carousel').owlCarousel({
-                                items: 1,
-                                loop: true,
-                                nav: false,
-                                dots: true,
-                                autoplay: true,
-                                autoplayTimeout: 3000,
-                                animateOut: 'fadeOut',
-                                animateIn: 'fadeIn',
+                                singleItem: true,
+                                autoPlay: 3000,
+                                stopOnHover: true,
+                                navigation: false,
+                                pagination: true,
                             });
                         }
                     });
