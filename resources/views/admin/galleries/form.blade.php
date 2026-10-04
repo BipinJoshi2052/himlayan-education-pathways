@@ -102,7 +102,9 @@
 
         <h5 class="mb-3">Photos</h5>
 
-        <div id="gallery-dropzone" class="dropzone border rounded mb-4" data-upload-url="{{ route('admin.galleries.upload', $gallery) }}"></div>
+        <div id="gallery-dropzone" class="dropzone border rounded mb-2" data-upload-url="{{ route('admin.galleries.upload', $gallery) }}"></div>
+
+        <ul id="upload-list" class="list-group mb-4"></ul>
 
         <div class="row g-3" id="photo-grid" data-reorder-url="{{ route('admin.galleries.media-reorder', $gallery) }}">
             @foreach ($gallery->getMedia('photos') as $photo)
@@ -128,5 +130,6 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script>Dropzone.autoDiscover = false;</script>
     <script src="{{ asset('admin-assets/js/gallery-photos.js') }}"></script>
 @endsection

@@ -108,6 +108,7 @@
                             </li>
                             <li><a href="{{ route('web.faq') }}">FAQ</a></li>
                             <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
+<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
                             <li><a href="{{ route('web.contact') }}">Contact</a></li>
                         </ul>
                     </nav>
@@ -153,6 +154,7 @@
                     </li>
                     <li><a href="{{ route('web.faq') }}">FAQ</a></li>
                     <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
+<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
                     <li><a href="{{ route('web.contact') }}">Contact</a></li>
                 </ul>
             </div>
@@ -197,6 +199,7 @@
                             <li><a href="{{ route('web.courses.index') }}">German Courses</a></li>
                             <li><a href="{{ route('web.faq') }}">FAQ</a></li>
                             <li><a href="{{ route('web.blog.index') }}">Blog</a></li>
+<li><a href="{{ route('web.gallery.index') }}">Gallery</a></li>
                             <li><a href="{{ route('web.contact') }}">Contact Us</a></li>
                         </ul>
                     </div>

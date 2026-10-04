@@ -5,7 +5,7 @@
 <div class="sidebar-header d-flex align-items-center justify-content-start">
     <a href="{{ route('admin.dashboard') }}" class="navbar-brand">
         @if (\App\Models\Setting::get('site_logo'))
-            <img src="{{ \App\Models\Setting::get('site_logo') }}" alt="{{ config('app.name', 'Laravel') }}" class="admin-brand-logo">
+            <img src="{{ \App\Models\Setting::get('site_logo') }}" alt="{{ config('app.name', 'Laravel') }}" class="admin-brand-logo" style="max-height: 64px; max-width: 100%; width: auto;">
         @else
             <h4 class="logo-title" title="{{ config('app.name', 'Laravel') }}">{{ config('app.name', 'Laravel') }}</h4>
         @endif

@@ -15,7 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
             acceptedFiles: 'image/*',
             headers: {'X-CSRF-TOKEN': csrfToken},
             dictDefaultMessage: 'Drop photos here or click to upload',
+            previewsContainer: '#upload-list',
+            previewTemplate: '<li class="list-group-item d-flex justify-content-between align-items-center"><span data-dz-name class="fw-semibold text-break me-3"></span><span class="text-muted small text-nowrap"><span data-dz-size></span> &middot; <span data-dz-status>Waiting</span></span></li>',
+            init: function () {
+                this.on('addedfile', function (file) {
+                    file.previewElement.querySelector('[data-dz-status]').textContent = 'Uploading...';
+                });
+            },
+            error: function (file, message) {
+                file.previewElement.querySelector('[data-dz-status]').textContent = typeof message === 'string' ? message : 'Failed';
+                file.previewElement.classList.add('list-group-item-danger');
+            },
             success: function (file, response) {
+                file.previewElement.querySelector('[data-dz-status]').textContent = 'Uploaded';
+                file.previewElement.classList.add('list-group-item-success');
                 if (!response || !response.success || !grid) {
                     return;
                 }

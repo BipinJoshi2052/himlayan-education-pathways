@@ -478,3 +478,38 @@
     border: 1px solid #e3e6f0;
     box-shadow: 0 8px 24px rgba(23, 23, 36, 0.08);
 }
+
+/* Public gallery photos: a fixed-height frame with the caption under it. */
+.gallery-photo {
+    margin: 0;
+}
+.gallery-photo a {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.gallery-photo img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.gallery-photo a:hover img {
+    transform: scale(1.04);
+}
+.gallery-photo figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #1a2d62;
+}
+
+/* Gallery cards reuse the blog card styling, which leaves a 40px gap under the title link. Tighten it so the summary sits right under the title. */
+.gallery-card h2 {
+    margin-bottom: 6px;
+}
+.gallery-card h2 a {
+    margin-bottom: 0;
+}
+.gallery-card .gallery-summary p {
+    margin: 0 0 12px;
+}

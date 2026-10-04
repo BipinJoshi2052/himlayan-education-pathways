@@ -19,6 +19,7 @@ use App\Http\Controllers\Web\BlogController;
 use App\Http\Controllers\Web\ContactController;
 use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\FaqController;
+use App\Http\Controllers\Web\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\LocaleController;
 use App\Http\Controllers\Web\Seo\LlmsTxtController;
@@ -32,6 +33,8 @@ Route::middleware(\App\Http\Middleware\SetLocale::class)->name('web.')->group(fu
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('courses.show');
     Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+    Route::get('/gallery', [PublicGalleryController::class, 'index'])->name('gallery.index');
+    Route::get('/gallery/{slug}', [PublicGalleryController::class, 'show'])->name('gallery.show');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');

@@ -50,7 +50,7 @@ final class SitemapController extends Controller
         });
 
         Gallery::active()->get()->each(function (Gallery $gallery) use (&$urls) {
-            $urls[] = $this->entry(url('/galleries/'.$gallery->slug), $gallery->updated_at, 'monthly', '0.5');
+            $urls[] = $this->entry(route('web.gallery.show', $gallery->slug), $gallery->updated_at, 'monthly', '0.5');
         });
 
         return $urls;
