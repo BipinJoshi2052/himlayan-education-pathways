@@ -51,6 +51,7 @@
         <script src="{{ asset('admin-assets/js/libs.min.js') }}"></script>
         <script src="{{ asset('admin-assets/js/hope-ui.js') }}"></script>
         <script src="{{ asset('admin-assets/js/admin.js') }}"></script>
+        <script src="{{ asset('admin-assets/js/mobile-sidebar.js') }}"></script>
 
         {{-- CDN-only, no npm/bundling — see docs/shared-crud-blocks.md --}}
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>

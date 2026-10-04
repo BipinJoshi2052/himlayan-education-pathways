@@ -4,7 +4,11 @@
 
 <div class="sidebar-header d-flex align-items-center justify-content-start">
     <a href="{{ route('admin.dashboard') }}" class="navbar-brand">
-        <h4 class="logo-title">{{ config('app.name', 'Laravel') }}</h4>
+        @if (\App\Models\Setting::get('site_logo'))
+            <img src="{{ \App\Models\Setting::get('site_logo') }}" alt="{{ config('app.name', 'Laravel') }}" class="admin-brand-logo">
+        @else
+            <h4 class="logo-title" title="{{ config('app.name', 'Laravel') }}">{{ config('app.name', 'Laravel') }}</h4>
+        @endif
     </a>
     <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
         <i class="icon">
@@ -17,6 +21,12 @@
 </div>
 
 <div class="sidebar-body data-scrollbar">
+    <div class="sidebar-account-mobile">
+        <button type="button" class="theme-toggle-btn btn btn-sm btn-soft-primary rounded-pill w-100 mb-2">
+            <span class="theme-toggle-label">{{ ucfirst(auth()->user()->theme_mode ?? 'light') }} mode</span>
+        </button>
+        <div class="px-2 mb-2 fw-semibold">{{ auth()->user()->name ?? 'Guest' }}</div>
+    </div>
     <div class="sidebar-list">
         <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
             @foreach ($navItems as $item)
@@ -30,5 +40,11 @@
                 </li>
             @endforeach
         </ul>
+        <div class="sidebar-account-mobile sidebar-account-bottom">
+            <form method="POST" action="{{ route('logout') }}" class="m-0 px-2">
+                @csrf
+                <button type="submit" class="btn btn-danger w-100">Log out</button>
+            </form>
+        </div>
     </div>
 </div>

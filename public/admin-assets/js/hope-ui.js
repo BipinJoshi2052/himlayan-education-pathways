@@ -215,7 +215,7 @@ Array.from(document.querySelectorAll('[data-toggle="slider-tab"]'), (elem) => {
 
 let Scrollbar
 if (typeof Scrollbar !== typeof null) {
-  if (document.querySelectorAll(".data-scrollbar").length) {
+  if (document.querySelectorAll(".data-scrollbar").length && window.Scrollbar) {
     Scrollbar = window.Scrollbar
     Scrollbar.init(document.querySelector('.data-scrollbar'), {
       continuousScrolling: false,
@@ -307,6 +307,7 @@ const resizePlugins = () => {
 -----------------------------------------------------------------------*/
 const loaderInit = () => {
   const loader = document.querySelector('.loader')
+  if (!loader) return
   setTimeout(() => {
     loader.classList.add('animate__animated', 'animate__fadeOut')
     setTimeout(() => {
