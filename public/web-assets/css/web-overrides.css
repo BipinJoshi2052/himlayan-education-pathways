@@ -270,6 +270,11 @@
     margin: 0;
 }
 
+/* Placeholder photo used when a team member has no picture. */
+.our-team img.dummy-photo {
+    border: 1px solid #dddddd !important;
+}
+
 /* Leadership photos: the template sets only width, so each card's photo
    took its uploaded image's own height. A fixed portrait box with cover
    cropping keeps every card's photo the same size. */

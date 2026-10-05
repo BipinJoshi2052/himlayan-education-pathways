@@ -244,7 +244,7 @@
                         <div class="col-lg-3 col-sm-6 col-xs-12 wow fadeInUp">
                             <div class="our-team">
                                 <div class="team-content">
-                                    <img src="{{ $item->getFirstMediaUrl('image') ?: asset('admin-assets/images/dummy-user.avif') }}" alt="{{ $item->title }}">
+                                    <img src="{{ $item->getFirstMediaUrl('image') ?: asset('admin-assets/images/dummy-user.avif') }}" alt="{{ $item->title }}" class="{{ $item->getFirstMediaUrl('image') ? '' : 'dummy-photo' }}">
                                 </div>
                                 <div class="team-prof">
                                     <h3>{{ $item->title }}</h3>
