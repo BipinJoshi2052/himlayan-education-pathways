@@ -37,8 +37,8 @@
                                     <h1>{{ $slide->title }}</h1>
                                     {!! $slide->description !!}
                                     <div class="home_sb">
-                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>
-                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>
+                                        @if (\App\Common\Services\SectionSettings::enabled($hero, 'show_primary'))<a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>@endif
+                                        @if (\App\Common\Services\SectionSettings::enabled($hero, 'show_secondary'))<a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>@endif
                                     </div>
                                 </div>
                             </div>
@@ -50,8 +50,8 @@
                                         {!! $slide->description !!}
                                     </div>
                                     <div class="home_sb">
-                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>
-                                        <a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>
+                                        @if (\App\Common\Services\SectionSettings::enabled($hero, 'show_primary'))<a href="{{ \App\Common\Services\SectionSettings::url($hero, 'primary_link') }}" class="btn_one">{{ \App\Common\Services\SectionSettings::text($hero, 'primary_cta') }} <i class="ti-arrow-top-right"></i></a>@endif
+                                        @if (\App\Common\Services\SectionSettings::enabled($hero, 'show_secondary'))<a href="{{ \App\Common\Services\SectionSettings::url($hero, 'secondary_link') }}" class="btn_one btn_two">{{ \App\Common\Services\SectionSettings::text($hero, 'secondary_cta') }}</a>@endif
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-sm-12 col-xs-12">
@@ -173,8 +173,8 @@
                     <div class="col-lg-12 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="cat_list">
                             <ul>
-                                @foreach ($categories->items as $item)
-                                    <li><a href="{{ route('web.courses.index') }}">{{ $item->title }}</a></li>
+                                @foreach ($services as $service)
+                                    <li><a href="{{ route('web.courses.show', $service->slug) }}">{{ $service->title }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -185,7 +185,9 @@
         <!-- END CATEGORY -->
     @endif
 
-    @if ($services->isNotEmpty())
+    {{-- Hidden for now: set to true to show the "German Language Courses in Kathmandu" block again. --}}
+    @php $showHomeCourses = false; @endphp
+    @if ($showHomeCourses && $services->isNotEmpty())
         <!-- START COURSE -->
         <section class="home_course section-padding">
             <div class="container">
@@ -242,7 +244,7 @@
                         <div class="col-lg-3 col-sm-6 col-xs-12 wow fadeInUp">
                             <div class="our-team">
                                 <div class="team-content">
-                                    <img src="{{ $item->getFirstMediaUrl('image') ?: asset('web-assets/img/team/team'.(($loop->index % 4) + 1).'.jpg') }}" alt="{{ $item->title }}">
+                                    <img src="{{ $item->getFirstMediaUrl('image') ?: asset('admin-assets/images/dummy-user.avif') }}" alt="{{ $item->title }}">
                                 </div>
                                 <div class="team-prof">
                                     <h3>{{ $item->title }}</h3>
@@ -278,7 +280,9 @@
                                     @endforeach
                                 </ul>
                             @endif
-                            <a class="btn_one" href="{{ \App\Common\Services\SectionSettings::url($whyChooseUs, 'cta_link') }}">{{ \App\Common\Services\SectionSettings::text($whyChooseUs, 'cta') }} <i class="ti-arrow-top-right"></i></a>
+                            @if (\App\Common\Services\SectionSettings::enabled($whyChooseUs, 'show_button'))
+                                <a class="btn_one" href="{{ \App\Common\Services\SectionSettings::url($whyChooseUs, 'cta_link') }}">{{ \App\Common\Services\SectionSettings::text($whyChooseUs, 'cta') }} <i class="ti-arrow-top-right"></i></a>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">

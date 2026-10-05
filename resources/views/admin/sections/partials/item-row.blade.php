@@ -61,9 +61,12 @@
         <div class="form-group mb-0 mt-3">
             <label class="form-label">Image</label>
             @if ($get('image_url'))
-                <div class="mb-2">
-                    <img src="{{ $get('image_url') }}" alt="Current image" style="max-height: 90px; border-radius: 4px;">
-                </div>
+                @include('admin.partials.existing-image', [
+                    'url' => $get('image_url'),
+                    'alt' => 'Current image',
+                    'removeName' => 'items['.$index.'][remove_image]',
+                    'style' => 'max-height: 90px;',
+                ])
             @endif
             <input type="file" class="form-control" name="items[{{ $index }}][image]" accept="image/*">
             <small class="text-muted">Used by layouts that show a per-item photo (team members, testimonials, hero slides, ...). Leave blank to keep the current image.</small>

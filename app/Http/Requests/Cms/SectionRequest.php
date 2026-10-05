@@ -57,6 +57,10 @@ final class SectionRequest extends FormRequest
                 }
             } elseif ($def['type'] === 'color') {
                 $clean[$name] = array_key_exists($value, SectionSettings::BACKGROUNDS) ? $value : $def['default'];
+            } elseif ($def['type'] === 'toggle') {
+                // A checkbox posts '1' when ticked; the hidden '0' beneath it
+                // is the value when unticked.
+                $clean[$name] = $value === '1' ? '1' : '0';
             } else {
                 $clean[$name] = Str::limit($value, 255, '');
             }

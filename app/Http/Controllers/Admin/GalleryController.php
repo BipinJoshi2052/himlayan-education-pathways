@@ -75,6 +75,10 @@ final class GalleryController extends Controller
     {
         $action->handle(GalleryData::fromArray($request->validated()), $gallery, $request->file('cover'));
 
+        if ($request->boolean('remove_cover') && ! $request->hasFile('cover')) {
+            $gallery->clearMediaCollection('cover');
+        }
+
         return redirect()->route('admin.galleries.edit', $gallery)->with('status', 'Gallery updated.');
     }
 

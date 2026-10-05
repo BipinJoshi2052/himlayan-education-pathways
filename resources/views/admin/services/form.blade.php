@@ -109,7 +109,12 @@
                         <div class="form-group">
                             <label class="form-label">Cover Image</label>
                             @if ($service->exists && $service->getFirstMediaUrl('cover_image'))
-                                <img src="{{ $service->getFirstMediaUrl('cover_image') }}" class="img-fluid rounded mb-2" alt="Current cover">
+                                @include('admin.partials.existing-image', [
+                                    'url' => $service->getFirstMediaUrl('cover_image'),
+                                    'alt' => 'Current cover',
+                                    'removeName' => 'remove_cover_image',
+                                    'style' => 'max-height: 200px;',
+                                ])
                             @endif
                             <input type="file" class="form-control" name="cover_image" accept="image/*">
                         </div>

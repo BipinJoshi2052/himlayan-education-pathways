@@ -67,6 +67,18 @@ final class SectionSettings
         return $route ? route($route) : null;
     }
 
+    /**
+     * On/off setting (type 'toggle'). Stored as '1' or '0'; defaults to the
+     * component's default when nothing is saved yet.
+     */
+    public static function enabled(?Section $section, string $name): bool
+    {
+        $fields = self::fields($section?->page_slug, $section?->key);
+        $stored = $section?->settings[$name] ?? null;
+
+        return (string) ($stored ?? $fields[$name]['default'] ?? '1') === '1';
+    }
+
     public static function backgroundClass(?Section $section): string
     {
         return match (self::choice($section, 'background')) {

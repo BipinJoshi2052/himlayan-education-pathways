@@ -23,8 +23,10 @@ return [
                     'label' => 'Hero banner (slides)',
                     'layout' => 'repeater',
                     'settings' => [
+                        'show_primary' => ['type' => 'toggle', 'label' => 'Show the first button', 'default' => '1'],
                         'primary_cta' => ['type' => 'text', 'label' => 'First button text', 'default' => 'Explore Courses'],
                         'primary_link' => ['type' => 'link', 'label' => 'First button goes to', 'default' => 'courses'],
+                        'show_secondary' => ['type' => 'toggle', 'label' => 'Show the second button', 'default' => '1'],
                         'secondary_cta' => ['type' => 'text', 'label' => 'Second button text', 'default' => 'Enroll Now'],
                         'secondary_link' => ['type' => 'link', 'label' => 'Second button goes to', 'default' => 'contact'],
                         'background' => ['type' => 'color', 'label' => 'Background colour', 'default' => 'image'],
@@ -46,6 +48,7 @@ return [
                     'label' => 'Why choose us',
                     'layout' => 'cards',
                     'settings' => [
+                        'show_button' => ['type' => 'toggle', 'label' => 'Show the button', 'default' => '1'],
                         'cta' => ['type' => 'text', 'label' => 'Button text', 'default' => 'View All Courses'],
                         'cta_link' => ['type' => 'link', 'label' => 'Button goes to', 'default' => 'courses'],
                         'background' => ['type' => 'color', 'label' => 'Background colour', 'default' => 'image'],

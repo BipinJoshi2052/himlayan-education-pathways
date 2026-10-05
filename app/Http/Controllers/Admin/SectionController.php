@@ -86,6 +86,8 @@ final class SectionController extends Controller
             SectionData::fromArray($request->validated()),
             image: $request->file('image'),
             itemImages: $this->itemImages($request),
+            removeImage: $request->boolean('remove_image'),
+            itemRemovals: $this->itemRemovals($request),
         );
 
         return redirect()->route('admin.sections.edit', $section)->with('status', 'Section created.');
@@ -111,6 +113,8 @@ final class SectionController extends Controller
             $section,
             image: $request->file('image'),
             itemImages: $this->itemImages($request),
+            removeImage: $request->boolean('remove_image'),
+            itemRemovals: $this->itemRemovals($request),
         );
 
         return redirect()->route('admin.sections.edit', $section)->with('status', 'Section updated.');
@@ -143,6 +147,21 @@ final class SectionController extends Controller
         return collect($files)
             ->map(fn (array $item) => $item['image'] ?? null)
             ->filter()
+            ->all();
+    }
+
+    /**
+     * Indexes of items whose "remove image" button was used (the × on an
+     * existing image). Same index as itemImages(), so they line up.
+     *
+     * @return array<int, int>
+     */
+    private function itemRemovals(Request $request): array
+    {
+        return collect($request->input('items', []))
+            ->filter(fn (array $item) => ! empty($item['remove_image']))
+            ->keys()
+            ->map(fn ($index) => (int) $index)
             ->all();
     }
 }

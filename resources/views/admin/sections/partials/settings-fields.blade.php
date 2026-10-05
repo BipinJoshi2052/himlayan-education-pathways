@@ -43,6 +43,20 @@
                                    style="{{ $linkValue === 'custom' ? '' : 'display:none' }}">
                         </div>
 
+                    @elseif ($def['type'] === 'toggle')
+                        @php
+                            $isOn = (string) ($current ?? $def['default']) === '1';
+                        @endphp
+                        <div class="form-group">
+                            {{-- Hidden '0' first: PHP keeps the last value, so a ticked box ('1') wins. --}}
+                            <input type="hidden" name="settings[{{ $name }}]" value="0">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="toggle-{{ $pageSlug }}-{{ $componentKey }}-{{ $name }}"
+                                       name="settings[{{ $name }}]" value="1" @checked($isOn)>
+                                <label class="form-check-label" for="toggle-{{ $pageSlug }}-{{ $componentKey }}-{{ $name }}">{{ $def['label'] }}</label>
+                            </div>
+                        </div>
+
                     @elseif ($def['type'] === 'color')
                         <div class="form-group">
                             <label class="form-label">{{ $def['label'] }}</label>

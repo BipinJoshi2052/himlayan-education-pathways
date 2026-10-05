@@ -59,7 +59,12 @@
                     <div class="card-header"><h5 class="mb-0">Image</h5></div>
                     <div class="card-body">
                         @if ($notice->exists && $notice->getFirstMediaUrl('image'))
-                            <img src="{{ $notice->getFirstMediaUrl('image') }}" class="img-fluid rounded mb-2" alt="Current image" style="max-height: 200px;">
+                            @include('admin.partials.existing-image', [
+                                'url' => $notice->getFirstMediaUrl('image'),
+                                'alt' => 'Current image',
+                                'removeName' => 'remove_image',
+                                'style' => 'max-height: 200px;',
+                            ])
                         @endif
                         <input type="file" class="form-control" name="image" accept="image/*">
                         <small class="text-muted">Optional — shown above the message in the popup. Leave blank to keep the current image.</small>

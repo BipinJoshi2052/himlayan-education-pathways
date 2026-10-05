@@ -63,6 +63,10 @@ final class NoticeController extends Controller
     {
         $action->handle(NoticeData::fromArray($request->validated()), $notice, $request->file('image'));
 
+        if ($request->boolean('remove_image') && ! $request->hasFile('image')) {
+            $notice->clearMediaCollection('image');
+        }
+
         return redirect()->route('admin.notices.edit', $notice)->with('status', 'Notice updated.');
     }
 

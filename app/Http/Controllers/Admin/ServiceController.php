@@ -82,6 +82,10 @@ final class ServiceController extends Controller
             $request->file('brochure_pdf'),
         );
 
+        if ($request->boolean('remove_cover_image') && ! $request->hasFile('cover_image')) {
+            $service->clearMediaCollection('cover_image');
+        }
+
         return redirect()->route('admin.services.edit', $service)->with('status', 'Service updated.');
     }
 

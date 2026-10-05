@@ -106,7 +106,12 @@
                     <div class="card-header"><h5 class="mb-0">Featured Image</h5></div>
                     <div class="card-body">
                         @if ($post->exists && $post->getFirstMediaUrl('featured_image', 'thumb'))
-                            <img src="{{ $post->getFirstMediaUrl('featured_image', 'thumb') }}" class="img-fluid rounded mb-3" alt="Current featured image">
+                            @include('admin.partials.existing-image', [
+                                'url' => $post->getFirstMediaUrl('featured_image', 'thumb'),
+                                'alt' => 'Current featured image',
+                                'removeName' => 'remove_featured_image',
+                                'style' => 'max-height: 200px;',
+                            ])
                         @endif
                         <input type="file" class="form-control" name="featured_image" accept="image/*">
                         <small class="text-muted">JPEG/PNG/WebP, max 5MB. Auto-generates 300&times;200 and 800&times;500 WebP conversions.</small>

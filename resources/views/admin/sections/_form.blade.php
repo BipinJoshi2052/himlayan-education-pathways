@@ -56,9 +56,12 @@
             <div class="card-header"><h5 class="mb-0">Image</h5></div>
             <div class="card-body">
                 @if ($section->exists && $section->getFirstMediaUrl('image'))
-                    <div class="mb-2">
-                        <img src="{{ $section->getFirstMediaUrl('image') }}" alt="Current image" style="max-height: 120px; border-radius: 4px;">
-                    </div>
+                    @include('admin.partials.existing-image', [
+                        'url' => $section->getFirstMediaUrl('image'),
+                        'alt' => 'Current image',
+                        'removeName' => 'remove_image',
+                        'style' => 'max-height: 120px;',
+                    ])
                 @endif
                 <input type="file" class="form-control" name="image" accept="image/*">
                 <small class="text-muted">Used by layouts that show a single image for this section. Leave blank to keep the current image, or to use the page's built-in default if none has been set yet.</small>

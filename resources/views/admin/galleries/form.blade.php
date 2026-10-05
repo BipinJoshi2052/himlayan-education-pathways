@@ -86,7 +86,12 @@
                     <div class="card-header"><h5 class="mb-0">Cover Image</h5></div>
                     <div class="card-body">
                         @if ($gallery->exists && $gallery->getFirstMediaUrl('cover'))
-                            <img src="{{ $gallery->getFirstMediaUrl('cover') }}" class="img-fluid rounded mb-2" alt="Current cover">
+                            @include('admin.partials.existing-image', [
+                                'url' => $gallery->getFirstMediaUrl('cover'),
+                                'alt' => 'Current cover',
+                                'removeName' => 'remove_cover',
+                                'style' => 'max-height: 200px;',
+                            ])
                         @endif
                         <input type="file" class="form-control" name="cover" accept="image/*">
                     </div>

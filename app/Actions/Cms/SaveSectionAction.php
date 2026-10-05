@@ -15,8 +15,10 @@ final readonly class SaveSectionAction
     /**
      * @param  array<int, UploadedFile>  $itemImages  keyed the same as
      *                                                  $data->items (form index)
+     * @param  bool  $removeImage  clear the section's current image (no new file chosen)
+     * @param  array<int, int>  $itemRemovals  form indexes whose current image is removed
      */
-    public function handle(SectionData $data, ?Section $section = null, ?UploadedFile $image = null, array $itemImages = []): Section
+    public function handle(SectionData $data, ?Section $section = null, ?UploadedFile $image = null, array $itemImages = [], bool $removeImage = false, array $itemRemovals = []): Section
     {
         $isNew = $section === null;
         $section ??= new Section;
@@ -41,9 +43,11 @@ final readonly class SaveSectionAction
 
         if ($image !== null) {
             $section->addMedia($image)->toMediaCollection('image');
+        } elseif ($removeImage) {
+            $section->clearMediaCollection('image');
         }
 
-        $this->syncItems($section, $data->items, $itemImages);
+        $this->syncItems($section, $data->items, $itemImages, $itemRemovals);
 
         return $section->fresh('items');
     }
@@ -52,7 +56,7 @@ final readonly class SaveSectionAction
      * @param  array<int, SectionItemData>  $items
      * @param  array<int, UploadedFile>  $itemImages
      */
-    private function syncItems(Section $section, array $items, array $itemImages): void
+    private function syncItems(Section $section, array $items, array $itemImages, array $itemRemovals = []): void
     {
         $keptIds = [];
 
@@ -74,6 +78,8 @@ final readonly class SaveSectionAction
 
             if (isset($itemImages[$index])) {
                 $item->addMedia($itemImages[$index])->toMediaCollection('image');
+            } elseif (in_array($index, $itemRemovals, true)) {
+                $item->clearMediaCollection('image');
             }
 
             $keptIds[] = $item->id;

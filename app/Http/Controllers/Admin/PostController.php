@@ -84,6 +84,10 @@ final class PostController extends Controller
     {
         $action->handle($post, PostData::fromArray($request->validated()), $request->file('featured_image'));
 
+        if ($request->boolean('remove_featured_image') && ! $request->hasFile('featured_image')) {
+            $post->clearMediaCollection('featured_image');
+        }
+
         return redirect()->route('admin.posts.edit', $post)->with('status', 'Post updated.');
     }
 

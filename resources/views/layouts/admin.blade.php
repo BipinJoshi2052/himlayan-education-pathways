@@ -62,6 +62,7 @@
         <script src="{{ asset('admin-assets/js/rich-text.js') }}"></script>
         <script src="{{ asset('admin-assets/js/sortable-reorder.js') }}"></script>
         <script src="{{ asset('admin-assets/js/delete-confirm.js') }}"></script>
+        <script src="{{ asset('admin-assets/js/existing-image.js') }}"></script>
         @yield('scripts')
     </body>
 </html>
