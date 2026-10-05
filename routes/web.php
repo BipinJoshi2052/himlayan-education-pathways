@@ -23,6 +23,7 @@ use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\FaqController;
 use App\Http\Controllers\Web\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\LegalController;
 use App\Http\Controllers\Web\LocaleController;
 use App\Http\Controllers\Web\Seo\LlmsTxtController;
 use App\Http\Controllers\Web\Seo\RobotsController;
@@ -40,6 +41,9 @@ Route::middleware([\App\Http\Middleware\SetLocale::class, \App\Http\Middleware\T
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+
+    Route::get('/privacy-policy', [LegalController::class, 'privacy'])->name('privacy');
+    Route::get('/terms', [LegalController::class, 'terms'])->name('terms');
     Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 });
 

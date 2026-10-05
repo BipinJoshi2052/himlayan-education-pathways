@@ -98,10 +98,23 @@
                 </div>
             </div>
         </div>
+
+        @if (\App\Models\Setting::get('social_facebook_url'))
+            <div class="container facebook-page-embed">
+                <div id="fb-root"></div>
+                <div class="fb-page" data-href="{{ \App\Models\Setting::get('social_facebook_url') }}"
+                     data-tabs="timeline" data-width="1100" data-height="600"
+                     data-small-header="false" data-adapt-container-width="true"
+                     data-hide-cover="false" data-show-facepile="true"></div>
+            </div>
+        @endif
     </div>
 @endsection
 
 @push('scripts')
+    @if (\App\Models\Setting::get('social_facebook_url'))
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0"></script>
+    @endif
     <script>
         document.getElementById('contact-form').addEventListener('submit', function (event) {
             event.preventDefault();

@@ -187,6 +187,32 @@
     flex-grow: 1;
 }
 
+/* Facebook page feed: the plugin's content is inside a cross-origin iframe,
+   so only the wrapper can be styled here. Facebook caps the plugin at 500px,
+   so it is centred in the full-width row. */
+.facebook-page-embed {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+}
+
+/* Privacy Policy and Terms pages: readable line length and heading spacing. */
+.legal-content h3 {
+    margin-top: 28px;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.legal-content p {
+    margin-bottom: 14px;
+    line-height: 1.7;
+}
+
+.foot-copy-left a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 /* Copyright bar: copyright on the left, "Designed By" credit on the right. */
 .foot-copy-row {
     display: flex;

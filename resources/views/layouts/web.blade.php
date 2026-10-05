@@ -263,7 +263,9 @@
 
     <div class="foot_copy">
         <div class="container foot-copy-row">
-            <p class="foot-copy-left">&copy; {{ date('Y') }} {{ $siteName }}. {{ __('web.footer.copyright') }}</p>
+            <p class="foot-copy-left">&copy; {{ date('Y') }} {{ $siteName }}. {{ __('web.footer.copyright') }}
+                <a href="{{ route('web.privacy') }}">Privacy Policy</a> &middot; <a href="{{ route('web.terms') }}">Terms of Use</a>
+            </p>
             <p class="foot-copy-right">Designed By <a href="https://joshibipin.com.np/" target="_blank" rel="noopener">Bipin Joshi</a></p>
         </div>
     </div>
