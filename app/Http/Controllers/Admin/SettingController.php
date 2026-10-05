@@ -26,7 +26,7 @@ final class SettingController extends Controller
     private const GROUP_KEYS = [
         'general' => ['site_name', 'site_tagline', 'site_address', 'google_maps_url', 'site_logo', 'contact_email', 'contact_phone', 'admin_notification_email', 'map_latitude', 'map_longitude'],
         'seo' => ['seo_meta_title', 'seo_meta_description', 'seo_meta_keywords', 'seo_default_og_image', 'google_site_verification', 'google_analytics_id'],
-        'social' => ['social_facebook_url', 'social_instagram_url', 'social_linkedin_url', 'social_youtube_url', 'social_tiktok_url', 'social_twitter_handle', 'twitter_card_type'],
+        'social' => ['social_facebook_url', 'facebook_page_id', 'facebook_page_token', 'social_instagram_url', 'social_linkedin_url', 'social_youtube_url', 'social_tiktok_url', 'social_twitter_handle', 'twitter_card_type'],
         'smtp' => ['mail_host', 'mail_port', 'mail_username', 'mail_password', 'mail_encryption', 'mail_from_address', 'mail_from_name'],
         'appearance' => ['primary_color', 'secondary_color'],
         'languages' => ['locales_web', 'locales_admin'],
@@ -79,6 +79,16 @@ final class SettingController extends Controller
             // one — re-saving the form shouldn't wipe a working credential —
             // and it's encrypted at rest; this table has no other protection
             // for it (see docs/settings.md).
+            // The Facebook Page token is a secret, like the mail password: stored
+            // encrypted, and a blank field keeps the saved one.
+            if ($key === 'facebook_page_token') {
+                if ($request->filled($key)) {
+                    Setting::set($key, Crypt::encryptString($request->input($key)), $group);
+                }
+
+                continue;
+            }
+
             if ($key === 'mail_password') {
                 if ($request->filled($key)) {
                     Setting::set($key, Crypt::encryptString($request->input($key)), $group);
@@ -99,6 +109,7 @@ final class SettingController extends Controller
         }
 
         Cache::forget('app_settings');
+        Cache::forget('facebook_feed_posts');
         $this->flushSeoCacheKeys();
 
         return redirect()->route('admin.settings.index', ['tab' => $group])->with('status', 'Settings saved.');

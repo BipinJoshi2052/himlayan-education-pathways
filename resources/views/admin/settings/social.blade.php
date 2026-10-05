@@ -15,6 +15,23 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="form-label">Facebook Page ID</label>
+                        <input type="text" class="form-control" name="facebook_page_id"
+                               value="{{ old('facebook_page_id', \App\Models\Setting::get('facebook_page_id')) }}"
+                               placeholder="e.g. 61589273141803">
+                        <small class="text-muted">Shows the Page's latest posts on the About page. Leave empty to hide the feed.</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Facebook Page Access Token</label>
+                        <input type="password" class="form-control" name="facebook_page_token" autocomplete="new-password"
+                               placeholder="{{ \App\Models\Setting::get('facebook_page_token') ? 'Saved — leave blank to keep it' : 'Paste the Page access token' }}">
+                        <small class="text-muted">Stored encrypted. Leave blank to keep the saved token.</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label class="form-label">Instagram URL</label>
                         <input type="text" class="form-control" name="social_instagram_url"
                                value="{{ old('social_instagram_url', \App\Models\Setting::get('social_instagram_url')) }}">

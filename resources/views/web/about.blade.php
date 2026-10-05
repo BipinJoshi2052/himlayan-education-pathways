@@ -89,7 +89,7 @@
     @endif
 
     @if ($stats && $stats->items->isNotEmpty())
-        <section class="count_area counter_feature">
+        <section class="count_area counter_feature about-stats-section">
             <div class="container">
                 <div class="row">
                     @foreach ($stats->items as $item)
@@ -101,6 +101,21 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+        </section>
+    @endif
+
+    @php
+        $facebookPosts = \App\Services\FacebookFeed::posts(6);
+    @endphp
+    @if (count($facebookPosts) > 0)
+        <section class="section-padding">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h2>Follow Our Journey on Facebook</h2>
+                    <p>The latest from our Facebook page.</p>
+                </div>
+                <x-web.facebook-feed :posts="$facebookPosts" :page-url="\App\Models\Setting::get('social_facebook_url')" />
             </div>
         </section>
     @endif
