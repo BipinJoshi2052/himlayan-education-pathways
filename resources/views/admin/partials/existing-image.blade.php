@@ -10,7 +10,7 @@
       $removeName  the flag field name, e.g. "remove_image" or "items[3][remove_image]"
       $style       optional inline style for the image
 --}}
-<div class="existing-image position-relative d-inline-block mb-2">
+<div class="existing-image position-relative mb-2" style="display: inline-block;">
     <img src="{{ $url }}" alt="{{ $alt }}" class="rounded" style="{{ $style ?? 'max-height: 160px;' }} display:block;">
     <button type="button" class="btn btn-sm btn-danger existing-image-remove position-absolute top-0 end-0 m-1"
             aria-label="Remove image" title="Remove image" style="line-height: 1; padding: 2px 8px;">&times;</button>
