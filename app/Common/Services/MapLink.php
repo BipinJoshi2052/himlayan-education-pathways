@@ -59,6 +59,14 @@ final class MapLink
      */
     public static function googleUrl(string $fallbackAddress): string
     {
+        // An exact place link pasted in admin (Google's Share link) wins: it
+        // names the institute, where coordinates only show a pin.
+        $saved = Setting::get('google_maps_url');
+
+        if (is_string($saved) && filter_var($saved, FILTER_VALIDATE_URL)) {
+            return $saved;
+        }
+
         $coords = self::coordinates();
 
         $query = $coords !== null

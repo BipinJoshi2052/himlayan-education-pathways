@@ -24,7 +24,7 @@ final class SettingController extends Controller
      * @var array<string, array<int, string>>
      */
     private const GROUP_KEYS = [
-        'general' => ['site_name', 'site_tagline', 'site_address', 'site_logo', 'contact_email', 'contact_phone', 'admin_notification_email', 'map_latitude', 'map_longitude'],
+        'general' => ['site_name', 'site_tagline', 'site_address', 'google_maps_url', 'site_logo', 'contact_email', 'contact_phone', 'admin_notification_email', 'map_latitude', 'map_longitude'],
         'seo' => ['seo_meta_title', 'seo_meta_description', 'seo_meta_keywords', 'seo_default_og_image', 'google_site_verification', 'google_analytics_id'],
         'social' => ['social_facebook_url', 'social_instagram_url', 'social_linkedin_url', 'social_youtube_url', 'social_tiktok_url', 'social_twitter_handle', 'twitter_card_type'],
         'smtp' => ['mail_host', 'mail_port', 'mail_username', 'mail_password', 'mail_encryption', 'mail_from_address', 'mail_from_name'],

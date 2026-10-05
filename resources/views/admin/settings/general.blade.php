@@ -26,6 +26,11 @@
                 <label class="form-label">Address</label>
                 <input type="text" class="form-control" name="site_address" value="{{ old('site_address', \App\Models\Setting::get('site_address')) }}">
             </div>
+            <div class="form-group">
+                <label class="form-label">Google Maps Link</label>
+                <input type="url" class="form-control" name="google_maps_url" value="{{ old('google_maps_url', \App\Models\Setting::get('google_maps_url')) }}" placeholder="https://maps.app.goo.gl/...">
+                <small class="text-muted">Open the institute in Google Maps, tap Share, copy the link and paste it here. The address links on the site open this place.</small>
+            </div>
 
             <div class="row align-items-end">
                 <div class="col-md-5">
