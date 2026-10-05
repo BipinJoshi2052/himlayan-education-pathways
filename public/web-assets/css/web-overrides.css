@@ -187,6 +187,63 @@
     flex-grow: 1;
 }
 
+/* Copyright bar: copyright on the left, "Designed By" credit on the right. */
+.foot-copy-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+}
+
+.foot_copy .foot-copy-row p {
+    text-align: left;
+    margin: 0;
+}
+
+.foot-copy-right a {
+    font-weight: 700;
+    color: var(--site-primary, #525fe1);
+}
+
+.foot-copy-right a:hover {
+    color: var(--site-secondary, #f26b65);
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 575px) {
+    .foot-copy-row {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .foot_copy .foot-copy-row p {
+        text-align: center;
+    }
+}
+
+/* Home journey cards: template layout — numbered circle with the title
+   beside it, description below with a small gap, left aligned. */
+.journey-card {
+    text-align: left;
+}
+
+.journey-card-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.journey-card-head h3 {
+    margin: 0;
+}
+
+.journey-card .sc_one {
+    flex-shrink: 0;
+    margin: 0;
+}
+
 /* Leadership photos: the template sets only width, so each card's photo
    took its uploaded image's own height. A fixed portrait box with cover
    cropping keeps every card's photo the same size. */

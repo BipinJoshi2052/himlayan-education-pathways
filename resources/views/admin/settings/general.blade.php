@@ -130,6 +130,7 @@
             <div class="form-group">
                 <label class="form-label">Contact Phone</label>
                 <input type="text" class="form-control" name="contact_phone" value="{{ old('contact_phone', \App\Models\Setting::get('contact_phone')) }}">
+                <small class="text-muted">Add more than one number separated by commas, e.g. 9801234567, 01-4123456. Each one is shown and can be tapped to call.</small>
             </div>
             <div class="form-group mb-0">
                 <label class="form-label">Admin Notification Email</label>

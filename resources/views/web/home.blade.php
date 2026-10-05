@@ -116,9 +116,11 @@
                 <div class="row">
                     @foreach ($journey->items as $item)
                         <div class="col-lg-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.{{ $loop->iteration + 1 }}s">
-                            <div class="single_tp">
-                                <span class="sc_one">{{ $item->icon_or_badge ?: sprintf('%02d', $loop->iteration) }}</span>
-                                <h3>{{ $item->title }}</h3>
+                            <div class="single_tp journey-card">
+                                <div class="journey-card-head">
+                                    <span class="sc_one">{{ $item->icon_or_badge ?: sprintf('%02d', $loop->iteration) }}</span>
+                                    <h3>{{ $item->title }}</h3>
+                                </div>
                                 {!! $item->description !!}
                             </div>
                         </div>

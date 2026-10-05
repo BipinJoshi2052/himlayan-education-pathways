@@ -237,7 +237,7 @@
                         <div class="sf_contact">
                             <span class="ti-map"></span>
                             <p>
-                                <a href="{{ \App\Common\Services\MapLink::pointUrl() ?? ('https://www.google.com/maps/search/?api=1&query=' . urlencode(\App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal'))) }}" target="_blank" rel="noopener">
+                                <a href="{{ \App\Common\Services\MapLink::googleUrl(\App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal')) }}" target="_blank" rel="noopener">
                                     {{ \App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal') }}
                                 </a>
                             </p>
@@ -245,7 +245,7 @@
                         @if (\App\Models\Setting::get('contact_phone'))
                             <div class="sf_contact">
                                 <span class="ti-mobile"></span>
-                                <p><a href="tel:{{ preg_replace('/[^\d+]/', '', \App\Models\Setting::get('contact_phone')) }}">{{ \App\Models\Setting::get('contact_phone') }}</a></p>
+                                <p>@foreach (\App\Models\Setting::phoneNumbers() as $phone)<a href="tel:{{ $phone['tel'] }}">{{ $phone['label'] }}</a>{{ $loop->last ? '' : ', ' }}@endforeach</p>
                             </div>
                         @endif
                         @if (\App\Models\Setting::get('contact_email'))
@@ -262,8 +262,9 @@
     <!-- END FOOTER -->
 
     <div class="foot_copy">
-        <div class="footer_copyright">
-            <p>&copy; {{ date('Y') }} {{ $siteName }}. {{ __('web.footer.copyright') }}</p>
+        <div class="container foot-copy-row">
+            <p class="foot-copy-left">&copy; {{ date('Y') }} {{ $siteName }}. {{ __('web.footer.copyright') }}</p>
+            <p class="foot-copy-right">Designed By <a href="https://joshibipin.com.np/" target="_blank" rel="noopener">Bipin Joshi</a></p>
         </div>
     </div>
 

@@ -54,6 +54,21 @@ final class MapLink
     }
 
     /**
+     * Address links open in Google Maps. Uses the saved coordinates when
+     * present, otherwise searches the address text.
+     */
+    public static function googleUrl(string $fallbackAddress): string
+    {
+        $coords = self::coordinates();
+
+        $query = $coords !== null
+            ? $coords[0].','.$coords[1]
+            : $fallbackAddress;
+
+        return 'https://www.google.com/maps/search/?api=1&query='.urlencode($query);
+    }
+
+    /**
      * Turn-by-turn directions specifically open in Google Maps (not
      * OpenStreetMap) — Google's directions flow is what most visitors
      * actually have installed/expect on mobile, so this is a deliberate

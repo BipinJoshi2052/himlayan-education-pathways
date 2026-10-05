@@ -46,6 +46,23 @@ class Setting extends Model
         return $all[$key] ?? $default;
     }
 
+    /**
+     * contact_phone may hold several numbers separated by commas. Each one
+     * keeps its display text, and 'tel' is digits only for the tel: link.
+     *
+     * @return array<int, array{label: string, tel: string}>
+     */
+    public static function phoneNumbers(): array
+    {
+        return collect(explode(',', (string) static::get('contact_phone', '')))
+            ->map(fn (string $phone) => trim($phone))
+            ->filter()
+            ->map(fn (string $phone) => ['label' => $phone, 'tel' => preg_replace('/[^\d+]/', '', $phone)])
+            ->filter(fn (array $phone) => $phone['tel'] !== '')
+            ->values()
+            ->all();
+    }
+
     public static function set(string $key, mixed $value, string $group = 'general'): void
     {
         static::updateOrCreate(['key' => $key], ['value' => $value, 'group' => $group]);

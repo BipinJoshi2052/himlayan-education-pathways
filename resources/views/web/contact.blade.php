@@ -23,7 +23,7 @@
                         <i class="ti-map"></i>
                         <h4>{{ __('web.contact.our_location') }}</h4>
                         <p>
-                            <a href="{{ \App\Common\Services\MapLink::pointUrl() ?? ('https://www.google.com/maps/search/?api=1&query=' . urlencode(\App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal'))) }}" target="_blank" rel="noopener">
+                            <a href="{{ \App\Common\Services\MapLink::googleUrl(\App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal')) }}" target="_blank" rel="noopener">
                                 {{ \App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal') }}
                             </a>
                         </p>
@@ -34,7 +34,7 @@
                         <div class="single_address sa_two">
                             <i class="ti-mobile"></i>
                             <h4>{{ __('web.contact.telephone') }}</h4>
-                            <p><a href="tel:{{ preg_replace('/[^\d+]/', '', \App\Models\Setting::get('contact_phone')) }}">{{ \App\Models\Setting::get('contact_phone') }}</a></p>
+                            <p>@foreach (\App\Models\Setting::phoneNumbers() as $phone)<a href="tel:{{ $phone['tel'] }}">{{ $phone['label'] }}</a>{{ $loop->last ? '' : ', ' }}@endforeach</p>
                         </div>
                     </div>
                 @endif
