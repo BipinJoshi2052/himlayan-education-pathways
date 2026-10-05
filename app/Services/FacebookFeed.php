@@ -58,8 +58,13 @@ final class FacebookFeed
         }
 
         if (! $response->successful()) {
-            // Only the status is logged, never the token or the response body.
-            Log::warning('Facebook feed returned an error.', ['status' => $response->status()]);
+            // Facebook's error message and code say what is wrong (for example,
+            // a missing permission or a wrong Page ID). The token is never logged.
+            Log::warning('Facebook feed returned an error.', [
+                'status' => $response->status(),
+                'code' => $response->json('error.code'),
+                'message' => $response->json('error.message'),
+            ]);
 
             return [];
         }
