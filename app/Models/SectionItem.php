@@ -47,4 +47,14 @@ class SectionItem extends Model implements HasMedia
     {
         $this->addMediaCollection('image')->singleFile();
     }
+
+    /** Web-sized WebP copy for the public site (see Section::registerMediaConversions). */
+    public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('web')
+            ->fit(\Spatie\Image\Enums\Fit::Max, 1200, 1200)
+            ->format('webp')
+            ->quality(80)
+            ->performOnCollections('image');
+    }
 }

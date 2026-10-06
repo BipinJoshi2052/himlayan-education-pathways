@@ -10,8 +10,8 @@
         <div class="modal-content">
             <button type="button" class="btn-close position-absolute top-0 end-0 m-3" style="z-index: 1;" data-bs-dismiss="modal" aria-label="Close"></button>
 
-            @if ($notice->getFirstMediaUrl('image'))
-                <img src="{{ $notice->getFirstMediaUrl('image') }}" alt="{{ $notice->title ?: 'Notice' }}" class="w-100" style="height: auto; max-height: 80vh; object-fit: contain; border-radius: 0.375rem 0.375rem 0 0;">
+            @if ($notice->getFirstMediaUrl('image', 'web'))
+                <img src="{{ $notice->getFirstMediaUrl('image', 'web') }}" alt="{{ $notice->title ?: 'Notice' }}" class="w-100" style="height: auto; max-height: 80vh; object-fit: contain; border-radius: 0.375rem 0.375rem 0 0;">
             @endif
 
             @if ($notice->title || $notice->message || $notice->link_url)

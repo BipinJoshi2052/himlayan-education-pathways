@@ -30,8 +30,8 @@
             <div class="row">
                 <div class="col-lg-8 col-sm-8 col-xs-12">
                     <div class="single_event_single">
-                        @if ($service->getFirstMediaUrl('cover_image'))
-                            <img alt="{{ $service->title }}" class="img-fluid mb-4 course-detail-image" src="{{ $service->getFirstMediaUrl('cover_image') }}" />
+                        @if ($service->getFirstMediaUrl('cover_image', 'web'))
+                            <img alt="{{ $service->title }}" class="img-fluid mb-4 course-detail-image" src="{{ $service->getFirstMediaUrl('cover_image', 'web') }}" />
                         @endif
                         <div class="single_event_text_single">
                             <h4>{{ $service->title }}</h4>

@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $intro->getFirstMediaUrl('image') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $intro->title }}">
+                            <img src="{{ $intro->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $intro->title }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">

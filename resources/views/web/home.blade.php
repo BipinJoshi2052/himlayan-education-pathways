@@ -31,7 +31,7 @@
                 <div class="{{ $heroSlides->count() > 1 ? 'hero-carousel owl-carousel' : '' }}">
                     @foreach ($heroSlides as $slide)
                         @if ($heroLayout === 'full_image')
-                            <div class="hero-full" style="background-image: url('{{ $slide->getFirstMediaUrl('image') ?: asset('web-assets/img/bg/home-bg.jpg') }}');">
+                            <div class="hero-full" style="background-image: url('{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/bg/home-bg.jpg') }}');">
                                 <div class="hero-full-overlay"></div>
                                 <div class="hero-full-content">
                                     <h1>{{ $slide->title }}</h1>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-lg-5 col-sm-12 col-xs-12">
                                     <div class="hero-text-img">
-                                        <img src="{{ $slide->getFirstMediaUrl('image') ?: asset('web-assets/img/home-img2.png') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
+                                        <img src="{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/home-img2.png') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $about->getFirstMediaUrl('image') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $about->title }}">
+                            <img src="{{ $about->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $about->title }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
@@ -208,8 +208,8 @@
                         <div class="col-lg-4 col-sm-6 col-xs-12">
                             <div class="single_course">
                                 <div class="single_c_img">
-                                    @if ($service->getFirstMediaUrl('cover_image'))
-                                        <img src="{{ $service->getFirstMediaUrl('cover_image') }}" class="img-fluid" alt="{{ $service->title }}" />
+                                    @if ($service->getFirstMediaUrl('cover_image', 'web'))
+                                        <img src="{{ $service->getFirstMediaUrl('cover_image', 'web') }}" class="img-fluid" alt="{{ $service->title }}" />
                                     @else
                                         <img src="{{ asset('web-assets/img/course/'.(($loop->index % 6) + 1).'.png') }}" class="img-fluid" alt="{{ $service->title }}" />
                                     @endif
@@ -244,7 +244,7 @@
                         <div class="col-lg-3 col-sm-6 col-xs-12 wow fadeInUp">
                             <div class="our-team">
                                 <div class="team-content">
-                                    <img src="{{ $item->getFirstMediaUrl('image') ?: asset('admin-assets/images/dummy-user.avif') }}" alt="{{ $item->title }}" class="{{ $item->getFirstMediaUrl('image') ? '' : 'dummy-photo' }}">
+                                    <img src="{{ $item->getFirstMediaUrl('image', 'web') ?: asset('admin-assets/images/dummy-user.avif') }}" alt="{{ $item->title }}" class="{{ $item->getFirstMediaUrl('image', 'web') ? '' : 'dummy-photo' }}">
                                 </div>
                                 <div class="team-prof">
                                     <h3>{{ $item->title }}</h3>
@@ -287,7 +287,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $whyChooseUs->getFirstMediaUrl('image') ?: asset('web-assets/img/about3.png') }}" class="img-fluid" alt="{{ $whyChooseUs->title }}">
+                            <img src="{{ $whyChooseUs->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about3.png') }}" class="img-fluid" alt="{{ $whyChooseUs->title }}">
                         </div>
                     </div>
                 </div>
@@ -306,7 +306,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12">
                         <div class="ab_img">
-                            <img src="{{ $testimonials->getFirstMediaUrl('image') ?: asset('web-assets/img/review.png') }}" class="img-fluid" alt="{{ __('web.home.testimonial_alt') }}">
+                            <img src="{{ $testimonials->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/review.png') }}" class="img-fluid" alt="{{ __('web.home.testimonial_alt') }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12">
@@ -318,7 +318,7 @@
                                         {!! $item->description !!}
                                     </div>
                                     <div class="testi_pic_title">
-                                        <img src="{{ $item->getFirstMediaUrl('image') ?: asset('web-assets/img/testimonial/'.(($loop->index % 5) + 1).'.png') }}" alt="">
+                                        <img src="{{ $item->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/testimonial/'.(($loop->index % 5) + 1).'.png') }}" alt="">
                                         <h4>{{ $item->title }}</h4>
                                     </div>
                                 </div>

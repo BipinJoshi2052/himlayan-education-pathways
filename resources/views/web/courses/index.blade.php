@@ -22,8 +22,8 @@
                     <div class="col-lg-4 col-sm-6 col-xs-12">
                         <div class="single_course">
                             <div class="single_c_img">
-                                @if ($service->getFirstMediaUrl('cover_image'))
-                                    <img src="{{ $service->getFirstMediaUrl('cover_image') }}" class="img-fluid" alt="{{ $service->title }}" />
+                                @if ($service->getFirstMediaUrl('cover_image', 'web'))
+                                    <img src="{{ $service->getFirstMediaUrl('cover_image', 'web') }}" class="img-fluid" alt="{{ $service->title }}" />
                                 @else
                                     <img src="{{ asset('web-assets/img/course/'.(($loop->index % 6) + 1).'.png') }}" class="img-fluid" alt="{{ $service->title }}" />
                                 @endif

@@ -56,6 +56,19 @@ class Section extends Model implements HasMedia
     }
 
     /**
+     * A web-sized WebP copy, used on the public site instead of the original
+     * upload (often a multi-megapixel photo shown at a few hundred pixels).
+     */
+    public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('web')
+            ->fit(\Spatie\Image\Enums\Fit::Max, 1200, 1200)
+            ->format('webp')
+            ->quality(80)
+            ->performOnCollections('image');
+    }
+
+    /**
      * @return BelongsTo<User, $this>
      */
     public function creator(): BelongsTo

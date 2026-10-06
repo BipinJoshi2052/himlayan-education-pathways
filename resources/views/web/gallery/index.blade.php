@@ -22,8 +22,8 @@
                     <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp">
                         <div class="single_blog gallery-card">
                             <a href="{{ route('web.gallery.show', $gallery->slug) }}">
-                                @if ($gallery->getFirstMediaUrl('cover'))
-                                    <img src="{{ $gallery->getFirstMediaUrl('cover') }}" class="img-fluid" alt="{{ $gallery->title }}">
+                                @if ($gallery->getFirstMediaUrl('cover', 'web'))
+                                    <img src="{{ $gallery->getFirstMediaUrl('cover', 'web') }}" class="img-fluid" alt="{{ $gallery->title }}">
                                 @else
                                     <img src="{{ asset('web-assets/img/blog/'.(($loop->index % 3) + 1).'.jpg') }}" class="img-fluid" alt="{{ $gallery->title }}">
                                 @endif

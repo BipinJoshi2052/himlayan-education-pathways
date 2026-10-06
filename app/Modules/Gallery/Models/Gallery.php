@@ -53,6 +53,16 @@ class Gallery extends Model implements HasMedia
         $this->addMediaCollection('photos');
     }
 
+    /** Web-sized WebP copies of the cover and gallery photos for the public site. */
+    public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('web')
+            ->fit(\Spatie\Image\Enums\Fit::Max, 1200, 1200)
+            ->format('webp')
+            ->quality(80)
+            ->performOnCollections('cover', 'photos');
+    }
+
     /**
      * @return BelongsTo<User, $this>
      */
