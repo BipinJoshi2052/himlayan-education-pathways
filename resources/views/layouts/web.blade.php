@@ -57,6 +57,8 @@
     <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/web-overrides.css') }}?v={{ @filemtime(public_path('web-assets/css/web-overrides.css')) }}">
+    <x-web.json-ld :data="\App\Common\Services\StructuredData::organization()" />
+    @stack('json_ld')
     @stack('styles')
 </head>
 

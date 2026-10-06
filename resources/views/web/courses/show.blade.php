@@ -1,5 +1,14 @@
 @extends('layouts.web')
 
+@push('json_ld')
+    <x-web.json-ld :data="\App\Common\Services\StructuredData::course($service)" />
+    <x-web.json-ld :data="\App\Common\Services\StructuredData::breadcrumbs([
+        [__('web.nav.home'), url('/')],
+        [__('web.nav.courses'), route('web.courses.index')],
+        [$service->title, null],
+    ])" />
+@endpush
+
 @section('content')
     <section class="section-top">
         <div class="container">
