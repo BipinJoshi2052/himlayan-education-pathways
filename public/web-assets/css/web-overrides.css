@@ -187,15 +187,6 @@
     flex-grow: 1;
 }
 
-/* Facebook page feed: the plugin's content is inside a cross-origin iframe,
-   so only the wrapper can be styled here. Facebook caps the plugin at 500px,
-   so it is centred in the full-width row. */
-.facebook-page-embed {
-    display: flex;
-    justify-content: center;
-    margin: 40px auto;
-}
-
 /* Privacy Policy and Terms pages: readable line length and heading spacing. */
 .legal-content h3 {
     margin-top: 28px;
