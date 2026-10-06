@@ -71,12 +71,19 @@ final class FacebookFeed
 
         $posts = collect($response->json('data', []))
             ->filter(fn ($post) => filled($post['message'] ?? null) || filled($post['full_picture'] ?? null))
-            ->map(fn (array $post) => [
-                'message' => Str::limit((string) ($post['message'] ?? ''), 220),
-                'date' => isset($post['created_time']) ? date('M d, Y', strtotime($post['created_time'])) : '',
-                'image' => $post['full_picture'] ?? null,
-                'url' => $post['permalink_url'] ?? null,
-            ])
+            ->map(function (array $post) {
+                $url = $post['permalink_url'] ?? null;
+
+                return [
+                    'message' => Str::limit((string) ($post['message'] ?? ''), 220),
+                    'date' => isset($post['created_time']) ? date('M d, Y', strtotime($post['created_time'])) : '',
+                    'image' => $post['full_picture'] ?? null,
+                    'url' => $url,
+                    // Facebook video and reel links can be played in the page with
+                    // the video plugin; other posts link out as before.
+                    'video' => is_string($url) && (str_contains($url, '/videos/') || str_contains($url, '/reel/')),
+                ];
+            })
             ->values()
             ->all();
 

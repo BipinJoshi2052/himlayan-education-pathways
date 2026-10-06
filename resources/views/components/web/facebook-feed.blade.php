@@ -1,23 +1,38 @@
 @props(['posts', 'pageUrl' => null])
 
 {{-- Latest posts from the institute's Facebook Page, drawn as site cards so they
-     take the site's width, fonts and colours. --}}
+     take the site's width, fonts and colours. Video posts play inside the card
+     with Facebook's video plugin; other posts link out to Facebook. --}}
 <div class="facebook-feed">
     <div class="facebook-feed-grid">
         @foreach ($posts as $post)
-            <a class="facebook-feed-card" href="{{ $post['url'] ?? $pageUrl ?? '#' }}" target="_blank" rel="noopener">
-                @if ($post['image'])
-                    <div class="facebook-feed-image">
-                        <img src="{{ $post['image'] }}" alt="" loading="lazy">
+            @if ($post['video'] ?? false)
+                <div class="facebook-feed-card facebook-feed-card-video">
+                    <div class="facebook-feed-video">
+                        <div class="fb-video" data-href="{{ $post['url'] }}" data-width="auto" data-show-text="false"></div>
                     </div>
-                @endif
-                <div class="facebook-feed-body">
-                    <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
-                    @if ($post['message'])
-                        <p>{{ $post['message'] }}</p>
-                    @endif
+                    <div class="facebook-feed-body">
+                        <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
+                        @if ($post['message'])
+                            <p>{{ $post['message'] }}</p>
+                        @endif
+                    </div>
                 </div>
-            </a>
+            @else
+                <a class="facebook-feed-card" href="{{ $post['url'] ?? $pageUrl ?? '#' }}" target="_blank" rel="noopener">
+                    @if ($post['image'])
+                        <div class="facebook-feed-image">
+                            <img src="{{ $post['image'] }}" alt="" loading="lazy">
+                        </div>
+                    @endif
+                    <div class="facebook-feed-body">
+                        <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
+                        @if ($post['message'])
+                            <p>{{ $post['message'] }}</p>
+                        @endif
+                    </div>
+                </a>
+            @endif
         @endforeach
     </div>
     @if ($pageUrl)

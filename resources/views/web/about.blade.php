@@ -118,6 +118,12 @@
                 <x-web.facebook-feed :posts="$facebookPosts" :page-url="\App\Models\Setting::get('social_facebook_url')" />
             </div>
         </section>
+        @if (collect($facebookPosts)->contains(fn ($post) => $post['video'] ?? false))
+            @push('scripts')
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0"></script>
+            @endpush
+        @endif
     @endif
 
     @if ($careerCta)

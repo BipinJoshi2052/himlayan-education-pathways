@@ -322,6 +322,20 @@
     padding: 18px 20px 22px;
 }
 
+/* Video posts: the Facebook player fills the card's width. */
+.facebook-feed-video {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    min-height: 240px;
+}
+
+.facebook-feed-video .fb-video,
+.facebook-feed-video .fb-video span,
+.facebook-feed-video .fb-video iframe {
+    width: 100% !important;
+}
+
 .facebook-feed-date {
     display: inline-block;
     font-size: 13px;
