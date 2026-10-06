@@ -90,6 +90,14 @@ return [
         'error_short' => 'Etwas ist schiefgelaufen.',
     ],
 
+    'errors' => [
+        '404_title' => 'Seite nicht gefunden',
+        '404_heading' => 'Oops! Seite nicht gefunden',
+        '404_text' => 'Die gesuchte Seite konnte leider nicht gefunden werden. Sie wurde vielleicht verschoben, oder der Link ist nicht korrekt.',
+        '404_back_home' => 'Zurück zur Startseite',
+        '404_image_alt' => 'Seite nicht gefunden',
+    ],
+
     'courses' => [
         'title' => 'Deutschkurse',
         'coming_soon' => 'Kurse folgen in Kürze.',

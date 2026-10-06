@@ -89,6 +89,14 @@ return [
         'error_short' => 'Something went wrong.',
     ],
 
+    'errors' => [
+        '404_title' => 'Page Not Found',
+        '404_heading' => 'Oops! Page not found',
+        '404_text' => 'Sorry, we could not find the page you were looking for. It may have moved, or the link may be incorrect.',
+        '404_back_home' => 'Back to Home',
+        '404_image_alt' => 'Page not found',
+    ],
+
     'courses' => [
         'title' => 'German Language Courses',
         'coming_soon' => 'Courses coming soon.',
