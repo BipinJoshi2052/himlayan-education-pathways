@@ -128,21 +128,9 @@
                         <h2>Watch Us on TikTok</h2>
                         <p>Short German lessons and student moments.</p>
                     </div>
-                    <div class="tiktok-feed-grid">
-                        @foreach ($tiktokVideos as $video)
-                            <div class="tiktok-feed-item">{!! $video['html'] !!}</div>
-                        @endforeach
-                    </div>
-                    @if (\App\Models\Setting::get('social_tiktok_url'))
-                        <div class="text-center mt-4">
-                            <a class="btn_one" href="{{ \App\Models\Setting::get('social_tiktok_url') }}" target="_blank" rel="noopener">Follow us on TikTok <i class="ti-arrow-top-right"></i></a>
-                        </div>
-                    @endif
+                    <x-web.tiktok-feed :videos="$tiktokVideos" :page-url="\App\Models\Setting::get('social_tiktok_url')" />
                 </div>
             </section>
-            @push('scripts')
-                <script async src="https://www.tiktok.com/embed.js"></script>
-            @endpush
         @endif
 
         @if (collect($facebookPosts)->contains(fn ($post) => $post['video'] ?? false))

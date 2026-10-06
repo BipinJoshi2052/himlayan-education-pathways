@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * TikTok videos listed by the admin in Settings → Social, drawn with TikTok's
- * own embed. Each link is looked up through TikTok's public oEmbed service
- * (no login or token) and the result is cached for six hours. Links that
- * fail are skipped, so the page never breaks.
+ * TikTok videos listed by the admin in Settings → Social. The page shows a
+ * thumbnail card per video; the TikTok player loads only when a visitor opens
+ * the video in a popup. Thumbnails and titles come from TikTok's public oEmbed
+ * service, asked for on the server and cached for six hours. Players never
+ * start on page load, which avoids TikTok's "overload-protect" message.
  */
 final class TikTokFeed
 {
@@ -21,28 +22,18 @@ final class TikTokFeed
 
     private const CACHE_HOURS = 6;
 
-    // TikTok's embed script shows "overload-protect" when too many players
-    // load on one page, so keep this low.
     private const MAX_VIDEOS = 4;
 
     /**
-     * @return array<int, array{url: string, html: string}>
+     * @return array<int, array{url: string, id: string, title: string, author: string, thumbnail: ?string}>
      */
     public static function videos(): array
     {
-        $links = self::links();
-
-        $videos = [];
-
-        foreach ($links as $url) {
-            $embed = self::embed($url);
-
-            if ($embed !== null) {
-                $videos[] = ['url' => $url, 'html' => $embed];
-            }
-        }
-
-        return $videos;
+        return collect(self::links())
+            ->map(fn (string $url) => self::details($url))
+            ->filter()
+            ->values()
+            ->all();
     }
 
     /**
@@ -69,13 +60,46 @@ final class TikTokFeed
         return (bool) preg_match('#^https://(www\.|m\.)?tiktok\.com/@[^/\s]+/video/\d+#i', $url);
     }
 
-    private static function embed(string $url): ?string
+    /**
+     * The numeric video ID from a link such as https://www.tiktok.com/@name/video/123.
+     */
+    public static function videoId(string $url): ?string
+    {
+        return preg_match('#/video/(\d+)#', $url, $m) ? $m[1] : null;
+    }
+
+    /**
+     * @return array{url: string, id: string, title: string, author: string, thumbnail: ?string}|null
+     */
+    private static function details(string $url): ?array
+    {
+        $id = self::videoId($url);
+
+        if ($id === null) {
+            return null;
+        }
+
+        $info = self::oembed($url);
+
+        return [
+            'url' => $url,
+            'id' => $id,
+            'title' => (string) ($info['title'] ?? 'TikTok video'),
+            'author' => (string) ($info['author_name'] ?? ''),
+            'thumbnail' => isset($info['thumbnail_url']) ? (string) $info['thumbnail_url'] : null,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function oembed(string $url): array
     {
         $key = 'tiktok_oembed_'.md5($url);
 
         $cached = Cache::get($key);
 
-        if (is_string($cached)) {
+        if (is_array($cached)) {
             return $cached;
         }
 
@@ -84,19 +108,19 @@ final class TikTokFeed
         } catch (\Throwable $e) {
             Log::warning('TikTok oEmbed request failed.', ['error' => $e->getMessage()]);
 
-            return null;
+            return [];
         }
 
-        if (! $response->successful() || ! is_string($response->json('html'))) {
-            Log::warning('TikTok oEmbed returned no embed.', ['status' => $response->status()]);
+        if (! $response->successful()) {
+            Log::warning('TikTok oEmbed returned an error.', ['status' => $response->status()]);
 
-            return null;
+            return [];
         }
 
-        $html = (string) $response->json('html');
+        $info = (array) $response->json();
 
-        Cache::put($key, $html, now()->addHours(self::CACHE_HOURS));
+        Cache::put($key, $info, now()->addHours(self::CACHE_HOURS));
 
-        return $html;
+        return $info;
     }
 }
