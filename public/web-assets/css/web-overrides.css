@@ -454,6 +454,8 @@
     padding: 28px 26px;
     max-height: 88vh;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .tiktok-video-head {
@@ -469,16 +471,19 @@
 }
 
 .tiktok-video-title {
+    flex: 0 0 auto;
     white-space: pre-line;
     line-height: 1.6;
     color: #050505;
+    margin-bottom: 0;
 }
 
-.tiktok-video-link {
-    margin-top: 12px;
+/* In normal flow below the title, so it can't cover the text. */
+.tiktok-video-text .tiktok-video-link {
     position: relative;
     top: auto;
     align-self: flex-start;
+    margin: 22px 0 0;
 }
 
 @media only screen and (max-width: 991px) {

@@ -30,7 +30,7 @@
                                 {{-- scrolling="no" hides the player's inner scrollbar; the caption below the
                                      video is cut off, and "View on TikTok" links to the full post. --}}
                                 <iframe class="tiktok-video-frame" data-src="https://www.tiktok.com/embed/v2/{{ $video['id'] }}"
-                                        title="TikTok video" scrolling="no" allow="encrypted-media; fullscreen" allowfullscreen></iframe>
+                                        title="TikTok video" scrolling="no" allow="autoplay; encrypted-media; fullscreen"></iframe>
                             </div>
                             <div class="col-lg-5 tiktok-video-text">
                                 <div class="tiktok-video-head">

@@ -28,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::shouldBeStrict(! $this->app->isProduction());
 
+        // Generated links (uploaded images, media URLs) follow APP_URL. On the
+        // live site that is sometimes still http://, which the browser blocks
+        // as mixed content on an https page. Production always uses https.
+        if ($this->app->isProduction()) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // The 'admin' role bypasses every permission check — it should never
         // need individual permissions assigned to see any page. Returning
         // null (not false) for non-admins lets normal permission checks run.
