@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="{{ asset('web-assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/css/web-overrides.css') }}">
+    <link rel="stylesheet" href="{{ asset('web-assets/css/web-overrides.css') }}?v={{ @filemtime(public_path('web-assets/css/web-overrides.css')) }}">
     @stack('styles')
 </head>
 
