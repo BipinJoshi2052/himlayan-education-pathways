@@ -51,8 +51,8 @@
 
     {{-- Needed for the first paint: Bootstrap and the template's base styles. --}}
     <link rel="stylesheet" href="{{ asset('web-assets/bootstrap/css/bootstrap.min.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {{-- One request for both families: a second stylesheet would be another round trip. --}}
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     {{-- Icons, carousel, popup and animation styles load after the first paint.
          media="print" with onload switches them to all media once loaded. --}}
@@ -308,16 +308,16 @@
          to position/toggle at all — without it, data-bs-toggle="dropdown"
          silently does nothing. No Popper ships in web-assets, so it's
          loaded from CDN, same pattern as the admin layout's CDN libs. --}}
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="{{ asset('web-assets/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/modernizr-2.8.3.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/jquery-simple-mobilemenu.js') }}"></script>
-    <script src="{{ asset('web-assets/owlcarousel/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/jquery.inview.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/scrolltopcontrol.js') }}"></script>
-    <script src="{{ asset('web-assets/js/wow.min.js') }}"></script>
-    <script src="{{ asset('web-assets/js/scripts.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script defer src="{{ asset('web-assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/modernizr-2.8.3.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/jquery-simple-mobilemenu.js') }}"></script>
+    <script defer src="{{ asset('web-assets/owlcarousel/js/owl.carousel.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/jquery.magnific-popup.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/jquery.inview.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/scrolltopcontrol.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/wow.min.js') }}"></script>
+    <script defer src="{{ asset('web-assets/js/scripts.js') }}"></script>
     @stack('scripts')
 </body>
 

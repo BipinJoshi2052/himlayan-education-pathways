@@ -31,7 +31,13 @@
                 <div class="{{ $heroSlides->count() > 1 ? 'hero-carousel owl-carousel' : '' }}">
                     @foreach ($heroSlides as $slide)
                         @if ($heroLayout === 'full_image')
-                            <div class="hero-full" style="background-image: url('{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/bg/home-bg.jpg') }}');">
+                            <div class="hero-full">
+                                {{-- A real <img>, not a CSS background: the browser can find it in the HTML
+                                     and prioritise it. The first slide is the page's largest paint, so it
+                                     loads with high priority and is never lazy-loaded. --}}
+                                <img src="{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/bg/home-bg.jpg') }}"
+                                     alt="" class="hero-full-bg"
+                                     @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif>
                                 <div class="hero-full-overlay"></div>
                                 <div class="hero-full-content">
                                     <h1>{{ $slide->title }}</h1>
