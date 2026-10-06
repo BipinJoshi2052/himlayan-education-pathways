@@ -45,15 +45,13 @@
     @endif
 
     {{-- Connect early to the font and CDN hosts, so their files start sooner. --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     {{-- Needed for the first paint: Bootstrap and the template's base styles. --}}
     <link rel="stylesheet" href="{{ asset('web-assets/bootstrap/css/bootstrap.min.css') }}">
-    {{-- One request for both families: a second stylesheet would be another round trip. --}}
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {{-- DM Sans and Jost, served from this site (see docs/performance.md). --}}
+    <link rel="stylesheet" href="{{ asset('web-assets/css/fonts.css') }}">
 
     {{-- Icons, carousel, popup and animation styles load after the first paint.
          media="print" with onload switches them to all media once loaded. --}}

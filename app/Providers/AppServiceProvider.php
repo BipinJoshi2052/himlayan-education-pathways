@@ -33,6 +33,14 @@ class AppServiceProvider extends ServiceProvider
         // as mixed content on an https page. Production always uses https.
         if ($this->app->isProduction()) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+
+            // Uploaded media (Spatie) builds its URLs from the public disk's base
+            // URL, not from URL::forceScheme, so that base is switched to https too.
+            $diskUrl = (string) config('filesystems.disks.public.url');
+
+            if (str_starts_with($diskUrl, 'http://')) {
+                config(['filesystems.disks.public.url' => 'https://'.substr($diskUrl, 7)]);
+            }
         }
 
         // The 'admin' role bypasses every permission check — it should never
