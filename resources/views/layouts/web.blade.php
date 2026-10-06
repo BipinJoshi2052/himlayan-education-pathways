@@ -43,18 +43,39 @@
         <link rel="apple-touch-icon" href="{{ $siteLogo }}">
     @endif
 
+    {{-- Connect early to the font and CDN hosts, so their files start sooner. --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    {{-- Needed for the first paint: Bootstrap and the template's base styles. --}}
     <link rel="stylesheet" href="{{ asset('web-assets/bootstrap/css/bootstrap.min.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('web-assets/fonts/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/fonts/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/css/jquery-simple-mobilemenu.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}">
+
+    {{-- Icons, carousel, popup and animation styles load after the first paint.
+         media="print" with onload switches them to all media once loaded. --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/fonts/font-awesome.min.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/fonts/themify-icons.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.carousel.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.theme.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/css/jquery-simple-mobilemenu.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/css/magnific-popup.css') }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css">
+        <link rel="stylesheet" href="{{ asset('web-assets/fonts/font-awesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/fonts/themify-icons.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.carousel.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.theme.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/css/jquery-simple-mobilemenu.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/css/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}">
+    </noscript>
     <link rel="stylesheet" href="{{ asset('web-assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/web-overrides.css') }}?v={{ @filemtime(public_path('web-assets/css/web-overrides.css')) }}">
     <x-web.json-ld :data="\App\Common\Services\StructuredData::organization()" />
