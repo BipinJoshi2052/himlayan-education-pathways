@@ -1,4 +1,4 @@
-@props(['posts', 'pageUrl' => null, 'pageName' => null])
+@props(['posts', 'pageUrl' => null, 'pageName' => null, 'pageLogo' => null])
 
 {{-- Latest posts from the institute's Facebook Page, drawn as site cards. A card
      opens a popup with the video or photo on the left and the post text on the
@@ -37,7 +37,11 @@
                             </div>
                             <div class="col-lg-5 facebook-post-text">
                                 <div class="facebook-post-head">
-                                    <i class="fa-brands fa-facebook facebook-post-icon"></i>
+                                    @if ($pageLogo ?? null)
+                                        <img src="{{ $pageLogo }}" alt="" class="facebook-post-logo">
+                                    @else
+                                        <i class="fa-brands fa-facebook facebook-post-icon"></i>
+                                    @endif
                                     <div>
                                         <strong>{{ $pageName ?? 'Himalayan Education Pathways' }}</strong>
                                         <span>{{ $post['date'] }}</span>

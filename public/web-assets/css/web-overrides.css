@@ -392,12 +392,25 @@
     padding: 8px;
 }
 
+/* Keep the whole popup inside the screen: the media and text share one
+   height, capped to the viewport, and the media is cropped rather than
+   pushing the popup off the bottom. */
+.facebook-post-modal .modal-dialog {
+    max-height: 90vh;
+}
+
+.facebook-post-modal .modal-content > .row {
+    max-height: 88vh;
+}
+
 .facebook-post-media {
     background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 420px;
+    max-height: 88vh;
+    overflow: hidden;
 }
 
 .facebook-post-photo {
@@ -415,8 +428,14 @@
 .facebook-post-text {
     background: #fff;
     padding: 28px 26px;
-    max-height: 80vh;
+    max-height: 88vh;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.facebook-post-message {
+    flex: 0 0 auto;
 }
 
 .facebook-post-head {
@@ -436,6 +455,15 @@
     color: #65676b;
 }
 
+.facebook-post-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #fff;
+}
+
 .facebook-post-icon {
     color: #1877f2;
     font-size: 26px;
@@ -447,8 +475,13 @@
     color: #050505;
 }
 
-.facebook-post-link {
-    margin-top: 12px;
+/* Sits below the message, in normal flow (the template's .btn_one can be
+   positioned, which is what put it over the text). */
+.facebook-post-text .facebook-post-link {
+    position: relative;
+    top: auto;
+    align-self: flex-start;
+    margin: 20px 0 0;
 }
 
 @media only screen and (max-width: 991px) {
