@@ -322,6 +322,57 @@
     padding: 18px 20px 22px;
 }
 
+/* TikTok video embeds, in a responsive grid. */
+.tiktok-feed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    justify-items: center;
+}
+
+.tiktok-feed-item blockquote {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+}
+
+@media only screen and (max-width: 991px) {
+    .tiktok-feed-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .tiktok-feed-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Page followers and likes, shown above the posts. */
+.facebook-feed-stats {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    margin-bottom: 28px;
+    font-size: 16px;
+    color: #4b4f56;
+}
+
+.facebook-feed-stats strong {
+    display: block;
+    font-size: 26px;
+    color: var(--site-primary, #525fe1);
+    line-height: 1.2;
+}
+
+/* Like and comment counts on each post card. */
+.facebook-feed-counts {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #65676b;
+}
+
 /* Cards are buttons now: reset the button look so they match the old links. */
 .facebook-feed-card {
     width: 100%;

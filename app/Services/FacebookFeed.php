@@ -24,6 +24,8 @@ final class FacebookFeed
 
     private const CACHE_KEY = 'facebook_feed_posts';
 
+    private const STATS_CACHE_KEY = 'facebook_page_stats';
+
     private const CACHE_MINUTES = 60;
 
     /**
@@ -47,7 +49,7 @@ final class FacebookFeed
         try {
             $response = Http::timeout(8)
                 ->get('https://graph.facebook.com/'.self::API_VERSION."/{$pageId}/posts", [
-                    'fields' => 'message,created_time,permalink_url,full_picture',
+                    'fields' => 'message,created_time,permalink_url,full_picture,likes.summary(true).limit(0),comments.summary(true).limit(0)',
                     'limit' => $limit,
                     'access_token' => $token,
                 ]);
@@ -79,6 +81,8 @@ final class FacebookFeed
                     'date' => isset($post['created_time']) ? date('M d, Y', strtotime($post['created_time'])) : '',
                     'image' => $post['full_picture'] ?? null,
                     'url' => $url,
+                    'likes' => $post['likes']['summary']['total_count'] ?? null,
+                    'comments' => $post['comments']['summary']['total_count'] ?? null,
                     // Facebook video and reel links can be played in the page with
                     // the video plugin; other posts link out as before.
                     'video' => is_string($url) && (str_contains($url, '/videos/') || str_contains($url, '/reel/')),
@@ -90,6 +94,59 @@ final class FacebookFeed
         Cache::put(self::CACHE_KEY, $posts, now()->addMinutes(self::CACHE_MINUTES));
 
         return $posts;
+    }
+
+    /**
+     * The Page's followers and likes. Null when the Page or token is missing
+     * or Facebook returns an error, so the stats line is simply not shown.
+     *
+     * @return array{followers: int, likes: int}|null
+     */
+    public static function pageStats(): ?array
+    {
+        $cached = Cache::get(self::STATS_CACHE_KEY);
+
+        if (is_array($cached)) {
+            return $cached;
+        }
+
+        $pageId = trim((string) Setting::get('facebook_page_id', ''));
+        $token = self::token();
+
+        if ($pageId === '' || $token === null) {
+            return null;
+        }
+
+        try {
+            $response = Http::timeout(8)
+                ->get('https://graph.facebook.com/'.self::API_VERSION."/{$pageId}", [
+                    'fields' => 'fan_count,followers_count',
+                    'access_token' => $token,
+                ]);
+        } catch (\Throwable $e) {
+            Log::warning('Facebook page stats request failed.', ['error' => $e->getMessage()]);
+
+            return null;
+        }
+
+        if (! $response->successful()) {
+            Log::warning('Facebook page stats returned an error.', [
+                'status' => $response->status(),
+                'code' => $response->json('error.code'),
+                'message' => $response->json('error.message'),
+            ]);
+
+            return null;
+        }
+
+        $stats = [
+            'followers' => (int) $response->json('followers_count', 0),
+            'likes' => (int) $response->json('fan_count', 0),
+        ];
+
+        Cache::put(self::STATS_CACHE_KEY, $stats, now()->addMinutes(self::CACHE_MINUTES));
+
+        return $stats;
     }
 
     /**

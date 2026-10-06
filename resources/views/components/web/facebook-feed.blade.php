@@ -1,9 +1,15 @@
-@props(['posts', 'pageUrl' => null, 'pageName' => null, 'pageLogo' => null])
+@props(['posts', 'pageUrl' => null, 'pageName' => null, 'pageLogo' => null, 'stats' => null])
 
 {{-- Latest posts from the institute's Facebook Page, drawn as site cards. A card
      opens a popup with the video or photo on the left and the post text on the
      right. Video playback uses Facebook's video plugin, parsed when the popup opens. --}}
 <div class="facebook-feed">
+    @if ($stats)
+        <div class="facebook-feed-stats">
+            <span><strong>{{ number_format($stats['followers']) }}</strong> followers</span>
+            <span><strong>{{ number_format($stats['likes']) }}</strong> likes</span>
+        </div>
+    @endif
     <div class="facebook-feed-grid">
         @foreach ($posts as $post)
             <button type="button" class="facebook-feed-card" data-bs-toggle="modal" data-bs-target="#fb-post-{{ $loop->index }}">
@@ -19,6 +25,12 @@
                     <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
                     @if ($post['message'])
                         <p>{{ $post['message'] }}</p>
+                    @endif
+                    @if (($post['likes'] ?? null) !== null || ($post['comments'] ?? null) !== null)
+                        <div class="facebook-feed-counts">
+                            <span><i class="fa-regular fa-thumbs-up"></i> {{ number_format((int) ($post['likes'] ?? 0)) }}</span>
+                            <span><i class="fa-regular fa-comment"></i> {{ number_format((int) ($post['comments'] ?? 0)) }}</span>
+                        </div>
                     @endif
                 </div>
             </button>
