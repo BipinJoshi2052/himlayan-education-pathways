@@ -218,13 +218,13 @@
                         <div class="social_profile">
                             <ul>
                                 @if (\App\Models\Setting::get('social_facebook_url'))
-                                    <li><a href="{{ \App\Models\Setting::get('social_facebook_url') }}" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                    <li><a href="{{ \App\Models\Setting::get('social_facebook_url') }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a></li>
                                 @endif
                                 @if (\App\Models\Setting::get('social_instagram_url'))
-                                    <li><a href="{{ \App\Models\Setting::get('social_instagram_url') }}" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a></li>
+                                    <li><a href="{{ \App\Models\Setting::get('social_instagram_url') }}" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a></li>
                                 @endif
                                 @if (\App\Models\Setting::get('social_tiktok_url'))
-                                    <li><a href="{{ \App\Models\Setting::get('social_tiktok_url') }}" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i></a></li>
+                                    <li><a href="{{ \App\Models\Setting::get('social_tiktok_url') }}" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a></li>
                                 @endif
                             </ul>
                         </div>
