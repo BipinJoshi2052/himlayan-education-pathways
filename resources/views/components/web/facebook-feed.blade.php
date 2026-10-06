@@ -1,38 +1,59 @@
-@props(['posts', 'pageUrl' => null])
+@props(['posts', 'pageUrl' => null, 'pageName' => null])
 
-{{-- Latest posts from the institute's Facebook Page, drawn as site cards so they
-     take the site's width, fonts and colours. Video posts play inside the card
-     with Facebook's video plugin; other posts link out to Facebook. --}}
+{{-- Latest posts from the institute's Facebook Page, drawn as site cards. A card
+     opens a popup with the video or photo on the left and the post text on the
+     right. Video playback uses Facebook's video plugin, parsed when the popup opens. --}}
 <div class="facebook-feed">
     <div class="facebook-feed-grid">
         @foreach ($posts as $post)
-            @if ($post['video'] ?? false)
-                <div class="facebook-feed-card facebook-feed-card-video">
-                    <div class="facebook-feed-video">
-                        <div class="fb-video" data-href="{{ $post['url'] }}" data-width="auto" data-show-text="false"></div>
-                    </div>
-                    <div class="facebook-feed-body">
-                        <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
-                        @if ($post['message'])
-                            <p>{{ $post['message'] }}</p>
-                        @endif
+            <button type="button" class="facebook-feed-card" data-bs-toggle="modal" data-bs-target="#fb-post-{{ $loop->index }}">
+                <div class="facebook-feed-image">
+                    @if ($post['image'])
+                        <img src="{{ $post['image'] }}" alt="" loading="lazy">
+                    @endif
+                    @if ($post['video'] ?? false)
+                        <span class="facebook-feed-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                    @endif
+                </div>
+                <div class="facebook-feed-body">
+                    <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
+                    @if ($post['message'])
+                        <p>{{ $post['message'] }}</p>
+                    @endif
+                </div>
+            </button>
+
+            <div class="modal fade facebook-post-modal" id="fb-post-{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <button type="button" class="btn-close facebook-post-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="row g-0">
+                            <div class="col-lg-7 facebook-post-media">
+                                @if ($post['video'] ?? false)
+                                    <div class="fb-video" data-href="{{ $post['url'] }}" data-width="auto" data-show-text="false"></div>
+                                @elseif ($post['image'])
+                                    <img src="{{ $post['image'] }}" alt="" class="facebook-post-photo">
+                                @endif
+                            </div>
+                            <div class="col-lg-5 facebook-post-text">
+                                <div class="facebook-post-head">
+                                    <i class="fa-brands fa-facebook facebook-post-icon"></i>
+                                    <div>
+                                        <strong>{{ $pageName ?? 'Himalayan Education Pathways' }}</strong>
+                                        <span>{{ $post['date'] }}</span>
+                                    </div>
+                                </div>
+                                @if ($post['message'])
+                                    <p class="facebook-post-message">{{ $post['message'] }}</p>
+                                @endif
+                                @if ($post['url'])
+                                    <a class="btn_one facebook-post-link" href="{{ $post['url'] }}" target="_blank" rel="noopener">View on Facebook <i class="ti-arrow-top-right"></i></a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
-            @else
-                <a class="facebook-feed-card" href="{{ $post['url'] ?? $pageUrl ?? '#' }}" target="_blank" rel="noopener">
-                    @if ($post['image'])
-                        <div class="facebook-feed-image">
-                            <img src="{{ $post['image'] }}" alt="" loading="lazy">
-                        </div>
-                    @endif
-                    <div class="facebook-feed-body">
-                        <span class="facebook-feed-date"><i class="fa-brands fa-facebook"></i> {{ $post['date'] }}</span>
-                        @if ($post['message'])
-                            <p>{{ $post['message'] }}</p>
-                        @endif
-                    </div>
-                </a>
-            @endif
+            </div>
         @endforeach
     </div>
     @if ($pageUrl)
@@ -41,3 +62,31 @@
         </div>
     @endif
 </div>
+
+@once
+    @push('scripts')
+        <script>
+            // Each popup's media is reset on close, so a video stops playing and
+            // is parsed again the next time its popup opens.
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.facebook-post-modal').forEach(function (modal) {
+                    var media = modal.querySelector('.facebook-post-media');
+                    if (!media) {
+                        return;
+                    }
+                    var original = media.innerHTML;
+
+                    modal.addEventListener('shown.bs.modal', function () {
+                        if (window.FB && media.querySelector('.fb-video')) {
+                            FB.XFBML.parse(media);
+                        }
+                    });
+
+                    modal.addEventListener('hidden.bs.modal', function () {
+                        media.innerHTML = original;
+                    });
+                });
+            });
+        </script>
+    @endpush
+@endonce

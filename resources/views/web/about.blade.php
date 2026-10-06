@@ -115,7 +115,7 @@
                     <h2>Follow Our Journey on Facebook</h2>
                     <p>The latest from our Facebook page.</p>
                 </div>
-                <x-web.facebook-feed :posts="$facebookPosts" :page-url="\App\Models\Setting::get('social_facebook_url')" />
+                <x-web.facebook-feed :posts="$facebookPosts" :page-url="\App\Models\Setting::get('social_facebook_url')" :page-name="\App\Models\Setting::get('site_name', config('app.name'))" />
             </div>
         </section>
         @if (collect($facebookPosts)->contains(fn ($post) => $post['video'] ?? false))
