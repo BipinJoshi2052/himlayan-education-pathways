@@ -36,6 +36,21 @@ final class SitemapController extends Controller
     {
         $urls = [$this->entry(url('/'), now(), 'daily', '1.0')];
 
+        // Static pages and listing pages. Without these, search engines only
+        // find the home page and the individual posts and courses.
+        foreach ([
+            ['web.about', 'monthly', '0.8'],
+            ['web.courses.index', 'weekly', '0.9'],
+            ['web.blog.index', 'weekly', '0.8'],
+            ['web.faq', 'monthly', '0.6'],
+            ['web.gallery.index', 'weekly', '0.6'],
+            ['web.contact', 'monthly', '0.7'],
+            ['web.privacy', 'yearly', '0.3'],
+            ['web.terms', 'yearly', '0.3'],
+        ] as [$routeName, $changefreq, $priority]) {
+            $urls[] = $this->entry(route($routeName), now(), $changefreq, $priority);
+        }
+
         // Posts and Services now have real public pages (routes web.blog.show
         // / web.courses.show — see docs/public-website.md), so these use
         // route() against the actual registered routes rather than a
