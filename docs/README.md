@@ -14,6 +14,7 @@ Living documentation for the `laravel-boilerplate` project, maintained module-by
 - [settings.md](settings.md) — key-value Settings, SEO fallback resolution, SMTP config, a real caching bug and fix
 - [inquiries.md](inquiries.md) — public contact form, queued admin notification, inbox UI
 - [seo-discovery.md](seo-discovery.md) — robots.txt, sitemap.xml, llms.txt/llms-full.txt
+- [performance.md](performance.md) — PageSpeed/Lighthouse changes made, server steps to run, and open items
 - [facebook-feed.md](facebook-feed.md) — Facebook Page posts on the About page: settings, getting the Page ID and token, troubleshooting
 - [security.md](security.md) — security posture and hardening notes (planned)
 
