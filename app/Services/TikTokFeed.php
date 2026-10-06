@@ -21,7 +21,9 @@ final class TikTokFeed
 
     private const CACHE_HOURS = 6;
 
-    private const MAX_VIDEOS = 12;
+    // TikTok's embed script shows "overload-protect" when too many players
+    // load on one page, so keep this low.
+    private const MAX_VIDEOS = 4;
 
     /**
      * @return array<int, array{url: string, html: string}>

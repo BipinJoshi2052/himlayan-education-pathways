@@ -323,28 +323,26 @@
 }
 
 /* TikTok video embeds, in a responsive grid. */
+/* Each TikTok embed is a fixed width (about 325px), so the row is a wrapping
+   flex row of those widths, centred. Three fit per row on a standard screen,
+   and it wraps to fewer per row on narrower ones. */
 .tiktok-feed-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 24px;
-    justify-items: center;
+}
+
+.tiktok-feed-item {
+    flex: 0 1 325px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .tiktok-feed-item blockquote {
     margin: 0 auto !important;
     max-width: 100% !important;
-}
-
-@media only screen and (max-width: 991px) {
-    .tiktok-feed-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media only screen and (max-width: 575px) {
-    .tiktok-feed-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* Page followers and likes, shown above the posts. */

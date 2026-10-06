@@ -56,7 +56,7 @@
                                 <label class="form-label">TikTok video links</label>
                                 <textarea class="form-control" name="tiktok_video_links" rows="5"
                                           placeholder="https://www.tiktok.com/@yourhandle/video/1234567890&#10;https://www.tiktok.com/@yourhandle/video/0987654321">{{ old('tiktok_video_links', \App\Models\Setting::get('tiktok_video_links')) }}</textarea>
-                                <small class="text-muted">One video link per line. Up to 12 are shown on the About page, in the order listed. Each link is checked with TikTok when saved; anything that isn't a TikTok video link is ignored.</small>
+                                <small class="text-muted">One video link per line. Up to 4 are shown on the About page, in the order listed. More than that can make TikTok's player show an "overload-protect" message. Each link is checked with TikTok when saved; anything that isn't a TikTok video link is ignored.</small>
                             </div>
                         </div>
                     </div>
