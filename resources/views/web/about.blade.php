@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $intro->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $intro->title }}">
+                            <img src="{{ $intro->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.webp') }}" class="img-fluid" alt="{{ $intro->title }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
@@ -51,7 +51,7 @@
     @endif
 
     @if ($missionVision && $missionVision->items->isNotEmpty())
-        <section class="top_cat__area section-padding" style="background-image: url({{ asset('web-assets/img/bg/section-2.jpg') }}); background-size:cover; background-position: center center;">
+        <section class="top_cat__area section-padding" style="background-image: url({{ asset('web-assets/img/bg/section-2.webp') }}); background-size:cover; background-position: center center;">
             <div class="container">
                 <div class="row justify-content-center">
                     @foreach ($missionVision->items as $item)

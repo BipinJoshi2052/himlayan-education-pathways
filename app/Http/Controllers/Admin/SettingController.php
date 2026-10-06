@@ -10,6 +10,8 @@ use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Spatie\Image\Image;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Storage;
@@ -70,6 +72,10 @@ final class SettingController extends Controller
                 if ($request->hasFile($key)) {
                     $path = $request->file($key)->store('settings', 'public');
                     Setting::set($key, Storage::url($path), $group);
+
+                    if ($key === 'site_logo') {
+                        $this->saveWebLogo($path, $group);
+                    }
                 }
 
                 continue;
@@ -132,6 +138,36 @@ final class SettingController extends Controller
         $this->flushSeoCacheKeys();
 
         return redirect()->route('admin.settings.index', ['tab' => 'seo'])->with('status', 'SEO cache flushed.');
+    }
+
+    /**
+     * A WebP copy of the logo for the header and footer. The original stays for
+     * the favicon and the Apple touch icon, which need PNG for reliable support.
+     * SVG logos are left as they are, and so is any file that fails to convert.
+     */
+    private function saveWebLogo(string $path, string $group): void
+    {
+        $disk = Storage::disk('public');
+
+        if (strtolower(pathinfo($path, PATHINFO_EXTENSION)) === 'svg') {
+            Setting::set('site_logo_web', null, $group);
+
+            return;
+        }
+
+        $webPath = preg_replace('/\.[^.]+$/', '', $path).'-web.webp';
+
+        try {
+            Image::load($disk->path($path))
+                ->format('webp')
+                ->quality(85)
+                ->save($disk->path($webPath));
+
+            Setting::set('site_logo_web', Storage::url($webPath), $group);
+        } catch (\Throwable $e) {
+            Log::warning('Logo WebP conversion failed; the original is used.', ['error' => $e->getMessage()]);
+            Setting::set('site_logo_web', null, $group);
+        }
     }
 
     private function flushSeoCacheKeys(): void

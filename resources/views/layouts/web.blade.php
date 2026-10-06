@@ -7,6 +7,7 @@
     $sitePrimaryColor = \App\Models\Setting::get('primary_color', '#525fe1');
     $siteSecondaryColor = \App\Models\Setting::get('secondary_color', '#f26b65');
     $siteLogo = \App\Models\Setting::get('site_logo');
+    $siteLogoWeb = \App\Models\Setting::get('site_logo_web') ?: $siteLogo;
     $siteName = \App\Models\Setting::get('site_name', config('app.name'));
     // Settings > Loader — 'default' (built-in spinner), 'custom' (uploaded
     // image, separate from the site logo), or 'none' (skip the preloader
@@ -110,7 +111,7 @@
                 <div class="col-20 align-self-center">
                     <div class="site-logo">
                         @if ($siteLogo)
-                            <a href="{{ route('web.home') }}" class="navbar-brand-logo"><img src="{{ $siteLogo }}" alt="{{ $siteName }}"></a>
+                            <a href="{{ route('web.home') }}" class="navbar-brand-logo"><img src="{{ $siteLogoWeb }}" alt="{{ $siteName }}"></a>
                         @else
                             <a href="{{ route('web.home') }}" class="navbar-brand-text">{{ $siteName }}</a>
                         @endif
@@ -211,7 +212,7 @@
                 <div class="col-lg-4 col-sm-6 col-xs-12">
                     <div class="single_footer">
                         @if ($siteLogo)
-                            <a href="{{ route('web.home') }}" class="navbar-brand-logo"><img src="{{ $siteLogo }}" alt="{{ $siteName }}"></a>
+                            <a href="{{ route('web.home') }}" class="navbar-brand-logo"><img src="{{ $siteLogoWeb }}" alt="{{ $siteName }}"></a>
                         @else
                             <a href="{{ route('web.home') }}" class="navbar-brand-text">{{ $siteName }}</a>
                         @endif

@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-lg-5 col-sm-12 col-xs-12">
                                     <div class="hero-text-img">
-                                        <img src="{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/home-img2.png') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
+                                        <img src="{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/home-img2.webp') }}" class="img-fluid" alt="German language classes at {{ \App\Models\Setting::get('site_name', config('app.name')) }}" />
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $about->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.png') }}" class="img-fluid" alt="{{ $about->title }}">
+                            <img src="{{ $about->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about1.webp') }}" class="img-fluid" alt="{{ $about->title }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
@@ -169,7 +169,7 @@
 
     @if ($categories && $categories->items->isNotEmpty())
         <!-- START CATEGORY -->
-        <section class="top_cat__area section-padding" style="background-image: url({{ asset('web-assets/img/bg/section-2.jpg') }}); background-size:cover; background-position: center center;">
+        <section class="top_cat__area section-padding" style="background-image: url({{ asset('web-assets/img/bg/section-2.webp') }}); background-size:cover; background-position: center center;">
             <div class="container">
                 <div class="section-title text-center">
                     <h2>{{ $categories->title }}</h2>
@@ -293,7 +293,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp">
                         <div class="ab_img">
-                            <img src="{{ $whyChooseUs->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about3.png') }}" class="img-fluid" alt="{{ $whyChooseUs->title }}">
+                            <img src="{{ $whyChooseUs->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/about3.webp') }}" class="img-fluid" alt="{{ $whyChooseUs->title }}">
                         </div>
                     </div>
                 </div>
@@ -312,7 +312,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 col-xs-12">
                         <div class="ab_img">
-                            <img src="{{ $testimonials->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/review.png') }}" class="img-fluid" alt="{{ __('web.home.testimonial_alt') }}">
+                            <img src="{{ $testimonials->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/review.webp') }}" class="img-fluid" alt="{{ __('web.home.testimonial_alt') }}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-xs-12">
