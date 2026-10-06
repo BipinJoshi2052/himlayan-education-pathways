@@ -419,10 +419,10 @@
     object-fit: contain;
 }
 
-.facebook-post-media .fb-video,
-.facebook-post-media .fb-video span,
+/* The player is sized by the popup script (see facebook-feed component), so
+   it keeps its own shape and is centred rather than stretched. */
 .facebook-post-media .fb-video iframe {
-    width: 100% !important;
+    max-width: 100%;
 }
 
 .facebook-post-text {

@@ -81,9 +81,23 @@
                     var original = media.innerHTML;
 
                     modal.addEventListener('shown.bs.modal', function () {
-                        if (window.FB && media.querySelector('.fb-video')) {
-                            FB.XFBML.parse(media);
+                        var video = media.querySelector('.fb-video');
+                        if (!video || !window.FB) {
+                            return;
                         }
+
+                        // Size the player so the whole video fits: the video's shape comes
+                        // from its card thumbnail, and the player's height follows its width.
+                        var thumb = document.querySelector('[data-bs-target="#' + modal.id + '"] img');
+                        var ratio = thumb && thumb.naturalWidth && thumb.naturalHeight
+                            ? thumb.naturalWidth / thumb.naturalHeight
+                            : 9 / 16;
+                        var maxHeight = window.innerHeight * 0.85;
+                        var available = media.clientWidth || 400;
+                        var width = Math.floor(Math.min(available, maxHeight * ratio));
+
+                        video.setAttribute('data-width', String(width));
+                        FB.XFBML.parse(media);
                     });
 
                     modal.addEventListener('hidden.bs.modal', function () {
