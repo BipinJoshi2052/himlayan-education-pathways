@@ -17,6 +17,25 @@
     ExpiresByType font/woff2 "access plus 30 days"
 </IfModule>
 
+# Security headers for every response. Deliberately left out for now: a
+# Content-Security-Policy (the site relies on inline scripts and several CDNs),
+# COEP/CORP (would block the third-party embeds), and HSTS preload or
+# includeSubDomains (hard to undo, and affect every subdomain).
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+    Header always unset X-Powered-By
+</IfModule>
+
+# Hides the PHP version (the header above removes it where mod_headers can).
+<IfModule mod_php.c>
+    php_flag expose_php Off
+</IfModule>
+
 # Compress text responses (CSS, JS, HTML, JSON, SVG) on the way out. Images and
 # fonts are already compressed, so they are left out.
 <IfModule mod_deflate.c>
