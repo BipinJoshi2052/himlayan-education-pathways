@@ -105,41 +105,129 @@
         </section>
     @endif
 
-    @php
-        $facebookPosts = \App\Services\FacebookFeed::posts(6);
-    @endphp
-    @if (count($facebookPosts) > 0)
-        <section class="section-padding">
-            <div class="container">
-                <div class="section-title text-center">
-                    <h2>Follow Our Journey on Facebook</h2>
-                    <p>The latest from our Facebook page.</p>
-                </div>
-                <x-web.facebook-feed :posts="$facebookPosts" :stats="\App\Services\FacebookFeed::pageStats()" :page-url="\App\Models\Setting::get('social_facebook_url')" :page-name="\App\Models\Setting::get('site_name', config('app.name'))" :page-logo="\App\Models\Setting::get('site_logo')" />
+    {{-- Facebook and TikTok load after the page has finished loading, from their own
+         endpoints, so the page itself never waits on those services. Each section
+         stays hidden until its content arrives. --}}
+    <section class="section-padding social-feed-section" id="facebook-section" style="display:none">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>Follow Our Journey on Facebook</h2>
+                <p>The latest from our Facebook page.</p>
             </div>
-        </section>
-        @php
-            $tiktokVideos = \App\Services\TikTokFeed::videos();
-        @endphp
-        @if (count($tiktokVideos) > 0)
-            <section class="section-padding">
-                <div class="container">
-                    <div class="section-title text-center">
-                        <h2>Watch Us on TikTok</h2>
-                        <p>Short German lessons and student moments.</p>
-                    </div>
-                    <x-web.tiktok-feed :videos="$tiktokVideos" :page-url="\App\Models\Setting::get('social_tiktok_url')" />
-                </div>
-            </section>
-        @endif
+            <div class="social-feed-slot" data-feed="{{ route('social.facebook') }}"></div>
+        </div>
+    </section>
 
-        @if (collect($facebookPosts)->contains(fn ($post) => $post['video'] ?? false))
-            @push('scripts')
-                <div id="fb-root"></div>
-                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0"></script>
-            @endpush
-        @endif
-    @endif
+    <section class="section-padding social-feed-section" id="tiktok-section" style="display:none">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>Watch Us on TikTok</h2>
+                <p>Short German lessons and student moments.</p>
+            </div>
+            <div class="social-feed-slot" data-feed="{{ route('social.tiktok') }}"></div>
+        </div>
+    </section>
+
+    <div id="fb-root"></div>
+
+    @push('scripts')
+        <script>
+            (function () {
+                // Fetch each section's HTML once the page has loaded, then wire up its popups.
+                function fillSlot(slot, onFilled) {
+                    fetch(slot.dataset.feed, { credentials: 'same-origin', headers: { Accept: 'text/html' } })
+                        .then(function (response) { return response.ok ? response.text() : ''; })
+                        .then(function (html) {
+                            if (html.trim() === '') {
+                                return;
+                            }
+                            slot.innerHTML = html;
+                            slot.closest('.social-feed-section').style.display = '';
+                            onFilled(slot);
+                        })
+                        .catch(function () { /* The section stays hidden. */ });
+                }
+
+                function loadFacebookSdk() {
+                    if (window.FB || document.getElementById('fb-sdk')) {
+                        return;
+                    }
+                    var script = document.createElement('script');
+                    script.id = 'fb-sdk';
+                    script.async = true;
+                    script.crossOrigin = 'anonymous';
+                    script.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0';
+                    document.body.appendChild(script);
+                }
+
+                function wireFacebook(slot) {
+                    slot.querySelectorAll('.facebook-post-modal').forEach(function (modal) {
+                        var media = modal.querySelector('.facebook-post-media');
+                        if (!media) {
+                            return;
+                        }
+                        var original = media.innerHTML;
+
+                        modal.addEventListener('shown.bs.modal', function () {
+                            var video = media.querySelector('.fb-video');
+                            if (!video || !window.FB) {
+                                return;
+                            }
+                            // Size the player so the whole video fits on screen; its shape
+                            // comes from the card thumbnail.
+                            var thumb = document.querySelector('[data-bs-target="#' + modal.id + '"] img');
+                            var ratio = thumb && thumb.naturalWidth && thumb.naturalHeight
+                                ? thumb.naturalWidth / thumb.naturalHeight
+                                : 9 / 16;
+                            var width = Math.floor(Math.min(media.clientWidth || 400, window.innerHeight * 0.85 * ratio));
+                            video.setAttribute('data-width', String(width));
+                            FB.XFBML.parse(media);
+                        });
+
+                        // Closing resets the media, so a video stops and is parsed again on reopen.
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            media.innerHTML = original;
+                        });
+                    });
+
+                    if (slot.querySelector('.fb-video')) {
+                        loadFacebookSdk();
+                    }
+                }
+
+                function wireTikTok(slot) {
+                    slot.querySelectorAll('.tiktok-video-modal').forEach(function (modal) {
+                        var frame = modal.querySelector('.tiktok-video-frame');
+                        if (!frame) {
+                            return;
+                        }
+                        modal.addEventListener('shown.bs.modal', function () {
+                            if (!frame.getAttribute('src')) {
+                                frame.setAttribute('src', frame.dataset.src);
+                            }
+                        });
+                        // Removing the address stops playback and frees the player.
+                        modal.addEventListener('hidden.bs.modal', function () {
+                            frame.removeAttribute('src');
+                        });
+                    });
+                }
+
+                function start() {
+                    document.querySelectorAll('.social-feed-slot').forEach(function (slot) {
+                        var isFacebook = slot.dataset.feed.indexOf('/social/facebook') !== -1;
+                        fillSlot(slot, isFacebook ? wireFacebook : wireTikTok);
+                    });
+                }
+
+                if (document.readyState === 'complete') {
+                    start();
+                } else {
+                    window.addEventListener('load', start);
+                }
+            })();
+        </script>
+    @endpush
 
     @if ($careerCta)
         <section class="top_cat__area section-padding {{ \App\Common\Services\SectionSettings::backgroundClass($careerCta) }}" style="background-image: url({{ asset('web-assets/img/bg/shape-1.png') }}); background-size:cover; background-position: center center;">

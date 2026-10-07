@@ -25,6 +25,7 @@ use App\Http\Controllers\Web\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\LegalController;
 use App\Http\Controllers\Web\LocaleController;
+use App\Http\Controllers\Web\SocialFeedController;
 use App\Http\Controllers\Web\Seo\LlmsTxtController;
 use App\Http\Controllers\Web\Seo\RobotsController;
 use App\Http\Controllers\Web\Seo\SitemapController;
@@ -159,3 +160,8 @@ Route::post('api/admin/profile/theme-toggle', [ProfileController::class, 'toggle
 Route::post('api/admin/reorder/{model}', ReorderController::class)
     ->middleware('auth')
     ->name('admin.reorder');
+
+// Social feed fragments for the About page (outside the tracked public group,
+// so these background requests are not recorded as page visits).
+Route::get('/social/facebook', [SocialFeedController::class, 'facebook'])->name('social.facebook');
+Route::get('/social/tiktok', [SocialFeedController::class, 'tiktok'])->name('social.tiktok');

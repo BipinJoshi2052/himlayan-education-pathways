@@ -53,28 +53,3 @@
     @endif
 </div>
 
-@once
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.tiktok-video-modal').forEach(function (modal) {
-                    var frame = modal.querySelector('.tiktok-video-frame');
-                    if (!frame) {
-                        return;
-                    }
-
-                    modal.addEventListener('shown.bs.modal', function () {
-                        if (!frame.getAttribute('src')) {
-                            frame.setAttribute('src', frame.dataset.src);
-                        }
-                    });
-
-                    // Removing the address stops playback and frees the player.
-                    modal.addEventListener('hidden.bs.modal', function () {
-                        frame.removeAttribute('src');
-                    });
-                });
-            });
-        </script>
-    @endpush
-@endonce
