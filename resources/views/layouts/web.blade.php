@@ -61,7 +61,8 @@
     <link rel="stylesheet" href="{{ asset('web-assets/fonts/themify-icons.css') }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.carousel.css') }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ asset('web-assets/owlcarousel/css/owl.theme.css') }}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{{ asset('web-assets/css/jquery-simple-mobilemenu.css') }}" media="print" onload="this.media='all'">
+    {{-- Not deferred: this hides the phone menu list on desktop, so it must load with the page. --}}
+    <link rel="stylesheet" href="{{ asset('web-assets/css/jquery-simple-mobilemenu.css') }}">
     <link rel="stylesheet" href="{{ asset('web-assets/css/magnific-popup.css') }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ asset('web-assets/css/animate.css') }}" media="print" onload="this.media='all'">
     <noscript>
