@@ -712,6 +712,104 @@
     }
 }
 
+/* These three used to be heading tags (h2/h4). Changed to <p> for a correct
+   heading outline (see docs/seo-checklist.md), with the exact look restored
+   here since the template styled them by tag, not by class. */
+.counter-num {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0b104a;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.single_footer .footer-widget-title {
+    color: #0b104a;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 20px;
+}
+
+.single_event_text_single .course-title-repeat {
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Home page "Latest Blog & News" card title: h2 -> h3 (it's a sub-item of
+   that section's own h2), same look restored since .single_blog styled by
+   the h2 tag, not a class. */
+.single_blog .blog-card-title {
+    line-height: 32px;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.single_blog .blog-card-title a {
+    color: #1a2d62;
+    font-weight: 600;
+    margin-bottom: 40px;
+    display: block;
+}
+
+.single_blog .blog-card-title a:hover {
+    color: var(--site-primary, #525fe1);
+}
+
+/* Four more headings changed for a correct outline (see docs/seo-checklist.md),
+   each styled by its template's tag selector rather than a class, so the
+   look is restored here under a selector specific to each one. */
+.single_address .address-card-title {
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.sidebar_title .sidebar-widget-title {
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ededed;
+}
+
+.single_course .course-card-title {
+    margin-bottom: 15px;
+    padding: 0 20px;
+}
+
+.single_course .course-card-title a {
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: 10px;
+    display: block;
+    line-height: 32px;
+}
+
+.single_rc .related-course-title a {
+    color: #1a2d62;
+    font-size: 18px;
+    font-weight: 800;
+    margin: 10px 0;
+    display: block;
+    transition: 0.3s;
+}
+
+.single_rc .related-course-title a:hover {
+    color: var(--site-primary, #525fe1);
+}
+
+.testi_pic_title .testimonial-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
 /* Placeholder photo used when a team member has no picture. */
 .our-team img.dummy-photo {
     border: 1px solid #dddddd !important;

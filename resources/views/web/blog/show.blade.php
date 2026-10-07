@@ -43,7 +43,7 @@
                 <div class="col-lg-4 col-sm-4 col-xs-12">
                     @if ($recentPosts->isNotEmpty())
                         <div class="sidebar-post mb-4">
-                            <div class="sidebar_title"><h2 class="h4">{{ __('web.blog.popular_posts') }}</h2></div>
+                            <div class="sidebar_title"><h2 class="sidebar-widget-title">{{ __('web.blog.popular_posts') }}</h2></div>
                             <ul class="list-unstyled">
                                 @foreach ($recentPosts as $recent)
                                     <li class="mb-2"><a href="{{ route('web.blog.show', $recent->slug) }}">{{ $recent->title }}</a></li>

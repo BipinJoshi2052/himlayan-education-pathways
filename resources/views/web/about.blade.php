@@ -95,7 +95,7 @@
                     @foreach ($stats->items as $item)
                         <div class="col-lg-3 col-sm-6 col-xs-12">
                             <div class="single-counter">
-                                <h2 class="counter-num">{{ $item->title }}</h2>
+                                <p class="counter-num">{{ $item->title }}</p>
                                 {!! $item->description !!}
                             </div>
                         </div>

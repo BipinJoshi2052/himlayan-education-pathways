@@ -36,7 +36,7 @@
                                      and prioritise it. The first slide is the page's largest paint, so it
                                      loads with high priority and is never lazy-loaded. --}}
                                 <img src="{{ $slide->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/bg/home-bg.jpg') }}"
-                                     alt="" class="hero-full-bg"
+                                     alt="{{ $slide->title }}" class="hero-full-bg"
                                      @if ($loop->first) fetchpriority="high" @else loading="lazy" @endif>
                                 <div class="hero-full-overlay"></div>
                                 <div class="hero-full-content">
@@ -100,7 +100,7 @@
                     @foreach ($stats->items as $item)
                         <div class="col-lg-3 col-sm-6 col-xs-12">
                             <div class="single-counter">
-                                <h2 class="counter-num">{{ $item->title }}</h2>
+                                <p class="counter-num">{{ $item->title }}</p>
                                 {!! $item->description !!}
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                                         <img src="{{ asset('web-assets/img/course/'.(($loop->index % 6) + 1).'.png') }}" class="img-fluid" alt="{{ $service->title }}" />
                                     @endif
                                 </div>
-                                <h3 class="h4"><a href="{{ route('web.courses.show', $service->slug) }}">{{ $service->title }}</a></h3>
+                                <h3 class="course-card-title"><a href="{{ route('web.courses.show', $service->slug) }}">{{ $service->title }}</a></h3>
                                 <div class="single-course-body">
                                     <p>{{ $service->summary }}</p>
                                     @if ($service->duration)
@@ -325,7 +325,7 @@
                                     </div>
                                     <div class="testi_pic_title">
                                         <img src="{{ $item->getFirstMediaUrl('image', 'web') ?: asset('web-assets/img/testimonial/'.(($loop->index % 5) + 1).'.png') }}" alt="">
-                                        <h3 class="h4">{{ $item->title }}</h3>
+                                        <h3 class="testimonial-name">{{ $item->title }}</h3>
                                     </div>
                                 </div>
                             @endforeach
@@ -356,7 +356,7 @@
                                 @endif
                                 <div class="content_box">
                                     <span>{{ $post->published_at?->format('M d, Y') ?? $post->created_at->format('M d, Y') }}</span>
-                                    <h2><a href="{{ route('web.blog.show', $post->slug) }}">{{ $post->title }}</a></h2>
+                                    <h3 class="blog-card-title"><a href="{{ route('web.blog.show', $post->slug) }}">{{ $post->title }}</a></h3>
                                     <a class="btn_one" href="{{ route('web.blog.show', $post->slug) }}">{{ __('web.home.read_more') }} <i class="ti-arrow-top-right"></i></a>
                                 </div>
                             </div>
