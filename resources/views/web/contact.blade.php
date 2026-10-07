@@ -21,7 +21,7 @@
                 <div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp">
                     <div class="single_address sa_one">
                         <i class="ti-map"></i>
-                        <h4>{{ __('web.contact.our_location') }}</h4>
+                        <h2 class="h4">{{ __('web.contact.our_location') }}</h2>
                         <p>
                             <a href="{{ \App\Common\Services\MapLink::googleUrl(\App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal')) }}" target="_blank" rel="noopener">
                                 {{ \App\Models\Setting::get('site_address', 'Chabahil–7, Kathmandu, Nepal') }}
@@ -33,7 +33,7 @@
                     <div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp">
                         <div class="single_address sa_two">
                             <i class="ti-mobile"></i>
-                            <h4>{{ __('web.contact.telephone') }}</h4>
+                            <h2 class="h4">{{ __('web.contact.telephone') }}</h2>
                             <p>@foreach (\App\Models\Setting::phoneNumbers() as $phone)<a href="tel:{{ $phone['tel'] }}">{{ $phone['label'] }}</a>{{ $loop->last ? '' : ', ' }}@endforeach</p>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp">
                         <div class="single_address sa_three">
                             <i class="ti-email"></i>
-                            <h4>{{ __('web.contact.send_email') }}</h4>
+                            <h2 class="h4">{{ __('web.contact.send_email') }}</h2>
                             <p><a href="mailto:{{ \App\Models\Setting::get('contact_email') }}">{{ \App\Models\Setting::get('contact_email') }}</a></p>
                         </div>
                     </div>

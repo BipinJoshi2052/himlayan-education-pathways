@@ -233,7 +233,7 @@
                 </div>
                 <div class="col-lg-2 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>{{ __('web.footer.quick_links') }}</h4>
+                        <h2 class="h4">{{ __('web.footer.quick_links') }}</h2>
                         <ul>
                             <li><a href="{{ route('web.about') }}">{{ __('web.footer.about_us') }}</a></li>
                             <li><a href="{{ route('web.courses.index') }}">{{ __('web.footer.german_courses_link') }}</a></li>
@@ -246,7 +246,7 @@
                 </div>
                 <div class="col-lg-2 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>{{ __('web.footer.german_courses_heading') }}</h4>
+                        <h2 class="h4">{{ __('web.footer.german_courses_heading') }}</h2>
                         <ul>
                             @foreach ($navServices as $navService)
                                 <li><a href="{{ route('web.courses.show', $navService->slug) }}">{{ $navService->title }}</a></li>
@@ -256,7 +256,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6 col-xs-12">
                     <div class="single_footer">
-                        <h4>{{ __('web.footer.contact_info') }}</h4>
+                        <h2 class="h4">{{ __('web.footer.contact_info') }}</h2>
                         <div class="sf_contact">
                             <span class="ti-map"></span>
                             <p>

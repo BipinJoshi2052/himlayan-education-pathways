@@ -28,7 +28,7 @@
                                     <img src="{{ asset('web-assets/img/course/'.(($loop->index % 6) + 1).'.png') }}" class="img-fluid" alt="{{ $service->title }}" />
                                 @endif
                             </div>
-                            <h4><a href="{{ route('web.courses.show', $service->slug) }}">{{ $service->title }}</a></h4>
+                            <h2 class="h4"><a href="{{ route('web.courses.show', $service->slug) }}">{{ $service->title }}</a></h2>
                             <div class="single-course-body">
                                 <p>{{ $service->summary }}</p>
                                 @if ($service->duration)

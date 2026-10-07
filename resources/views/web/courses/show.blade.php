@@ -34,7 +34,7 @@
                             <img alt="{{ $service->title }}" class="img-fluid mb-4 course-detail-image" src="{{ $service->getFirstMediaUrl('cover_image', 'web') }}" />
                         @endif
                         <div class="single_event_text_single">
-                            <h4>{{ $service->title }}</h4>
+                            <h2 class="h4">{{ $service->title }}</h2>
                             @if ($service->summary)
                                 <p>{{ $service->summary }}</p>
                             @endif
@@ -70,7 +70,7 @@
                             <h3>{{ __('web.courses.other_courses') }}</h3>
                             @foreach ($relatedServices as $related)
                                 <div class="single_rc">
-                                    <h4><a href="{{ route('web.courses.show', $related->slug) }}">{{ $related->title }}</a></h4>
+                                    <h2 class="h4"><a href="{{ route('web.courses.show', $related->slug) }}">{{ $related->title }}</a></h2>
                                 </div>
                             @endforeach
                         </div>

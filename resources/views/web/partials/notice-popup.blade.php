@@ -17,7 +17,7 @@
             @if ($notice->title || $notice->message || $notice->link_url)
                 <div class="modal-body text-center p-4">
                     @if ($notice->title)
-                        <h4 class="mb-2">{{ $notice->title }}</h4>
+                        <h2 class="h4 mb-2">{{ $notice->title }}</h2>
                     @endif
                     @if ($notice->message)
                         <p class="mb-3">{!! nl2br(e($notice->message)) !!}</p>
