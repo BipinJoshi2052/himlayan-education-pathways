@@ -108,10 +108,11 @@
         @endif
     @elseif ($group)
         <div class="card">
-            <div class="table-responsive">
-                <table class="table mb-0">
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table mb-0" style="min-width: 640px;">
                     <thead>
                         <tr>
+                            <th style="width: 1%;">SN</th>
                             <th>{{ $groupLabels[$group] }}</th>
                             <th class="text-end">Visits</th>
                             <th>Last visit</th>
@@ -120,7 +121,8 @@
                     <tbody>
                         @forelse ($groups as $row)
                             <tr>
-                                <td class="small text-break">
+                                <td class="small text-muted">{{ $loop->iteration }}</td>
+                                <td class="small text-nowrap">
                                     @if ($group === 'page')
                                         <code>{{ $row->group_key }}</code>
                                     @else
@@ -132,7 +134,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center text-muted py-4">No visits recorded yet.</td>
+                                <td colspan="4" class="text-center text-muted py-4">No visits recorded yet.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -142,35 +144,39 @@
         <p class="small text-muted mt-2">Locations appear here once they've been looked up on the ungrouped list.</p>
     @else
         <div class="card">
-            <div class="table-responsive">
-                <table class="table mb-0">
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table mb-0" style="min-width: 900px;">
                     <thead>
                         <tr>
+                            <th style="width: 1%;">SN</th>
                             <th>When</th>
                             <th>Page</th>
                             <th>IP</th>
                             <th>Location</th>
+                            <th>Source</th>
                             <th>Device</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($visits as $visit)
                             <tr>
+                                <td class="small text-muted">{{ $visits->firstItem() + $loop->index }}</td>
                                 <td class="small text-nowrap">{{ $visit->visited_at->format('Y-m-d H:i') }}</td>
-                                <td class="small"><code>{{ $visit->path }}</code></td>
-                                <td class="small">{{ $visit->ip_address }}</td>
-                                <td class="small">
+                                <td class="small text-nowrap"><code>{{ $visit->path }}</code></td>
+                                <td class="small text-nowrap">{{ $visit->ip_address }}</td>
+                                <td class="small text-nowrap">
                                     @if ($visit->location && ($visit->location['city'] ?? $visit->location['country'] ?? null))
                                         {{ implode(', ', array_filter([$visit->location['city'] ?? null, $visit->location['region'] ?? null, $visit->location['country'] ?? null])) }}
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td class="small text-muted text-break" style="max-width: 320px;">{{ \Illuminate\Support\Str::limit($visit->user_agent, 90) }}</td>
+                                <td class="small text-nowrap">{{ \App\Http\Controllers\Admin\PageVisitController::sourceLabel($visit->referer) }}</td>
+                                <td class="small text-muted text-nowrap" style="max-width: 320px; overflow: hidden; text-overflow: ellipsis;" title="{{ $visit->user_agent }}">{{ \Illuminate\Support\Str::limit($visit->user_agent, 60) }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">No visits recorded yet.</td>
+                                <td colspan="7" class="text-center text-muted py-4">No visits recorded yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

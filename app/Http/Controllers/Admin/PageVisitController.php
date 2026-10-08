@@ -19,6 +19,31 @@ final class PageVisitController extends Controller
         'page' => 'Page',
         'ip' => 'IP address',
         'location' => 'Location',
+        'source' => 'Source',
+    ];
+
+    /**
+     * Host fragments matched against the referer to label common sources.
+     * Checked in order, first match wins.
+     *
+     * @var array<string, string>
+     */
+    private const KNOWN_SOURCES = [
+        'google.' => 'Google',
+        'bing.' => 'Bing',
+        'duckduckgo.' => 'DuckDuckGo',
+        'yahoo.' => 'Yahoo',
+        'facebook.' => 'Facebook',
+        'fb.me' => 'Facebook',
+        'instagram.' => 'Instagram',
+        'tiktok.' => 'TikTok',
+        't.co' => 'X (Twitter)',
+        'twitter.' => 'X (Twitter)',
+        'x.com' => 'X (Twitter)',
+        'linkedin.' => 'LinkedIn',
+        'youtube.' => 'YouTube',
+        'whatsapp.' => 'WhatsApp',
+        'wa.me' => 'WhatsApp',
     ];
 
     public function index(Request $request, IpGeolocationService $geolocation): View
@@ -50,14 +75,24 @@ final class PageVisitController extends Controller
         }
 
         if ($group) {
+            $rows = $this->groupedRows($base(), $group);
+
+            if ($group === 'source') {
+                $rows = $rows->map(function ($row) {
+                    $row->group_key = $this->labelHost((string) $row->group_key);
+
+                    return $row;
+                });
+            }
+
             return view('admin.visits.index', $data + [
-                'groups' => $this->groupedRows($base(), $group),
+                'groups' => $rows,
                 'visits' => null,
             ]);
         }
 
-        $visits = $base()->latest('visited_at')->paginate(50)->withQueryString();
-        $this->resolveMissingLocations($visits->getCollection(), $geolocation);
+        $visits = $base()->latest('visited_at')->paginate(10)->withQueryString();
+        $this->resolveMissingLocations($base, $visits->getCollection(), $geolocation);
 
         return view('admin.visits.index', $data + ['groups' => collect(), 'visits' => $visits]);
     }
@@ -103,6 +138,9 @@ final class PageVisitController extends Controller
             'page' => 'path',
             'ip' => 'ip_address',
             'location' => "COALESCE(NULLIF(CONCAT_WS(', ', JSON_UNQUOTE(JSON_EXTRACT(location, '\$.city')), JSON_UNQUOTE(JSON_EXTRACT(location, '\$.country'))), ''), 'Unknown')",
+            // The host is extracted here; relabelled to a friendly name (or
+            // 'Internal') by labelHost() once the rows come back.
+            'source' => "CASE WHEN referer IS NULL OR referer = '' THEN 'Direct' ELSE SUBSTRING_INDEX(SUBSTRING_INDEX(referer, '://', -1), '/', 1) END",
         };
 
         $inner = $query->selectRaw("{$key} as group_key, visited_at");
@@ -151,14 +189,24 @@ final class PageVisitController extends Controller
 
     /**
      * One lookup per distinct IP, only for IPs whose visits have no location
-     * saved. The result is written to every visit from that IP, so later
-     * loads never call the API for them again.
+     * saved — but across the whole filtered date range, not just the page
+     * currently on screen. Before this, an IP that never happened to land on
+     * the first page of results was never resolved; most-recently-seen IPs
+     * go first, and the lookup count is capped so one page load stays quick.
+     * The result is written to every visit from that IP, so later loads
+     * never call the API for them again.
      */
-    private function resolveMissingLocations($visits, IpGeolocationService $geolocation): void
+    private function resolveMissingLocations(callable $base, $currentPageVisits, IpGeolocationService $geolocation, int $limit = 15): void
     {
-        $missing = $visits->filter(fn (PageVisit $v) => $v->location === null)->pluck('ip_address')->unique();
+        $missingIps = $base()
+            ->whereNull('location')
+            ->selectRaw('ip_address, MAX(visited_at) as last_seen')
+            ->groupBy('ip_address')
+            ->orderByDesc('last_seen')
+            ->limit($limit)
+            ->pluck('ip_address');
 
-        foreach ($missing as $ip) {
+        foreach ($missingIps as $ip) {
             $location = $geolocation->lookup($ip);
 
             if ($location === null) {
@@ -167,11 +215,52 @@ final class PageVisitController extends Controller
 
             PageVisit::whereNull('location')->where('ip_address', $ip)->update(['location' => json_encode($location)]);
 
-            $visits->each(function (PageVisit $v) use ($ip, $location) {
+            $currentPageVisits->each(function (PageVisit $v) use ($ip, $location) {
                 if ($v->ip_address === $ip && $v->location === null) {
                     $v->location = $location;
                 }
             });
         }
+    }
+
+    /**
+     * Where a visit came from, for the Source column on the ungrouped list.
+     */
+    public static function sourceLabel(?string $referer): string
+    {
+        if (blank($referer)) {
+            return 'Direct';
+        }
+
+        $host = parse_url($referer, PHP_URL_HOST);
+
+        return self::labelHost($host !== null && $host !== '' ? $host : $referer);
+    }
+
+    /**
+     * Turns a bare host (or the literal 'Direct') into a friendly label:
+     * the site's own host becomes 'Internal' (a visitor clicking around the
+     * site), known platforms get their name, anything else is shown as-is.
+     */
+    private static function labelHost(string $host): string
+    {
+        if ($host === 'Direct') {
+            return $host;
+        }
+
+        $host = strtolower($host);
+        $siteHost = strtolower((string) parse_url((string) config('app.url'), PHP_URL_HOST));
+
+        if ($siteHost !== '' && str_contains($host, $siteHost)) {
+            return 'Internal';
+        }
+
+        foreach (self::KNOWN_SOURCES as $needle => $label) {
+            if (str_contains($host, $needle)) {
+                return $label;
+            }
+        }
+
+        return $host;
     }
 }

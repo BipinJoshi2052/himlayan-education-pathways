@@ -36,12 +36,19 @@ final class IpGeolocationService
         }
 
         if (! $response->successful()) {
+            Log::warning('IP geolocation lookup returned a non-2xx response.', ['ip' => $ip, 'status' => $response->status()]);
+
             return null;
         }
 
         $data = $response->json();
 
         if (! is_array($data) || isset($data['error'])) {
+            // ipapi.co's free tier returns {"error": true, "reason": "..."} once its
+            // rate limit is hit, with a 200 status — logged so a run of unresolved
+            // locations can be told apart from genuinely private/reserved IPs.
+            Log::warning('IP geolocation lookup returned an error.', ['ip' => $ip, 'reason' => $data['reason'] ?? null]);
+
             return null;
         }
 
