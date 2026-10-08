@@ -98,6 +98,41 @@ return [
         '404_image_alt' => 'Seite nicht gefunden',
     ],
 
+    'meta' => [
+        'about' => [
+            'title' => 'Über uns | Himalayan Education Pathways',
+            'description' => 'Erfahren Sie mehr über Himalayan Education Pathways, ein Institut für Deutschausbildung in Chabahil, Kathmandu mit strukturierten Kursen von A1 bis B2.',
+        ],
+        'faq' => [
+            'title' => 'Häufig gestellte Fragen | Himalayan Education Pathways',
+            'description' => 'Antworten auf häufige Fragen zu Deutschkursen A1–B2, Gebühren, Zeitplänen und der Vorbereitung auf die Ausbildung bei Himalayan Education Pathways, Kathmandu.',
+        ],
+        'contact' => [
+            'title' => 'Kontakt | Himalayan Education Pathways',
+            'description' => 'Kontaktieren Sie Himalayan Education Pathways in Chabahil, Kathmandu für Deutschkurse. Rufen Sie an, schreiben Sie uns oder besuchen Sie uns.',
+        ],
+        'courses_index' => [
+            'title' => 'Deutschkurse A1 bis B2 | Himalayan Education Pathways',
+            'description' => 'Entdecken Sie Deutschkurse von A1 bis B2 in Kathmandu, einschließlich Prüfungsvorbereitung und Kursen für die Ausbildung bei Himalayan Education Pathways.',
+        ],
+        'blog_index' => [
+            'title' => 'Deutsch-Lernblog | Himalayan Education Pathways',
+            'description' => 'Tipps zum Deutschlernen, Hinweise zur Prüfungsvorbereitung und Materialien für Deutschlernende in Nepal.',
+        ],
+        'gallery_index' => [
+            'title' => 'Fotogalerie | Himalayan Education Pathways',
+            'description' => 'Fotos von Kursen, Veranstaltungen und studentischen Aktivitäten bei Himalayan Education Pathways in Chabahil, Kathmandu.',
+        ],
+        'privacy' => [
+            'title' => 'Datenschutzerklärung | Himalayan Education Pathways',
+            'description' => 'Wie Himalayan Education Pathways Ihre persönlichen Daten auf dieser Website erhebt, verwendet und schützt.',
+        ],
+        'terms' => [
+            'title' => 'Nutzungsbedingungen | Himalayan Education Pathways',
+            'description' => 'Die Geschäftsbedingungen für die Nutzung der Website von Himalayan Education Pathways und für Anfragen zu unseren Deutschkursen.',
+        ],
+    ],
+
     'courses' => [
         'title' => 'Deutschkurse',
         'coming_soon' => 'Kurse folgen in Kürze.',

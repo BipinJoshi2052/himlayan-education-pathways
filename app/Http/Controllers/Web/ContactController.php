@@ -16,7 +16,10 @@ final class ContactController extends Controller
 {
     public function show(): View
     {
-        return view('web.contact');
+        return view('web.contact', [
+            'seoTitle' => __('web.meta.contact.title'),
+            'seoDescription' => __('web.meta.contact.description'),
+        ]);
     }
 
     public function send(ContactRequest $request, SubmitInquiryAction $action): JsonResponse

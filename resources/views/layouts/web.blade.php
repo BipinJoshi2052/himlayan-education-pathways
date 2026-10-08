@@ -27,7 +27,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <x-web.seo-head :entity="$seoEntity ?? null" />
+    <x-web.seo-head :entity="$seoEntity ?? null" :title="$seoTitle ?? null" :description="$seoDescription ?? null" />
 
     @if ($googleAnalyticsId)
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>

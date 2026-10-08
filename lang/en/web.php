@@ -97,6 +97,41 @@ return [
         '404_image_alt' => 'Page not found',
     ],
 
+    'meta' => [
+        'about' => [
+            'title' => 'About Us | Himalayan Education Pathways',
+            'description' => 'Learn about Himalayan Education Pathways, a German language institute in Chabahil, Kathmandu offering structured A1 to B2 courses.',
+        ],
+        'faq' => [
+            'title' => 'Frequently Asked Questions | Himalayan Education Pathways',
+            'description' => 'Answers to common questions about German A1-B2 classes, fees, schedules and Ausbildung preparation at Himalayan Education Pathways, Kathmandu.',
+        ],
+        'contact' => [
+            'title' => 'Contact Us | Himalayan Education Pathways',
+            'description' => 'Get in touch with Himalayan Education Pathways in Chabahil, Kathmandu for German language classes. Call, email or visit us today.',
+        ],
+        'courses_index' => [
+            'title' => 'German Courses A1 to B2 | Himalayan Education Pathways',
+            'description' => 'Browse German language courses from A1 to B2 in Kathmandu, including exam preparation and Ausbildung-focused classes at Himalayan Education Pathways.',
+        ],
+        'blog_index' => [
+            'title' => 'German Learning Blog | Himalayan Education Pathways',
+            'description' => 'German learning tips, exam preparation guides and resources for students learning German in Nepal.',
+        ],
+        'gallery_index' => [
+            'title' => 'Photo Gallery | Himalayan Education Pathways',
+            'description' => 'Browse photos from classes, events and student activities at Himalayan Education Pathways in Chabahil, Kathmandu.',
+        ],
+        'privacy' => [
+            'title' => 'Privacy Policy | Himalayan Education Pathways',
+            'description' => 'How Himalayan Education Pathways collects, uses and protects your personal information on this website.',
+        ],
+        'terms' => [
+            'title' => 'Terms of Use | Himalayan Education Pathways',
+            'description' => 'The terms and conditions for using the Himalayan Education Pathways website and enquiring about our German language courses.',
+        ],
+    ],
+
     'courses' => [
         'title' => 'German Language Courses',
         'coming_soon' => 'Courses coming soon.',

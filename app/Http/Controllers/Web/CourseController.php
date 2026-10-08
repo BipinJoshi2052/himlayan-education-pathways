@@ -14,6 +14,8 @@ final class CourseController extends Controller
     {
         return view('web.courses.index', [
             'services' => Service::active()->orderBy('sort_order')->get(),
+            'seoTitle' => __('web.meta.courses_index.title'),
+            'seoDescription' => __('web.meta.courses_index.description'),
         ]);
     }
 

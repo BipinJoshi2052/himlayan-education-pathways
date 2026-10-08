@@ -19,6 +19,10 @@ final class AboutController extends Controller
             ->get()
             ->keyBy('key');
 
-        return view('web.about', ['sections' => $sections]);
+        return view('web.about', [
+            'sections' => $sections,
+            'seoTitle' => __('web.meta.about.title'),
+            'seoDescription' => __('web.meta.about.description'),
+        ]);
     }
 }

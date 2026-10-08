@@ -14,6 +14,8 @@ final class BlogController extends Controller
     {
         return view('web.blog.index', [
             'posts' => Post::published()->orderBy('sort_order')->paginate(9),
+            'seoTitle' => __('web.meta.blog_index.title'),
+            'seoDescription' => __('web.meta.blog_index.description'),
         ]);
     }
 

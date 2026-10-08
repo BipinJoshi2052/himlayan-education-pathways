@@ -12,16 +12,26 @@ final class SeoService
     /**
      * @return array{title: string, description: ?string, keywords: ?string, og_image: ?string, twitter_handle: ?string}
      */
-    public static function resolve(?Model $entity = null): array
+    /**
+     * $title/$description are for a page with no Eloquent record of its own
+     * (About, FAQ, Contact, the listing pages, Privacy, Terms) — the only way
+     * those pages had a distinct <title> before was the global Setting, so
+     * every one of them showed the same text. They take precedence over the
+     * entity and the global Setting, but not over the entity's own values
+     * (a Post/Service's own meta_title/title still wins on its own page).
+     */
+    public static function resolve(?Model $entity = null, ?string $title = null, ?string $description = null): array
     {
         return [
             'title' => self::entityAttr($entity, 'meta_title')
                 ?? self::entityAttr($entity, 'title')
+                ?? $title
                 ?? Setting::getTranslatable('seo_meta_title')
                 ?? config('app.name'),
 
             'description' => self::entityAttr($entity, 'meta_description')
                 ?? self::entityAttr($entity, 'summary')
+                ?? $description
                 ?? Setting::getTranslatable('seo_meta_description'),
 
             'keywords' => self::entityAttr($entity, 'meta_keywords')

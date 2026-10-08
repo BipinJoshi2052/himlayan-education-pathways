@@ -18,6 +18,10 @@ final class FaqController extends Controller
             ->with('items')
             ->first();
 
-        return view('web.faq', ['section' => $section]);
+        return view('web.faq', [
+            'section' => $section,
+            'seoTitle' => __('web.meta.faq.title'),
+            'seoDescription' => __('web.meta.faq.description'),
+        ]);
     }
 }

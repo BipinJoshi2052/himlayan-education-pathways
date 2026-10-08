@@ -14,6 +14,8 @@ final class GalleryController extends Controller
     {
         return view('web.gallery.index', [
             'galleries' => Gallery::active()->with('media')->orderBy('sort_order')->get(),
+            'seoTitle' => __('web.meta.gallery_index.title'),
+            'seoDescription' => __('web.meta.gallery_index.description'),
         ]);
     }
 

@@ -11,11 +11,17 @@ final class LegalController extends Controller
 {
     public function privacy(): View
     {
-        return view('web.legal.privacy');
+        return view('web.legal.privacy', [
+            'seoTitle' => __('web.meta.privacy.title'),
+            'seoDescription' => __('web.meta.privacy.description'),
+        ]);
     }
 
     public function terms(): View
     {
-        return view('web.legal.terms');
+        return view('web.legal.terms', [
+            'seoTitle' => __('web.meta.terms.title'),
+            'seoDescription' => __('web.meta.terms.description'),
+        ]);
     }
 }

@@ -1,7 +1,7 @@
-@props(['entity' => null])
+@props(['entity' => null, 'title' => null, 'description' => null])
 
 @php
-    $seo = \App\Common\Services\SeoService::resolve($entity);
+    $seo = \App\Common\Services\SeoService::resolve($entity, $title, $description);
 @endphp
 
 <title>{{ $seo['title'] }}</title>
