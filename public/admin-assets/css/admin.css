@@ -79,6 +79,27 @@
     content: 'Huge';
 }
 
+/* Custom text-color / highlight buttons that open the browser's own color
+   picker (a full palette) — Quill has no icon for these, same treatment
+   as the Table button above. */
+.ql-snow .ql-customColor,
+.ql-snow .ql-customBackground {
+    width: auto !important;
+    padding: 3px 6px !important;
+}
+
+.ql-snow .ql-customColor:before {
+    content: 'Custom Color';
+    font-size: 12px;
+    font-family: var(--bs-font-sans-serif);
+}
+
+.ql-snow .ql-customBackground:before {
+    content: 'Custom Highlight';
+    font-size: 12px;
+    font-family: var(--bs-font-sans-serif);
+}
+
 /* Long app names are cut with an ellipsis (full name on hover) so they never
    run under the sidebar toggle arrow. */
 .sidebar-header .navbar-brand {

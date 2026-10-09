@@ -38,6 +38,7 @@ function initRichTextField(field) {
                         [{header: [2, 3, false]}],
                         [{size: ['13px', false, '20px', '28px']}],
                         [{color: []}, {background: []}],
+                        ['customColor', 'customBackground'],
                         [{list: 'ordered'}, {list: 'bullet'}],
                         ['link', 'blockquote', 'image'],
                         ['table'],
@@ -49,6 +50,12 @@ function initRichTextField(field) {
                         },
                         table: function () {
                             richTextInsertTable(this.quill);
+                        },
+                        customColor: function () {
+                            richTextCustomColor(this.quill, 'color');
+                        },
+                        customBackground: function () {
+                            richTextCustomColor(this.quill, 'background');
                         },
                     },
                 },
@@ -135,6 +142,40 @@ function richTextInsertTable(quill) {
 
     var range = quill.getSelection(true);
     quill.clipboard.dangerouslyPasteHTML(range.index, html, 'user');
+}
+
+/**
+ * Quill's built-in color/background dropdowns (added above) are a fixed
+ * swatch grid with no way to pick an arbitrary color. This opens the
+ * browser's own color picker (a full palette, same one e.g. <input
+ * type="color"> gives any native app) and applies the chosen color to the
+ * current selection — or, with nothing selected, to whatever is typed next,
+ * matching how Quill's own swatches behave. One hidden input is reused for
+ * every editor on the page, since only one can be open at a time.
+ */
+var richTextColorInput = null;
+
+function richTextCustomColor(quill, format) {
+    var range = quill.getSelection(true);
+
+    if (!richTextColorInput) {
+        richTextColorInput = document.createElement('input');
+        richTextColorInput.type = 'color';
+        richTextColorInput.style.position = 'fixed';
+        richTextColorInput.style.left = '-9999px';
+        document.body.appendChild(richTextColorInput);
+    }
+
+    richTextColorInput.value = '#000000';
+    richTextColorInput.onchange = function () {
+        if (range && range.length > 0) {
+            quill.formatText(range.index, range.length, format, richTextColorInput.value, 'user');
+        } else {
+            quill.setSelection(range);
+            quill.format(format, richTextColorInput.value, 'user');
+        }
+    };
+    richTextColorInput.click();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
