@@ -3,14 +3,20 @@
  * class="ql-size-large"), which only look right where Quill's own CSS is
  * loaded — admin only, not the public site that actually renders this
  * content. Registering the *style* attributors instead makes font size and
- * color inline styles (style="font-size:20px", style="color:#...") baked
+ * color inline styles (style="font-size:1.3em", style="color:#...") baked
  * into the saved HTML, so they render correctly anywhere, admin or public,
  * with no extra CSS needed on the public side. Runs once, before any editor
  * is created.
+ *
+ * Sizes are in em, not px: em scales relative to whatever text it's
+ * applied to. A fixed px value (e.g. 20px) looks fine on a paragraph but
+ * can be *smaller* than a heading's own default size — Bootstrap's h4 is
+ * already ~24-27px, so a 20px "Large" would shrink it. em always goes up
+ * from whatever size the surrounding text already has, heading or not.
  */
 if (typeof Quill !== 'undefined') {
     var SizeStyle = Quill.import('attributors/style/size');
-    SizeStyle.whitelist = ['13px', '20px', '28px'];
+    SizeStyle.whitelist = ['0.85em', '1.3em', '1.8em'];
     Quill.register(SizeStyle, true);
     Quill.register(Quill.import('attributors/style/color'), true);
     Quill.register(Quill.import('attributors/style/background'), true);
@@ -36,7 +42,7 @@ function initRichTextField(field) {
                     container: [
                         ['bold', 'italic', 'underline', 'strike'],
                         [{header: [2, 3, false]}],
-                        [{size: ['13px', false, '20px', '28px']}],
+                        [{size: ['0.85em', false, '1.3em', '1.8em']}],
                         [{color: []}, {background: []}],
                         ['customColor', 'customBackground'],
                         [{list: 'ordered'}, {list: 'bullet'}],

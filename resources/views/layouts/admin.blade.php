@@ -34,6 +34,12 @@
         {{-- Quill (rich-text), CDN-only, no build step — see docs/shared-crud-blocks.md --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css">
+
+        {{-- The public site's own fonts, so the rich-text editor (admin.css
+             `.rich-text-field .ql-editor` rules) can actually look like the
+             live page it's editing, not just be sized/colored to match while
+             rendering in the admin's own Inter typeface. --}}
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
         <aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all">

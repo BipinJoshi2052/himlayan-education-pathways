@@ -43,6 +43,39 @@
     flex-shrink: 0;
 }
 
+/* Makes the editor itself look like the public page it's editing, instead
+   of Quill's own generic defaults (13px Helvetica, headings barely
+   different in size from body text) — otherwise text looks right while
+   writing but comes out different once saved. These match style.css's own
+   `body` and `h1..h6` rules on the public site, with Bootstrap's heading
+   size scale (style.css sets color/weight/family but not size). */
+.rich-text-field .ql-editor {
+    font-family: "DM Sans", sans-serif;
+    font-size: 16px;
+    color: #4a5355;
+    line-height: 26px;
+}
+
+.rich-text-field .ql-editor h1,
+.rich-text-field .ql-editor h2,
+.rich-text-field .ql-editor h3,
+.rich-text-field .ql-editor h4,
+.rich-text-field .ql-editor h5,
+.rich-text-field .ql-editor h6 {
+    font-family: "Jost", sans-serif;
+    color: #0b104a;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.rich-text-field .ql-editor h1 { font-size: 40px; }
+.rich-text-field .ql-editor h2 { font-size: 32px; }
+.rich-text-field .ql-editor h3 { font-size: 28px; }
+.rich-text-field .ql-editor h4 { font-size: 24px; }
+.rich-text-field .ql-editor h5 { font-size: 20px; }
+.rich-text-field .ql-editor h6 { font-size: 16px; }
+
 /* Quill has no built-in icon for a table button (that's not a real Quill
    format, just our own insert-a-table action — see rich-text.js) — label
    it with text the same way Quill's own header dropdown shows "H2"/"H3". */
@@ -64,18 +97,18 @@
     content: 'Normal';
 }
 
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="13px"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="13px"]::before {
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="0.85em"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="0.85em"]::before {
     content: 'Small';
 }
 
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="1.3em"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="1.3em"]::before {
     content: 'Large';
 }
 
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="28px"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="28px"]::before {
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="1.8em"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="1.8em"]::before {
     content: 'Huge';
 }
 
