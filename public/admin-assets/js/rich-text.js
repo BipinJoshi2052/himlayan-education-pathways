@@ -1,3 +1,21 @@
+/**
+ * Quill's default size/color/background formats are class-based (e.g.
+ * class="ql-size-large"), which only look right where Quill's own CSS is
+ * loaded — admin only, not the public site that actually renders this
+ * content. Registering the *style* attributors instead makes font size and
+ * color inline styles (style="font-size:20px", style="color:#...") baked
+ * into the saved HTML, so they render correctly anywhere, admin or public,
+ * with no extra CSS needed on the public side. Runs once, before any editor
+ * is created.
+ */
+if (typeof Quill !== 'undefined') {
+    var SizeStyle = Quill.import('attributors/style/size');
+    SizeStyle.whitelist = ['13px', '20px', '28px'];
+    Quill.register(SizeStyle, true);
+    Quill.register(Quill.import('attributors/style/color'), true);
+    Quill.register(Quill.import('attributors/style/background'), true);
+}
+
 function initRichTextField(field) {
     field.querySelectorAll('[data-locale-pane]').forEach(function (pane) {
         var locale = pane.dataset.localePane;
@@ -18,6 +36,8 @@ function initRichTextField(field) {
                     container: [
                         ['bold', 'italic', 'underline', 'strike'],
                         [{header: [2, 3, false]}],
+                        [{size: ['13px', false, '20px', '28px']}],
+                        [{color: []}, {background: []}],
                         [{list: 'ordered'}, {list: 'bullet'}],
                         ['link', 'blockquote', 'image'],
                         ['table'],

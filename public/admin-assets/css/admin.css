@@ -57,6 +57,28 @@
     font-family: var(--bs-font-sans-serif);
 }
 
+/* Friendly labels for the font-size dropdown — Quill only auto-labels its
+   own built-in header sizes, not a custom whitelist like ours. */
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: 'Normal';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="13px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="13px"]::before {
+    content: 'Small';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+    content: 'Large';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="28px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="28px"]::before {
+    content: 'Huge';
+}
+
 /* Long app names are cut with an ellipsis (full name on hover) so they never
    run under the sidebar toggle arrow. */
 .sidebar-header .navbar-brand {
