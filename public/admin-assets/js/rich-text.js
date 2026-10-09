@@ -137,28 +137,31 @@ function richTextInsertTable(quill) {
 /**
  * Opens the browser's own color picker (a full palette) and applies the
  * chosen color to the current selection — or, with nothing selected, to
- * whatever is typed next. The hidden <input type="color"> lives inside the
- * button itself (one per button, created on first use) rather than tucked
- * far off-screen: browsers anchor the native picker popup near the input's
- * own on-screen position, so an input parked at e.g. left:-9999px made the
- * popup appear wherever the browser falls back to (a screen corner) instead
- * of near the button.
+ * whatever is typed next. The hidden <input type="color"> sits right after
+ * the button in the toolbar (one per button, created on first use), not
+ * tucked far off-screen: browsers anchor the native picker popup near the
+ * input's own on-screen position, so an input parked at e.g. left:-9999px
+ * made the popup appear in a screen corner instead of near the button.
+ *
+ * It's a *sibling* of the button, not a child — nesting an <input> inside a
+ * <button> is invalid HTML (a button can't contain another interactive
+ * control), and browsers silently refuse to open the native picker from one.
  */
 function richTextCustomColor(quill, buttonEl) {
     var range = quill.getSelection(true);
 
-    var input = buttonEl.querySelector('input[type="color"]');
+    var input = buttonEl.nextElementSibling;
 
-    if (!input) {
+    if (!input || !input.classList.contains('rich-text-color-input')) {
         input = document.createElement('input');
         input.type = 'color';
-        input.style.position = 'absolute';
+        input.className = 'rich-text-color-input';
         input.style.width = '1px';
         input.style.height = '1px';
         input.style.opacity = '0';
-        input.style.pointerEvents = 'none';
-        buttonEl.style.position = 'relative';
-        buttonEl.appendChild(input);
+        input.style.border = '0';
+        input.style.padding = '0';
+        buttonEl.insertAdjacentElement('afterend', input);
     }
 
     input.value = '#000000';
