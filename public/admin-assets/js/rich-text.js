@@ -57,6 +57,16 @@ function initRichTextField(field) {
         quill.on('text-change', function () {
             hiddenInput.value = quill.root.innerHTML;
         });
+
+        // Created now, not on first click: a brand-new element has no on-screen
+        // position yet in the same tick it's inserted, so opening the native
+        // color picker immediately after creating it anchored to a screen
+        // corner instead of the button. Creating it up front gives the
+        // browser time to lay it out before anyone ever clicks Color.
+        var colorButton = editorEl.parentElement.querySelector('.ql-toolbar .ql-customColor');
+        if (colorButton) {
+            richTextEnsureColorInput(colorButton);
+        }
     });
 }
 
@@ -135,21 +145,12 @@ function richTextInsertTable(quill) {
 }
 
 /**
- * Opens the browser's own color picker (a full palette) and applies the
- * chosen color to the current selection — or, with nothing selected, to
- * whatever is typed next. The hidden <input type="color"> sits right after
- * the button in the toolbar (one per button, created on first use), not
- * tucked far off-screen: browsers anchor the native picker popup near the
- * input's own on-screen position, so an input parked at e.g. left:-9999px
- * made the popup appear in a screen corner instead of near the button.
- *
- * It's a *sibling* of the button, not a child — nesting an <input> inside a
- * <button> is invalid HTML (a button can't contain another interactive
- * control), and browsers silently refuse to open the native picker from one.
+ * The hidden <input type="color"> used by the Color toolbar button — a
+ * *sibling* of the button, not a child (nesting an <input> inside a <button>
+ * is invalid HTML, and browsers silently refuse to open the native picker
+ * from one). Created once per button and reused after that.
  */
-function richTextCustomColor(quill, buttonEl) {
-    var range = quill.getSelection(true);
-
+function richTextEnsureColorInput(buttonEl) {
     var input = buttonEl.nextElementSibling;
 
     if (!input || !input.classList.contains('rich-text-color-input')) {
@@ -163,6 +164,23 @@ function richTextCustomColor(quill, buttonEl) {
         input.style.padding = '0';
         buttonEl.insertAdjacentElement('afterend', input);
     }
+
+    return input;
+}
+
+/**
+ * Opens the browser's own color picker (a full palette) and applies the
+ * chosen color to the current selection — or, with nothing selected, to
+ * whatever is typed next. Browsers anchor the native picker popup near the
+ * input's own on-screen position, so the input is created up front (see
+ * initRichTextField) rather than here on first use: a brand-new element
+ * has no on-screen position yet in the same tick it's inserted, so opening
+ * the picker immediately after creating it landed in a screen corner on
+ * the very first click.
+ */
+function richTextCustomColor(quill, buttonEl) {
+    var range = quill.getSelection(true);
+    var input = richTextEnsureColorInput(buttonEl);
 
     input.value = '#000000';
     input.onchange = function () {
