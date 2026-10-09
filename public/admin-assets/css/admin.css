@@ -90,45 +90,16 @@
     font-family: var(--bs-font-sans-serif);
 }
 
-/* Friendly labels for the font-size dropdown — Quill only auto-labels its
-   own built-in header sizes, not a custom whitelist like ours. */
-.ql-snow .ql-picker.ql-size .ql-picker-label::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item::before {
-    content: 'Normal';
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="0.85em"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="0.85em"]::before {
-    content: 'Small';
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="1.3em"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="1.3em"]::before {
-    content: 'Large';
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="1.8em"]::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="1.8em"]::before {
-    content: 'Huge';
-}
-
-/* Custom text-color / highlight buttons that open the browser's own color
-   picker (a full palette) — Quill has no icon for these, same treatment
-   as the Table button above. */
-.ql-snow .ql-customColor,
-.ql-snow .ql-customBackground {
+/* Custom color button that opens the browser's own color picker (a full
+   palette) — Quill has no icon for this, same treatment as the Table
+   button above. */
+.ql-snow .ql-customColor {
     width: auto !important;
     padding: 3px 6px !important;
 }
 
 .ql-snow .ql-customColor:before {
-    content: 'Custom Color';
-    font-size: 12px;
-    font-family: var(--bs-font-sans-serif);
-}
-
-.ql-snow .ql-customBackground:before {
-    content: 'Custom Highlight';
+    content: 'Color';
     font-size: 12px;
     font-family: var(--bs-font-sans-serif);
 }

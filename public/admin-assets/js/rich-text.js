@@ -1,25 +1,14 @@
 /**
- * Quill's default size/color/background formats are class-based (e.g.
- * class="ql-size-large"), which only look right where Quill's own CSS is
- * loaded — admin only, not the public site that actually renders this
- * content. Registering the *style* attributors instead makes font size and
- * color inline styles (style="font-size:1.3em", style="color:#...") baked
- * into the saved HTML, so they render correctly anywhere, admin or public,
- * with no extra CSS needed on the public side. Runs once, before any editor
- * is created.
- *
- * Sizes are in em, not px: em scales relative to whatever text it's
- * applied to. A fixed px value (e.g. 20px) looks fine on a paragraph but
- * can be *smaller* than a heading's own default size — Bootstrap's h4 is
- * already ~24-27px, so a 20px "Large" would shrink it. em always goes up
- * from whatever size the surrounding text already has, heading or not.
+ * Quill's default color format is class-based (e.g. class="ql-color-red"),
+ * which only looks right where Quill's own CSS is loaded — admin only, not
+ * the public site that actually renders this content. Registering the
+ * *style* attributor instead makes it an inline style
+ * (style="color:#...") baked into the saved HTML, so it renders correctly
+ * anywhere, admin or public, with no extra CSS needed on the public side.
+ * Runs once, before any editor is created.
  */
 if (typeof Quill !== 'undefined') {
-    var SizeStyle = Quill.import('attributors/style/size');
-    SizeStyle.whitelist = ['0.85em', '1.3em', '1.8em'];
-    Quill.register(SizeStyle, true);
     Quill.register(Quill.import('attributors/style/color'), true);
-    Quill.register(Quill.import('attributors/style/background'), true);
 }
 
 function initRichTextField(field) {
@@ -42,9 +31,7 @@ function initRichTextField(field) {
                     container: [
                         ['bold', 'italic', 'underline', 'strike'],
                         [{header: [2, 3, false]}],
-                        [{size: ['0.85em', false, '1.3em', '1.8em']}],
-                        [{color: []}, {background: []}],
-                        ['customColor', 'customBackground'],
+                        ['customColor'],
                         [{list: 'ordered'}, {list: 'bullet'}],
                         ['link', 'blockquote', 'image'],
                         ['table'],
@@ -58,10 +45,7 @@ function initRichTextField(field) {
                             richTextInsertTable(this.quill);
                         },
                         customColor: function () {
-                            richTextCustomColor(this.quill, 'color');
-                        },
-                        customBackground: function () {
-                            richTextCustomColor(this.quill, 'background');
+                            richTextCustomColor(this.quill, this.container.querySelector('.ql-customColor'));
                         },
                     },
                 },
@@ -151,37 +135,42 @@ function richTextInsertTable(quill) {
 }
 
 /**
- * Quill's built-in color/background dropdowns (added above) are a fixed
- * swatch grid with no way to pick an arbitrary color. This opens the
- * browser's own color picker (a full palette, same one e.g. <input
- * type="color"> gives any native app) and applies the chosen color to the
- * current selection — or, with nothing selected, to whatever is typed next,
- * matching how Quill's own swatches behave. One hidden input is reused for
- * every editor on the page, since only one can be open at a time.
+ * Opens the browser's own color picker (a full palette) and applies the
+ * chosen color to the current selection — or, with nothing selected, to
+ * whatever is typed next. The hidden <input type="color"> lives inside the
+ * button itself (one per button, created on first use) rather than tucked
+ * far off-screen: browsers anchor the native picker popup near the input's
+ * own on-screen position, so an input parked at e.g. left:-9999px made the
+ * popup appear wherever the browser falls back to (a screen corner) instead
+ * of near the button.
  */
-var richTextColorInput = null;
-
-function richTextCustomColor(quill, format) {
+function richTextCustomColor(quill, buttonEl) {
     var range = quill.getSelection(true);
 
-    if (!richTextColorInput) {
-        richTextColorInput = document.createElement('input');
-        richTextColorInput.type = 'color';
-        richTextColorInput.style.position = 'fixed';
-        richTextColorInput.style.left = '-9999px';
-        document.body.appendChild(richTextColorInput);
+    var input = buttonEl.querySelector('input[type="color"]');
+
+    if (!input) {
+        input = document.createElement('input');
+        input.type = 'color';
+        input.style.position = 'absolute';
+        input.style.width = '1px';
+        input.style.height = '1px';
+        input.style.opacity = '0';
+        input.style.pointerEvents = 'none';
+        buttonEl.style.position = 'relative';
+        buttonEl.appendChild(input);
     }
 
-    richTextColorInput.value = '#000000';
-    richTextColorInput.onchange = function () {
+    input.value = '#000000';
+    input.onchange = function () {
         if (range && range.length > 0) {
-            quill.formatText(range.index, range.length, format, richTextColorInput.value, 'user');
+            quill.formatText(range.index, range.length, 'color', input.value, 'user');
         } else {
             quill.setSelection(range);
-            quill.format(format, richTextColorInput.value, 'user');
+            quill.format('color', input.value, 'user');
         }
     };
-    richTextColorInput.click();
+    input.click();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
