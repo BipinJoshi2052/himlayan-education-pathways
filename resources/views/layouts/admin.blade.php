@@ -34,6 +34,7 @@
         {{-- Quill (rich-text), CDN-only, no build step — see docs/shared-crud-blocks.md --}}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7/css/flag-icons.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
 
         {{-- The public site's own fonts, so the rich-text editor (admin.css
              `.rich-text-field .ql-editor` rules) can actually look like the
@@ -63,6 +64,7 @@
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 
         <script src="{{ asset('admin-assets/js/locale-tabs.js') }}"></script>
         <script src="{{ asset('admin-assets/js/rich-text.js') }}"></script>
@@ -70,5 +72,25 @@
         <script src="{{ asset('admin-assets/js/delete-confirm.js') }}"></script>
         <script src="{{ asset('admin-assets/js/existing-image.js') }}"></script>
         @yield('scripts')
+
+        {{-- Every create/update/delete action flashes session('status') (see
+             any Admin controller's store/update/destroy) — this is the one
+             place that was never actually displayed anywhere. --}}
+        @if (session('status'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    toastr.options = {closeButton: true, progressBar: true, timeOut: 4000};
+                    toastr.success(@json(session('status')));
+                });
+            </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    toastr.options = {closeButton: true, progressBar: true, timeOut: 6000};
+                    toastr.error(@json($errors->first()));
+                });
+            </script>
+        @endif
     </body>
 </html>
