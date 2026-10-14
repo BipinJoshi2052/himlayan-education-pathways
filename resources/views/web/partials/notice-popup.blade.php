@@ -1,11 +1,15 @@
 {{--
-    Site-wide popup notice. Text, an image, or both — any combination, with
-    an optional link button. Dismissal is remembered per-browser via
-    localStorage, keyed by the notice's id + updated_at so editing the
-    notice (even just re-saving it) makes it show again for everyone,
-    including visitors who already dismissed the old version.
+    One site-wide popup notice. Text, an image, or both — any combination,
+    with an optional link button. Several of these can be on the page at
+    once (one per active Notice, in sort_order — see layouts/web.blade.php);
+    the shared script below queues them and shows one at a time, in order,
+    moving to the next as soon as the current one is closed. Dismissal is
+    remembered per-browser via localStorage, keyed by the notice's id +
+    updated_at so editing the notice (even just re-saving it) makes it show
+    again for everyone, including visitors who already dismissed the old
+    version.
 --}}
-<div class="modal fade" id="notice-popup" tabindex="-1" aria-hidden="true" data-notice-key="notice-dismissed-{{ $notice->id }}-{{ $notice->updated_at?->timestamp }}" data-display-mode="{{ $notice->display_mode }}">
+<div class="modal fade notice-popup-modal" id="notice-popup-{{ $notice->id }}" tabindex="-1" aria-hidden="true" data-notice-key="notice-dismissed-{{ $notice->id }}-{{ $notice->updated_at?->timestamp }}" data-display-mode="{{ $notice->display_mode }}">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <button type="button" class="btn-close position-absolute top-0 end-0 m-3" style="z-index: 1;" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -33,36 +37,54 @@
     </div>
 </div>
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var el = document.getElementById('notice-popup');
-            if (!el || !window.bootstrap) return;
+@once('notice-popup-script')
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                if (!window.bootstrap) return;
 
-            var key = el.dataset.noticeKey;
-            var mode = el.dataset.displayMode || 'once_forever';
+                // Built once for every .notice-popup-modal on the page (there's one
+                // per active notice), in the DOM order they were rendered in —
+                // which is already sort_order, from the query that builds them.
+                var queue = Array.prototype.slice.call(document.querySelectorAll('.notice-popup-modal'));
 
-            var storage = mode === 'once_per_session' ? window.sessionStorage : (mode === 'once_forever' ? window.localStorage : null);
-            var alreadySeen = false;
-            try {
-                alreadySeen = storage ? storage.getItem(key) === '1' : false;
-            } catch (e) {
-                // Storage blocked (private mode, etc.) — show it rather than hide it.
-            }
+                function showNext() {
+                    var el = queue.shift();
+                    if (!el) return;
 
-            if (alreadySeen) return;
+                    var key = el.dataset.noticeKey;
+                    var mode = el.dataset.displayMode || 'once_forever';
+                    var storage = mode === 'once_per_session' ? window.sessionStorage : (mode === 'once_forever' ? window.localStorage : null);
 
-            var modal = new bootstrap.Modal(el);
-            modal.show();
+                    var alreadySeen = false;
+                    try {
+                        alreadySeen = storage ? storage.getItem(key) === '1' : false;
+                    } catch (e) {
+                        // Storage blocked (private mode, etc.) — show it rather than hide it.
+                    }
 
-            if (!storage) return;
-            el.addEventListener('hidden.bs.modal', function () {
-                try {
-                    storage.setItem(key, '1');
-                } catch (e) {
-                    // Nothing to do if storage isn't available.
+                    if (alreadySeen) {
+                        showNext();
+                        return;
+                    }
+
+                    var modal = new bootstrap.Modal(el);
+                    modal.show();
+
+                    el.addEventListener('hidden.bs.modal', function () {
+                        if (storage) {
+                            try {
+                                storage.setItem(key, '1');
+                            } catch (e) {
+                                // Nothing to do if storage isn't available.
+                            }
+                        }
+                        showNext();
+                    });
                 }
+
+                showNext();
             });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush
+@endonce

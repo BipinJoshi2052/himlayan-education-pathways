@@ -14,9 +14,15 @@
     // entirely) — see docs/admin-ui.md.
     $loaderMode = \App\Models\Setting::get('loader_mode', 'default');
     $loaderImage = $loaderMode === 'custom' ? \App\Models\Setting::get('loader_image') : null;
-    // Site-wide popup notice — fetched here rather than per-controller so
-    // every public page gets it automatically, same pattern as the above.
-    $activeNotice = \App\Models\Notice::currentlyActive()->orderBy('sort_order')->first();
+    // Popup notices — home page only, regardless of each notice's own
+    // display-mode setting (that setting controls how OFTEN a visitor sees
+    // it, not which pages it can appear on). Fetched here rather than in
+    // HomeController so adding a page-scoped notice stays a one-line change,
+    // same pattern as the Settings reads above. Every currently-active one
+    // is shown, in order, not just the first.
+    $activeNotices = request()->routeIs('web.home')
+        ? \App\Models\Notice::currentlyActive()->orderBy('sort_order')->get()
+        : collect();
     $googleAnalyticsId = \App\Models\Setting::get('google_analytics_id');
 @endphp
 <!DOCTYPE html>
@@ -95,9 +101,9 @@
         </div>
     @endif
 
-    @if ($activeNotice)
-        @include('web.partials.notice-popup', ['notice' => $activeNotice])
-    @endif
+    @foreach ($activeNotices as $notice)
+        @include('web.partials.notice-popup', ['notice' => $notice])
+    @endforeach
 
     @php
         $navServices = \App\Modules\Service\Models\Service::active()->orderBy('sort_order')->get();
